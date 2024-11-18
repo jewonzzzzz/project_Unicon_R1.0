@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <body class="animsition">
 	
 	<!-- Header -->
@@ -43,32 +45,27 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="index.html">Home</a>
-								<ul class="sub-menu">
-									<li><a href="index.html">Homepage 1</a></li>
-									<li><a href="home-02.html">Homepage 2</a></li>
-									<li><a href="home-03.html">Homepage 3</a></li>
-								</ul>
+								<a href="index.html">홈</a>
 							</li>
 
 							<li>
-								<a href="/main/shop">Shop</a>
+								<a href="/main/shop">입양</a>
 							</li>
 
 							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.html">Features</a>
+								<a href="shoping-cart.html">소식</a>
 							</li>
 
 							<li>
-								<a href="blog.html">Blog</a>
+								<a href="blog.html">커뮤니티</a>
 							</li>
 
 							<li>
-								<a href="about.html">About</a>
+								<a href="about.html">복지몰</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contact</a>
+								<a href="contact.html">고객센터</a>
 							</li>
 							
 							<li>

@@ -3264,6 +3264,7 @@ input.num-product::-webkit-inner-spin-button {
 .hov-img0 {
   display: block;
   overflow: hidden;
+  max-height: 300px;
 }
 
 .hov-img0 img {

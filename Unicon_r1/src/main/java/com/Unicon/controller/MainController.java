@@ -21,5 +21,12 @@ public class MainController {
 		return "main/template";
 	}
 	
+	//템플릿 테스트
+	@GetMapping("/test")
+	public String mainTest3() {
+		
+		return "main/test";
+	}
+	
 	
 } //controller
