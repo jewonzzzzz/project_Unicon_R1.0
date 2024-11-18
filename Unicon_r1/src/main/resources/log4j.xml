@@ -12,7 +12,13 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.Unicon.controller">
-		<level value="info" />
+		<level value="debug" />
+	</logger>
+	<logger name="com.Unicon.persistence">
+		<level value="debug" />
+	</logger>
+	<logger name="com.Unicon.service">
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
@@ -37,5 +43,9 @@
 		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
+	
+	<logger name="jdbc.sqlonly" level="INFO"/>
+	<logger name="jdbc.sqltiming" level="INFO"/>
+	<logger name="com.Unicon.mapper" level="TRACE"/>
 	
 </log4j:configuration>
