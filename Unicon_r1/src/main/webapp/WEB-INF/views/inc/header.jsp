@@ -70,6 +70,11 @@
 							<li>
 								<a href="contact.html">Contact</a>
 							</li>
+							
+							<li>
+								<a href="/inquiry/inquiry">Inquiry</a>
+							</li>
+							
 						</ul>
 					</div>	
 
