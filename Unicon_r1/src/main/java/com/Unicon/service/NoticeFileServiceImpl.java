@@ -1,5 +1,8 @@
+/*
 package com.Unicon.service;
 
+
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,13 +45,13 @@ public class NoticeFileServiceImpl implements NoticeFileService {
     
     @Override
     public void deleteFile(Long fileId) throws Exception {
-        NoticeFileVO fileVO = NoticeFileDAO.selectFile(fileId);
+        NoticeFileVO fileVO = fileDAO.selectFile(fileId);
         if (fileVO != null) {
             File file = new File(fileVO.getFilePath() + File.separator + fileVO.getStoredName());
             if (file.exists()) {
                 file.delete();
             }
-            NoticeFileDAO.deleteFile(fileId);
+            fileDAO.deleteFile(fileId);
         }
     }
     
@@ -57,3 +60,4 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         return fileDAO.selectFilesByNoticeId(noId);
     }
 }
+*/

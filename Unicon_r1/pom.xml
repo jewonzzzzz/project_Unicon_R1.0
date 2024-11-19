@@ -2,20 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>com.Unicon</groupId>
 	<artifactId>controller</artifactId>
 	<name>project_union</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+	
 	<properties>
 		<java-version>1.11</java-version>
-		<org.springframework-version>4.3.8.RELEASE</org.springframework-version>
+		<org.springframework-version>5.0.6.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
-    	
-    	<spring-security.version>4.3.8.RELEASE</spring-security.version>
-		
 	</properties>
+	
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -29,6 +29,11 @@
 					<artifactId>commons-logging</artifactId>
 				 </exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -185,7 +190,6 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.17.2</version>
 		</dependency>
-
 		
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -196,7 +200,7 @@
 		<dependency>
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>
-		    <version>2.11.0</version> <!-- commons-io는 파일 조작에 필요 -->
+		    <version>2.11.0</version>
 		</dependency>
 
 		<!-- Apache POI 라이브러리 -->
@@ -215,24 +219,25 @@
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
-		    <version>4.3.8.RELEASE</version>
+		    <version>5.0.6.RELEASE</version>
 		</dependency>
 		
 		<dependency>
 	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-web</artifactId>
-	        <version>4.3.8.RELEASE</version>
+	        <version>5.0.6.RELEASE</version>
 	    </dependency>
+	    
 	    <dependency>
 	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-config</artifactId>
-	        <version>4.3.8.RELEASE</version>
+	        <version>5.0.6.RELEASE</version>
 	    </dependency>
 	    
 	    <dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>4.3.8.RELEASE</version>
+		    <version>5.0.6.RELEASE</version>
 		</dependency>
 	
 	    <!-- Swagger -->
@@ -241,6 +246,7 @@
 	        <artifactId>springfox-swagger2</artifactId>
 	        <version>2.9.2</version>
 	    </dependency>
+	    
 	    <dependency>
 	        <groupId>io.springfox</groupId>
 	        <artifactId>springfox-swagger-ui</artifactId>
