@@ -65,12 +65,8 @@
 							</li>
 
 							<li>
-								<a href="contact.html">고객센터</a>
-							</li>
-							
-							<li>
-								<a href="/inquiry/inquiry">Inquiry</a>
-							</li>
+								<a href="/inquiry/inquiry">고객센터</a>
+							</li>				
 							
 						</ul>
 					</div>	
