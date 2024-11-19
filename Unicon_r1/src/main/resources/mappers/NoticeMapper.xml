@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Unicon.mapper.NoticeMapper">
+    
+    <insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noId">
+        insert into notice (
+            noTitle, noContent, noWriter, noImage, noThumb,
+            noCategory, important, temporary, visibility, status,
+            noEmail, noRegdate
+        ) values (
+            #{noTitle}, #{noContent}, #{noWriter}, #{noImage}, #{noThumb},
+            #{noCategory}, #{important}, #{temporary}, #{visibility}, 'active',
+            #{noEmail}, now()
+        )
+    </insert>
+    
+    <update id="updateNotice" parameterType="NoticeVO">
+        update notice 
+        set 
+            noTitle = #{noTitle},
+            noContent = #{noContent},
+            noImage = #{noImage},
+            noThumb = #{noThumb},
+            noCategory = #{noCategory},
+            important = #{important},
+            visibility = #{visibility},
+            noEmail = #{noEmail},
+            noModdate = now()
+        where 
+            noId = #{noId}
+    </update>
+    
+    <update id="deleteNotice" parameterType="Long">
+        update notice 
+        set 
+            status = 'deleted',
+            noModdate = now()
+        where 
+            noId = #{noId}
+    </update>
+    
+    <select id="selectNoticeList" parameterType="map" resultType="NoticeVO">
+        select * 
+        from notice
+        where status = #{status}
+        <if test="category != null and category != ''">
+            and noCategory = #{category}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            and (
+                noTitle like concat('%', #{keyword}, '%')
+                or noContent like concat('%', #{keyword}, '%')
+            )
+        </if>
+        order by 
+            important desc,
+            noRegdate desc
+        limit #{start}, #{size}
+    </select>
+    
+    <select id="selectNoticeCount" parameterType="map" resultType="int">
+        select count(*) 
+        from notice
+        where status = #{status}
+        <if test="category != null and category != ''">
+            and noCategory = #{category}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            and (
+                noTitle like concat('%', #{keyword}, '%')
+                or noContent like concat('%', #{keyword}, '%')
+            )
+        </if>
+    </select>
+    
+    <update id="updateViewCount" parameterType="Long">
+        update notice 
+        set viewCount = viewCount + 1 
+        where noId = #{noId}
+    </update>
+    
+    <update id="updateStatus" parameterType="map">
+        update notice 
+        set 
+            status = #{status},
+            noModdate = now()
+        where 
+            noId = #{noId}
+    </update>
+</mapper>
