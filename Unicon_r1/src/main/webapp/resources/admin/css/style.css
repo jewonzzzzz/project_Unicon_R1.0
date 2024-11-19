@@ -13084,7 +13084,7 @@ dl {
     -webkit-transition: width 0.25s ease, background 0.25s ease;
     -moz-transition: width 0.25s ease, background 0.25s ease;
     -ms-transition: width 0.25s ease, background 0.25s ease;
-    background: #181824;
+    background: #ffffff;
     width: 258px;
     height: 64px; }
     @media (max-width: 991px) {
@@ -13486,7 +13486,7 @@ dl {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 64px);
-  background: #181824;
+  background: #ffffff;
   font-family: "nunito-medium", sans-serif;
   padding: 0;
   width: 258px;
@@ -13550,7 +13550,7 @@ dl {
             margin-left: 1rem;
             margin-right: 0; }
           .sidebar .nav .nav-item .nav-link .icon-bg .menu-icon {
-            color: #33c92d; }
+            color: #bf94e4; }
             .sidebar .nav .nav-item .nav-link .icon-bg .menu-icon:after, .sidebar .nav .nav-item .nav-link .icon-bg .menu-icon:before {
               font-size: 1rem;
               color: inherit; }
@@ -13571,7 +13571,7 @@ dl {
             line-height: 1;
             font-size: 1.125rem;
             margin-left: auto;
-            color: rgba(255, 255, 255, 0.36); }
+            color: rgba(191, 148, 228, 0.7); }
             .rtl .sidebar .nav .nav-item .nav-link i.menu-arrow {
               margin-left: 0;
               margin-right: auto; }
@@ -13603,19 +13603,19 @@ dl {
           left: 0;
           top: .5rem;
           bottom: 0;
-          background: #44ce42;
+          background: #bf94e4;
           height: 24px;
           width: 4px; }
           .rtl .sidebar .nav .nav-item.active > .nav-link:before {
             left: auto;
             right: 0; }
         .sidebar .nav .nav-item.active > .nav-link .menu-title {
-          color: #44ce42;
+          color: #bf94e4;
           font-family: "nunito-medium", sans-serif; }
         .sidebar .nav .nav-item.active > .nav-link i {
-          color: #44ce42; }
+          color: #bf94e4; }
       .sidebar .nav .nav-item:hover {
-        background: #161621; }
+        background: rgba(191,148,228,0.1); }
       .sidebar .nav .nav-item.nav-profile .nav-link {
         height: auto;
         line-height: 1;
@@ -13738,12 +13738,12 @@ dl {
               right: 0;
               content: "\F04D"; }
           .sidebar .nav.sub-menu .nav-item .nav-link.active {
-            color: #44ce42;
+            color: #bf94e4;
             background: transparent; }
             .sidebar .nav.sub-menu .nav-item .nav-link.active:before {
-              color: #44ce42; }
+              color: #bf94e4; }
           .sidebar .nav.sub-menu .nav-item .nav-link:hover {
-            color: #555555; }
+            color: #ddd; }
         .sidebar .nav.sub-menu .nav-item:hover {
           background: transparent; }
 
