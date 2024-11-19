@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.Unicon.domain.NoticeVO;
 import com.Unicon.service.NoticeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j;
 
 @RestController
