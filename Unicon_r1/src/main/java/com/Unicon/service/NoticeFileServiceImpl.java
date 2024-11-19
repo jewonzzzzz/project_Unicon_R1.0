@@ -1,4 +1,3 @@
-/*
 package com.Unicon.service;
 
 
@@ -43,6 +42,15 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         return fileVO;
     }
     
+    // 파일 확장자 추출
+    private String getExtension(String filename) {
+        int lastIndex = filename.lastIndexOf('.');
+        if (lastIndex == -1) {
+            return "";
+        }
+        return filename.substring(lastIndex);
+    }
+    
     @Override
     public void deleteFile(Long fileId) throws Exception {
         NoticeFileVO fileVO = fileDAO.selectFile(fileId);
@@ -60,4 +68,3 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         return fileDAO.selectFilesByNoticeId(noId);
     }
 }
-*/

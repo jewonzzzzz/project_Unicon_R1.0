@@ -89,4 +89,40 @@
         where 
             noId = #{noId}
     </update>
+    
+    <!-- notice_file -->
+    <insert id="insertFile" parameterType="NoticeFileVO">
+        insert into notice_file (
+            noId, originalName, storedName,
+            filePath, fileSize, fileType, uploadDate
+        ) values (
+            #{noId}, #{originalName}, #{storedName},
+            #{filePath}, #{fileSize}, #{fileType}, now()
+        )
+    </insert>
+    
+    <select id="selectFilesByNoticeId" parameterType="Long" resultType="NoticeFileVO">
+        select * from notice_file
+        where noId = #{noId}
+        order by fileType desc, uploadDate asc
+    </select>
+    
+    <select id="selectFilesByType" parameterType="map" resultType="NoticeFileVO">
+        select * from notice_file
+        where noId = #{noId}
+        and fileType = #{fileType}
+        order by uploadDate asc
+    </select>
+    
+    <delete id="deleteFilesByNoticeId" parameterType="Long">
+        delete from notice_file
+        where noId = #{noId}
+    </delete>
+    
+    <delete id="deleteFilesByType" parameterType="map">
+        delete from notice_file 
+        where noId = #{noId} 
+        and fileType = #{fileType}
+    </delete>
+	
 </mapper>
