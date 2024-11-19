@@ -1,6 +1,7 @@
 package com.Unicon.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -22,4 +23,10 @@ public class NoticeVO {
     private String status;      // 삭제여부
     private int viewCount;
     private boolean noEmail;  // 이메일 알림전송
+    
+    private List<NoticeFileVO> files;
+
+    public void setFiles(List<NoticeFileVO> files) {
+        this.files = files;
+    }
 }

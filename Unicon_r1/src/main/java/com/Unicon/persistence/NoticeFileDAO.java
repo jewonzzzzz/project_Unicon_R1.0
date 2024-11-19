@@ -12,4 +12,5 @@ public interface NoticeFileDAO {
     List<NoticeFileVO> selectFilesByNoticeId(Long noId) throws Exception;
     List<NoticeFileVO> selectFilesByType(Long noId, String fileType) throws Exception;
     void deleteFilesByNoticeId(Long noId) throws Exception;
+    void deleteFilesByType(Long noId, String fileType) throws Exception;
 }

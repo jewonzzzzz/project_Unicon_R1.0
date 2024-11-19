@@ -56,4 +56,12 @@ public class NoticeFileDAOImpl implements NoticeFileDAO {
     public void deleteFilesByNoticeId(Long noId) throws Exception {
         sqlSession.delete(NAMESPACE + ".deleteFilesByNoticeId", noId);
     }
+    
+    @Override
+    public void deleteFilesByType(Long noId, String fileType) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("noticeId", noId);
+        params.put("fileType", fileType);
+        sqlSession.delete(NAMESPACE + ".deleteFilesByType", params);
+    }
 }
