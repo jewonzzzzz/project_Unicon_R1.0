@@ -47,7 +47,7 @@ public class NoticeServiceImpl implements NoticeService {
                 fileList.add(thumbnailFile);
             }
             
-            // 3. 본문 이미지 처리
+            // 3. 본문 이미지 처리작업
             if (contentFiles != null && contentFiles.length > 0) {
                 for (MultipartFile contentFile : contentFiles) {
                     if (contentFile.getContentType().startsWith("image/")) {
