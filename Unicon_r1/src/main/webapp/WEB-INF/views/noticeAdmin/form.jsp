@@ -127,11 +127,30 @@
             // 폼 제출
             $('#noticeForm').submit(function(e) {
                 e.preventDefault();
-                const formData = new FormData(this);
+                const formData = new FormData();
+                
+                // NoticeVO 데이터 추가
+                formData.append("notice", new Blob([JSON.stringify({
+                    noTitle: $('input[name="noTitle"]').val(),
+                    noContent: $('#noContent').val(),
+                    noCategory: $('select[name="noCategory"]').val(),
+                    important: $('input[name="important"]').is(':checked'),
+                    noEmail: $('input[name="noEmail"]').is(':checked')
+                })], {type: 'application/json'}));
+                
+                // 파일 추가
+                if($('input[name="thumbnail"]')[0].files[0]) {
+                    formData.append("thumbnail", $('input[name="thumbnail"]')[0].files[0]);
+                }
+                if($('input[name="files"]')[0].files) {
+                    Array.from($('input[name="files"]')[0].files).forEach(file => {
+                        formData.append("file", file);
+                    });
+                }
                 
                 $.ajax({
-                    url: '${notice.noId == null ? "/api/admin/notice" : "/api/admin/notice/".concat(notice.noId)}',
-                    type: '${notice.noId == null ? "POST" : "PUT"}',
+                    url: '/api/admin/notice',
+                    type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,

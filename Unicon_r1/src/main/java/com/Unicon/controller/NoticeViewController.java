@@ -14,18 +14,21 @@ public class NoticeViewController {
         return "notice/list";
     }
     
+    // http://localhost:8088/notice/detail/{noId}
     // 사용자 공지사항 상세 페이지
     @RequestMapping("/notice/detail/{noId}")
     public String noticeDetail(@PathVariable Long noId) {
         return "notice/detail";
     }
     
-    // 관리자 공지사항 관리 페이지
+    // http://localhost:8088/admin/notice
+    // 관리자 공지사항 페이지
     @RequestMapping("/admin/notice")
     public String adminNoticeList() {
         return "noticeAdmin/list";
     }
     
+    // http://localhost:8088/admin/notice/form
     // 관리자 공지사항 등록/수정 페이지
     @RequestMapping("/admin/notice/form")
     public String adminNoticeForm() {

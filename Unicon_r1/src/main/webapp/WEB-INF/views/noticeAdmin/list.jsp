@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- admin_notice.jsp (관리자용 공지사항 페이지) -->
+<!-- noticeAdmin/list.jsp (관리자용 공지사항 페이지) -->
     <meta charset="UTF-8">
     <title>공지사항 관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
