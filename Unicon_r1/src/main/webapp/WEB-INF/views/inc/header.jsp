@@ -37,7 +37,7 @@
 				<nav class="limiter-menu-desktop container">
 					
 					<!-- Logo desktop -->		
-					<a href="#" class="logo">
+					<a href="/main/" class="logo">
 						<img src="${pageContext.request.contextPath }/resources/assets/images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
 
@@ -45,7 +45,7 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="index.html">홈</a>
+								<a href="/main/">홈</a>
 							</li>
 
 							<li>
@@ -84,6 +84,24 @@
 						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
+						<div class="me-2 m-l-22 p-r-11 hov-img0 img" style="padding: 0; width: 38px; height: 38px;">
+	                      <a href="/mypage/profile">
+	                      	<img src="${pageContext.request.contextPath }/resources/assets_sub/img/service-5.jpg" class="rounded-circle">
+	                      </a>	
+	                    </div>
+	                    <ul class="main-menu" style="padding: 0px;">
+							<li class="active-menu" style="padding: 0px;">
+							<a href="index.html">
+								<button class="cl0 bg1" style="border-radius: 5px; padding: 5px 10px;" >글쓰기<i class="fa fa-award"></i>
+								</button>
+							</a>
+								<ul class="sub-menu">
+									<li><a href="index.html">Homepage 1</a></li>
+									<li><a href="home-02.html">Homepage 2</a></li>
+									<li><a href="home-03.html">Homepage 3</a></li>
+								</ul>
+							</li>
+						</ul>
 					</div>
 				</nav>
 			</div>	
