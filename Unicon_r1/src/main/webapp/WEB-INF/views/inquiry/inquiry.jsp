@@ -111,10 +111,10 @@
      <!-- 네비게이션 탭 -->
     <nav class="tabs">
         <ul>
-            <li><a href="/faq">문의사항 게시판</a></li>
-            <li><a href="/adopt">내 문의내역</a></li>
-            <li><a href="/shop">자주 묻는 질문</a></li>
-            <li><a href="/community">문의하기</a></li>
+            <li><a href="board">문의사항 게시판</a></li>
+            <li><a href="history">내 문의내역</a></li>
+            <li><a href="question">자주 묻는 질문</a></li>
+            <li><a href="write">문의하기</a></li>
         </ul>
     </nav>
     
@@ -138,7 +138,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="${pageContext.request.contextPath}/resources/assets/images/yang.jpg" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="adoption" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									입양
@@ -163,7 +163,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="${pageContext.request.contextPath}/resources/assets/images/yong.jpg" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="shop" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									쇼핑몰
@@ -188,7 +188,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="${pageContext.request.contextPath}/resources/assets/images/co.jpg" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="community" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									커뮤니티
@@ -211,6 +211,16 @@
 		</div>
 	</div>
 
+
+
+<script>
+
+
+
+
+
+
+</script>
 	
 	
 
