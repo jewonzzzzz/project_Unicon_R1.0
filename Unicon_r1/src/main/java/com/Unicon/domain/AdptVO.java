@@ -3,6 +3,7 @@ package com.Unicon.domain;
 import java.sql.Timestamp;
 import java.util.List;
 
+
 import lombok.Data;
 
 @Data
@@ -30,10 +31,11 @@ public class AdptVO {
 	private String adpt_intro;
 	private String adpt_etc;
 	private String adpt_status;
+	private int adpt_interest_sum;
 	
 	private AdptInstVO adptInst;
-//	private AdptCounselVO adptCounsel;
-//	private AdptInterestVO adptInterest;
+	private AdptCounselVO adptCounsel;
+	private AdptMemberVO adptMember;
 	
 	
 }
