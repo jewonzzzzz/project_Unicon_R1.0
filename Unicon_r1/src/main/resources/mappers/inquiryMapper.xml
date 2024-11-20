@@ -5,7 +5,11 @@
 
 <mapper namespace="com.Unicon.mapper.inquiryMapper">
 
-
+	<!-- 게시글 목록 조회 -->
+	<select id="getAllInquiries" resultType="InquiryVO">
+		SELECT *
+		FROM _inquiry
+	</select>
 
 
 
