@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../inc/topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
 
 <!-- 추가 템플릿 css/js 작성란 -->
@@ -28,7 +29,7 @@
 <!--====================================작성부=====================================-->
 
 	<!-- Slider -->
-	<section class="section-slide">
+	<%-- <section class="section-slide">
 		<div class="wrap-slick1">
 			<div class="slick1">
 				<a href="#"><div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-01_1.jpg);">
@@ -44,19 +45,19 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> --%>
 
-	<!-- Product -->
-	<section class="bg0 p-t-40">
+	<!-- Product1 -->
+	<section class="bg0 p-t-2">
 		<div class="container">
 			<div class="p-t-20 p-b-20">
 				<h3 class="ltext-103 cl5">
-					새로운 유니콘 소개
+					유니콘들의 하루를 공유해요
 				</h3>
 			</div>
 
 			<div class="row isotope-grid">
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> <!-- 1 -->
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -66,25 +67,25 @@
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
 								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Esprit Ruffle Shirt
+									<!-- Esprit Ruffle Shirt -->
 								</a>
 
 								<span class="stext-105 cl3">
-									$16.64
+									<!-- $16.64 -->
 								</span>	
 							</div>
 
 							<div class="block2-txt-child2 flex-r p-t-3">
 								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
 								</a>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> <!-- 1 -->
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> <!-- 2 -->
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -98,25 +99,25 @@
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
 								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Herschel supply
+									<!-- Herschel supply -->
 								</a>
 
 								<span class="stext-105 cl3">
-									$35.31
+									<!-- $35.31 -->
 								</span>
 							</div>
 
 							<div class="block2-txt-child2 flex-r p-t-3">
 								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
 								</a>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> <!-- 2 -->
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-5 isotope-item men"> <!-- 3 -->
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -130,25 +131,25 @@
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
 								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Only Check Trouser
+									<!-- Only Check Trouser -->
 								</a>
 
 								<span class="stext-105 cl3">
-									$25.50
+									<!-- $25.50 -->
 								</span>
 							</div>
 
 							<div class="block2-txt-child2 flex-r p-t-3">
 								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
 								</a>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> <!-- 3 -->
 
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> <!-- 4 -->
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -162,28 +163,171 @@
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
 								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Classic Trench Coat
+									<!-- Classic Trench Coat -->
 								</a>
 
 								<span class="stext-105 cl3">
-									$75.00
+									<!-- $75.00 -->
 								</span>
 							</div>
 
 							<div class="block2-txt-child2 flex-r p-t-3">
 								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
 								</a>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> <!-- 4 -->
+				
+<%-- 				<c:forEach var="" items=""> --%>
+				<c:forEach begin="1" end="3">
+				
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> <!-- 5 -->
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="${pageContext.request.contextPath }/resources/assets/images/product-04.jpg" alt="IMG-PRODUCT">
+
+							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+								Quick View
+							</a>
+						</div>
+
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									<!-- Classic Trench Coat -->
+								</a>
+
+								<span class="stext-105 cl3">
+									<!-- $75.00 -->
+								</span>
+							</div>
+
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div> <!-- 5 -->
+				
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> <!-- 6 -->
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="${pageContext.request.contextPath }/resources/assets/images/product-04.jpg" alt="IMG-PRODUCT">
+
+							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+								Quick View
+							</a>
+						</div>
+
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									<!-- Classic Trench Coat -->
+								</a>
+
+								<span class="stext-105 cl3">
+									<!-- $75.00 -->
+								</span>
+							</div>
+
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div> <!-- 6 -->
+				
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> <!-- 7 -->
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="${pageContext.request.contextPath }/resources/assets/images/product-04.jpg" alt="IMG-PRODUCT">
+
+							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+								Quick View
+							</a>
+						</div>
+
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									<!-- Classic Trench Coat -->
+								</a>
+
+								<span class="stext-105 cl3">
+									<!-- $75.00 -->
+								</span>
+							</div>
+
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div> <!-- 7 -->
+				
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women"> <!-- 8 -->
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="${pageContext.request.contextPath }/resources/assets/images/product-04.jpg" alt="IMG-PRODUCT">
+
+							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+								Quick View
+							</a>
+						</div>
+
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									<!-- Classic Trench Coat -->
+								</a>
+
+								<span class="stext-105 cl3">
+									<!-- $75.00 -->
+								</span>
+							</div>
+
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+									<%-- <img class="icon-heart1 dis-block trans-04" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-heart-02.png" alt="ICON"> --%>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div> <!-- 8 -->
+				
+				</c:forEach>
+				
 			</div>
 		</div>
+		
+		<div class="p-t-18" style="display: flex; justify-content: center; align-items: center; ">
+		    <button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04" style="margin-bottom: 50px;">
+		        더 보기
+		    </button>
+		</div>
+		
 	</section>
 	
-	<div class="container-xxl py-5">
+	
+	
+	<!-- <div class="container-xxl py-5">
         <div class="container">
       		<div class="p-t-20 p-b-20">
 				<h3 class="ltext-103 cl5">
@@ -221,10 +365,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 	
 	
-	<div class="container-xxl py-5">
+	<%-- <div class="container-xxl py-5">
         <div class="container">
        		<div class="p-t-20 p-b-20">
 				<h3 class="ltext-103 cl5">
@@ -306,7 +450,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --%>
     
     
     
@@ -315,7 +459,7 @@
     
     
    	<!-- Modal1 -->
-	<%-- <div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
+	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
 		<div class="overlay-modal1 js-hide-modal1"></div>
 
 		<div class="container">
@@ -368,17 +512,32 @@
 					
 					<div class="col-md-6 col-lg-5 p-b-30">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
+						
+							<span class="mtext-106 cl2">
+								젱종잉
+							</span>
+						
+							<span class="mtext-106 cl2">
+								젱종잉
+							</span>
+							
+							<br><br>
+							
 							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-								Lightweight Jacket
+								동물병원 다녀왔어요 ㅜㅜㅜㅜㅜㅜㅜㅜ
 							</h4>
 
-							<span class="mtext-106 cl2">
-								$58.79
-							</span>
 
 							<p class="stext-102 cl3 p-t-23">
-								Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
+								레드향
+								껍질에 붉은 빛이 돌아 레드향이라 불린다.
+								레드향은 한라봉과 귤을 교배한 것으로 일반 귤보다 2~3배 크고, 과육이 붉고 통통하다.
+								비타민 C와 비타민 P가 풍부해 혈액순환, 감기예방 등에 좋은 것으로 알려져 있다.
 							</p>
+							
+							<!--  -->
+							<hr>
+							<!--  -->
 							
 							<!--  -->
 							<div class="p-t-33">
@@ -466,7 +625,7 @@
 				</div>
 			</div>
 		</div>
-	</div> --%>
+	</div>
 	
 	
 	

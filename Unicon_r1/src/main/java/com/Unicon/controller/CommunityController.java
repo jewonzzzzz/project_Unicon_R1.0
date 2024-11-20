@@ -23,6 +23,7 @@ public class CommunityController {
 //		return "main/test";
 //	}
 	
+	// http://localhost:8088/community/
 	@GetMapping("")
 	public String readCommunityAll() {
 		
