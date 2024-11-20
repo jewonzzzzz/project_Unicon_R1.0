@@ -5,7 +5,7 @@
 <mapper namespace="com.Unicon.mapper.NoticeMapper">
     
     <insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="noId">
-        insert into notice (
+        insert into _notice (
             noTitle, noContent, noWriter, noImage, noThumb,
             noCategory, important, temporary, visibility, status,
             noEmail, noRegdate
@@ -17,7 +17,7 @@
     </insert>
     
     <update id="updateNotice" parameterType="NoticeVO">
-        update notice 
+        update _notice 
         set 
             noTitle = #{noTitle},
             noContent = #{noContent},
@@ -33,7 +33,7 @@
     </update>
     
     <update id="deleteNotice" parameterType="Long">
-        update notice 
+        update _notice 
         set 
             status = 'deleted',
             noModdate = now()
@@ -43,7 +43,7 @@
     
     <select id="selectNoticeList" parameterType="map" resultType="NoticeVO">
         select * 
-        from notice
+        from _notice
         where status = #{status}
         <if test="category != null and category != ''">
             and noCategory = #{category}
@@ -62,7 +62,7 @@
     
     <select id="selectNoticeCount" parameterType="map" resultType="int">
         select count(*) 
-        from notice
+        from _notice
         where status = #{status}
         <if test="category != null and category != ''">
             and noCategory = #{category}
@@ -76,13 +76,13 @@
     </select>
     
     <update id="updateViewCount" parameterType="Long">
-        update notice 
+        update _notice 
         set viewCount = viewCount + 1 
         where noId = #{noId}
     </update>
     
     <update id="updateStatus" parameterType="map">
-        update notice 
+        update _notice 
         set 
             status = #{status},
             noModdate = now()
@@ -92,7 +92,7 @@
     
     <!-- notice_file -->
     <insert id="insertFile" parameterType="NoticeFileVO">
-        insert into notice_file (
+        insert into _notice_file (
             noId, originalName, storedName,
             filePath, fileSize, fileType, uploadDate
         ) values (
@@ -102,25 +102,25 @@
     </insert>
     
     <select id="selectFilesByNoticeId" parameterType="Long" resultType="NoticeFileVO">
-        select * from notice_file
+        select * from _notice_file
         where noId = #{noId}
         order by fileType desc, uploadDate asc
     </select>
     
     <select id="selectFilesByType" parameterType="map" resultType="NoticeFileVO">
-        select * from notice_file
+        select * from _notice_file
         where noId = #{noId}
         and fileType = #{fileType}
         order by uploadDate asc
     </select>
     
     <delete id="deleteFilesByNoticeId" parameterType="Long">
-        delete from notice_file
+        delete from _notice_file
         where noId = #{noId}
     </delete>
     
     <delete id="deleteFilesByType" parameterType="map">
-        delete from notice_file 
+        delete from _notice_file 
         where noId = #{noId} 
         and fileType = #{fileType}
     </delete>

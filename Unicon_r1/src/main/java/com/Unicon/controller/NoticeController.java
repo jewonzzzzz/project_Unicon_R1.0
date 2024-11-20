@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api")
-@Api(tags = "게시판 API")
+@CrossOrigin(origins = "*")
 public class NoticeController {
 	
 	private static final Logger logger 
@@ -39,7 +40,7 @@ public class NoticeController {
     @RequestMapping(value = "/admin/notice", method = RequestMethod.POST)
     @ApiOperation(value = "관리자 공지사항 등록", notes = "관리자 권한으로 공지사항을 등록합니다")
     public ResponseEntity<String> registerNotice(
-            @RequestPart(value = "notice") NoticeVO noVO,
+    		@RequestPart(value = "notice", required = true) NoticeVO noVO,
             @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
             @RequestPart(value = "file", required = false) MultipartFile[] files) {
         try {
