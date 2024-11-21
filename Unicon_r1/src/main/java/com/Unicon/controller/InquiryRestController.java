@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Unicon.domain.InquiryVO;
@@ -28,7 +29,8 @@ public class InquiryRestController {
 	private InquiryService inquiryService;
 
 	// 게시글 목록 조회
-	@GetMapping(value = "/boards")	
+	@GetMapping(value = "/boards")
+	@ResponseBody
 	public List<InquiryVO> getAllInquiries() {
 		return inquiryService.getAllInquiries(); // JSON 형식으로 반환
 	}
