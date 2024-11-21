@@ -1,199 +1,467 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="kr">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>판매자</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/resources/admin/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/resources/admin/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/resources/admin/vendors/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/resources/admin/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="/resources/admin/css/style.css">
-    <!-- End layout styles -->
+    <link
+      rel="stylesheet"
+      href="/resources/admin/vendors/mdi/css/materialdesignicons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/resources/admin/vendors/flag-icon-css/css/flag-icon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/resources/admin/vendors/css/vendor.bundle.base.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/resources/admin/vendors/font-awesome/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/resources/admin/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css"
+    />
+    <link rel="stylesheet" href="/resources/admin/css/style.css" />
     <link rel="shortcut icon" href="/resources/admin/images/favicon.png" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style type="text/css">
+      .btns-flex {
+        display: flex;
+      }
+      .store-search input {
+      	width: 150px;
+      }
+      /* .store-search {
+      	display: flex;
+      	justify-content: space-between;
+      	align-items: center;
+      } */
+      .store-search label {
+    	margin: 0 0.6rem;
+    	font-size: 13px;
+      }
+      .store-search-btn {
+   	    display: inline-block;
+	    height: 0;
+	    padding: 0;
+	    font-size: 28px;
+	    margin: 0 10px;
+	    line-height: 0;
+      }
+      input {
+        border: 1px solid #dbdde2;
+	    padding: 4px 8px 4px 8px;
+	    font-size: 14px;
+	    transition: border 0.1s;
+      }
+
+      input:focus {
+        border: 1px solid #bf94e4; /* 포커스 시 보더 색상 변경 */
+        outline: none; /* 기본 아웃라인 제거 */
+      }
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin: 0 0.2rem 0 0.8rem;
+        cursor: pointer;
+      }
+  </style>
+  
+  <script>
+    $(document).ready(function() {
+        let selectedValues = [];
+
+        // 전체 체크박스 클릭 이벤트
+        $('#selectAll').change(function() {
+            const isChecked = $(this).is(':checked');
+            $('.status-checkbox').prop('checked', isChecked).prop('disabled', isChecked);
+
+            // 전체 체크박스가 체크되면 모든 값 추가, 아니면 비우기
+            if (isChecked) {
+                selectedValues = $('.status-checkbox').map(function() {
+                    return this.value;
+                }).get();
+            } else {
+                selectedValues = [];
+            }
+
+            console.log(selectedValues); // 배열 출력
+        });
+
+        // 각 체크박스 클릭 이벤트
+        $('.status-checkbox').change(function() {
+            const value = $(this).val();
+            if ($(this).is(':checked')) {
+                // 체크된 경우 배열에 추가
+                selectedValues.push(value);
+            } else {
+                // 체크 해제된 경우 배열에서 제거
+                selectedValues = selectedValues.filter(v => v !== value);
+            }
+
+            // 전체 체크박스 상태 업데이트
+            $('#selectAll').prop('checked', $('.status-checkbox:checked').length === $('.status-checkbox').length);
+            
+            console.log(selectedValues); // 배열 출력
+        });
+        
+     // 오늘 날짜를 YYYY-MM-DD 형식으로 설정
+        const today = new Date();
+        const formattedToday = today.toISOString().split('T')[0];
+
+     // 364일 전 날짜 계산 (1년 전의 같은 날짜)
+        const oneYearAgo = new Date(today);
+        oneYearAgo.setDate(today.getDate() - 365); // 364일 빼기
+        const formattedOneYearAgo = oneYearAgo.toISOString().split('T')[0];
+
+        // 시작일과 종료일 필드 설정 및 max 속성 설정
+        $('#startDate').val(formattedOneYearAgo).attr('max', formattedToday);
+        $('#endDate').val(formattedToday).attr('max', formattedToday);
+
+        function setDate(months) {
+            const startDate = new Date(today);
+            const endDate = new Date(today);
+
+            if (months === 0) {
+                startDate.setDate(today.getDate());
+                endDate.setDate(today.getDate());
+            } else {
+                startDate.setDate(today.getDate());
+                endDate.setMonth(today.getMonth() + months);
+                if (endDate.getDate() < today.getDate()) {
+                    endDate.setDate(0); // 이전 달의 마지막 날로 설정
+                }
+            }
+
+            // 날짜 포맷을 YYYY-MM-DD로 변환
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            $('#startDate').val(formatDate(startDate));
+            $('#endDate').val(formatDate(endDate));
+        }
+
+        $('#today').click(function() {
+            setDate(0); // 오늘
+        });
+
+        $('#oneWeek').click(function() {
+            setDate(0); // 오늘을 기준으로 한 주일 후 날짜 계산
+            const start = new Date($('#startDate').val());
+            start.setDate(start.getDate() + 7);
+            $('#endDate').val(formatDate(start));
+        });
+
+        $('#oneMonth').click(function() {
+            setDate(1); // 1개월
+        });
+
+        $('#threeMonths').click(function() {
+            setDate(3); // 3개월
+        });
+
+        $('#sixMonths').click(function() {
+            setDate(6); // 6개월
+        });
+
+        $('#oneYear').click(function() {
+            setDate(12); // 1년
+        });
+
+        $('#all').click(function() {
+            $('#startDate').val(''); // 전체 선택 시 빈 값으로 설정
+            $('#endDate').val('');
+        });
+    });
+</script>
   </head>
   <body>
     <div class="container-scroller">
-      <!-- partial:/WEB-INF/views/inc/admin_navbar.jsp -->
       <%@ include file="/WEB-INF/views/inc/admin_navbar_store.jsp"%>
-      <!-- partial -->
       <div class="container-fluid page-body-wrapper">
-        <!-- partial:/WEB-INF/views/inc/admin_sidebar.jsp" -->
-		<%@ include file="/WEB-INF/views/inc/admin_sidebar_store.jsp"%>
-        <!-- partial -->
+        <%@ include file="/WEB-INF/views/inc/admin_sidebar_store.jsp"%>
         <div class="main-panel">
           <div class="content-wrapper">
-<!--             <div class="row" id="proBanner">
-              <div class="col-12">
-				<span class="d-flex align-items-center purchase-popup">
-                  <p>Like what you see? Check out our premium version for more.</p>
-                  <a href="https://github.com/BootstrapDash/ConnectPlusAdmin-Free-Bootstrap-Admin-Template" target="_blank" class="btn ml-auto download-button">Download Free Version</a>
-                  <a href="http://www.bootstrapdash.com/demo/connect-plus/jquery/template/" target="_blank" class="btn purchase-button">Upgrade To Pro</a>
-                  <i class="mdi mdi-close" id="bannerClose"></i>
-                </span>
-              </div>
-            </div> -->
             <div class="d-xl-flex justify-content-between align-items-start">
-              <h2 class="text-dark font-weight-bold mb-2"> Overview dashboard </h2>
-              <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
-                <div class="btn-group bg-white p-3" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btn-link text-light py-0 border-right">7 Days</button>
-                  <button type="button" class="btn btn-link text-dark py-0 border-right">1 Month</button>
-                  <button type="button" class="btn btn-link text-light py-0">3 Month</button>
-                </div>
-                <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                  <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-calendar mr-1"></i>24 Mar 2019 - 24 Mar 2019 </button>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                    <h6 class="dropdown-header">Settings</h6>
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Separated link</a>
+              <h2 class="text-dark font-weight-bold mb-2">상품 조회/수정</h2>
+              <div
+                class="d-sm-flex justify-content-xl-between align-items-center mb-2"
+              ></div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="tab-content tab-transparent-content">
+                  <div
+                    class="tab-pane fade show active"
+                    id="business-1"
+                    role="tabpanel"
+                    aria-labelledby="business-tab"
+                  >
+                    <div class="row" style="color :#4d5159;">
+                      <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div style="background-color: #f8f9fd" class="card-body">
+                            <div  class="col-lg-12 store-search" style="display: flex;">
+                            	<div style="width: 180px">
+    	                       		<h4>검색어</h4>
+                            	</div>
+                            	<div style="display: flex; align-items: center;">
+                            		<div>
+		                            	<label for="productName">상품명</label>
+										<input type="text" id="productName" name="productName">
+										<label for="manufacturerName">제조사명</label>
+										<input type="text" id="manufacturerName" name="manufacturerName">
+                            		</div>
+                            		<div>
+										<label for="brandName">브랜드명</label>
+										<input type="text" id="brandName" name="brandName">
+										<label for="category">카테고리</label>
+										<input type="text" id="category" name="category">
+                            		</div>
+                            	</div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="col-lg-12" style="display: flex;">
+                           		<!-- <h4 style="margin-right: 170px">판매 선택</h4> -->
+                           		<div style="width: 180px">
+    	                       		<h4>판매 선택</h4>
+                            	</div>
+							    <div style="display: flex; ">
+							        <label style="margin-left: 0.6rem;">
+								        <input type="checkbox" id="selectAll"> 전체
+								    </label>
+								    <label>
+								        <input type="checkbox" name="status" value="판매대기" class="status-checkbox"> 판매대기
+								    </label>
+								    <label>
+								        <input type="checkbox" name="status" value="판매중" class="status-checkbox"> 판매중
+								    </label>
+								    <label>
+								        <input type="checkbox" name="status" value="품절" class="status-checkbox"> 품절
+								    </label>
+								    <label>
+								        <input type="checkbox" name="status" value="승인대기" class="status-checkbox"> 승인대기
+								    </label>
+								    <label>
+								        <input type="checkbox" name="status" value="판매중지" class="status-checkbox"> 판매중지
+								    </label>
+								    <label>
+								        <input type="checkbox" name="status" value="판매종료" class="status-checkbox"> 판매종료
+								    </label>
+								    <label>
+								        <input type="checkbox" name="status" value="판매금지" class="status-checkbox"> 판매금지
+								    </label>
+							    </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            
+                            <div class="col-lg-12" style="display: flex;">
+                           		<div style="width: 180px">
+    	                       		<h4>기간</h4>
+                            	</div>
+							    <div style="display: flex; ">
+							        <button id="today">오늘</button>
+								    <button id="oneWeek">1주일</button>
+								    <button id="oneMonth">1개월</button>
+								    <button id="threeMonths">3개월</button>
+								    <button id="sixMonths">6개월</button>
+								    <button id="oneYear">1년</button>
+								    <button id="all">전체</button>
+							    </div>
+							    <input type="date" id="startDate">
+							    <span>~</span>
+							     <input type="date" id="endDate" max="">
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        	<i class="input-group-text border-0 mdi mdi-magnify store-search-btn"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <div class="d-sm-flex justify-content-between align-items-center transaparent-tab-border {">
-                  <ul class="nav nav-tabs tab-transparent" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link" id="home-tab" data-toggle="tab" href="#" role="tab" aria-selected="true">Users</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" id="business-tab" data-toggle="tab" href="#business-1" role="tab" aria-selected="false">Business</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="performance-tab" data-toggle="tab" href="#" role="tab" aria-selected="false">Performance</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="conversion-tab" data-toggle="tab" href="#" role="tab" aria-selected="false">Conversion</a>
-                    </li>
-                  </ul>
-                  <div class="d-md-block d-none">
-                    <a href="#" class="text-light p-1"><i class="mdi mdi-view-dashboard"></i></a>
-                    <a href="#" class="text-light p-1"><i class="mdi mdi-dots-vertical"></i></a>
-                  </div>
-                </div>
                 <div class="tab-content tab-transparent-content">
-                  <div class="tab-pane fade show active" id="business-1" role="tabpanel" aria-labelledby="business-tab">
+                  <div
+                    class="tab-pane fade show active"
+                    id="business-1"
+                    role="tabpanel"
+                    aria-labelledby="business-tab"
+                  >
                     <div class="row">
-                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Orders</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">932.00</h2>
-                            <div class="dashboard-progress dashboard-progress-1 d-flex align-items-center justify-content-center item-parent"><i class="mdi mdi-lightbulb icon-md absolute-center text-dark"></i></div>
-                            <p class="mt-4 mb-0">Completed</p>
-                            <h3 class="mb-0 font-weight-bold mt-2 text-dark">5443</h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Unique Visitors</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">756,00</h2>
-                            <div class="dashboard-progress dashboard-progress-2 d-flex align-items-center justify-content-center item-parent"><i class="mdi mdi-account-circle icon-md absolute-center text-dark"></i></div>
-                            <p class="mt-4 mb-0">Increased since yesterday</p>
-                            <h3 class="mb-0 font-weight-bold mt-2 text-dark">50%</h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xl-3  col-lg-6 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Impressions</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">100,38</h2>
-                            <div class="dashboard-progress dashboard-progress-3 d-flex align-items-center justify-content-center item-parent"><i class="mdi mdi-eye icon-md absolute-center text-dark"></i></div>
-                            <p class="mt-4 mb-0">Increased since yesterday</p>
-                            <h3 class="mb-0 font-weight-bold mt-2 text-dark">35%</h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                          <div class="card-body text-center">
-                            <h5 class="mb-2 text-dark font-weight-normal">Followers</h5>
-                            <h2 class="mb-4 text-dark font-weight-bold">4250k</h2>
-                            <div class="dashboard-progress dashboard-progress-4 d-flex align-items-center justify-content-center item-parent"><i class="mdi mdi-cube icon-md absolute-center text-dark"></i></div>
-                            <p class="mt-4 mb-0">Decreased since yesterday</p>
-                            <h3 class="mb-0 font-weight-bold mt-2 text-dark">25%</h3>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 grid-margin">
+                      <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                           <div class="card-body">
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                  <h4 class="card-title mb-0">Recent Activity</h4>
-                                  <div class="dropdown dropdown-arrow-none">
-                                    <button class="btn p-0 text-dark dropdown-toggle" type="button" id="dropdownMenuIconButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      <i class="mdi mdi-dots-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton1">
-                                      <h6 class="dropdown-header">Settings</h6>
-                                      <a class="dropdown-item" href="#">Action</a>
-                                      <a class="dropdown-item" href="#">Another action</a>
-                                      <a class="dropdown-item" href="#">Something else here</a>
-                                      <div class="dropdown-divider"></div>
-                                      <a class="dropdown-item" href="#">Separated link</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-lg-3 col-sm-4 grid-margin  grid-margin-lg-0">
-                                <div class="wrapper pb-5 border-bottom">
-                                  <div class="text-wrapper d-flex align-items-center justify-content-between mb-2">
-                                    <p class="mb-0 text-dark">Total Profit</p>
-                                    <span class="text-success"><i class="mdi mdi-arrow-up"></i>2.95%</span>
-                                  </div>
-                                  <h3 class="mb-0 text-dark font-weight-bold">$ 92556</h3>
-                                  <canvas id="total-profit"></canvas>
-                                </div>
-                                <div class="wrapper pt-5">
-                                  <div class="text-wrapper d-flex align-items-center justify-content-between mb-2">
-                                    <p class="mb-0 text-dark">Expenses</p>
-                                    <span class="text-success"><i class="mdi mdi-arrow-up"></i>52.95%</span>
-                                  </div>
-                                  <h3 class="mb-4 text-dark font-weight-bold">$ 59565</h3>
-                                  <canvas id="total-expences"></canvas>
-                                </div>
-                              </div>
-                              <div class="col-lg-9 col-sm-8 grid-margin  grid-margin-lg-0">
-                                <div class="pl-0 pl-lg-4 ">
-                                  <div class="d-xl-flex justify-content-between align-items-center mb-2">
-                                    <div class="d-lg-flex align-items-center mb-lg-2 mb-xl-0">
-                                      <h3 class="text-dark font-weight-bold mr-2 mb-0">Devices sales</h3>
-                                      <h5 class="mb-0">( growth 62% )</h5>
-                                    </div>
-                                    <div class="d-lg-flex">
-                                      <p class="mr-2 mb-0">Timezone:</p>
-                                      <p class="text-dark font-weight-bold mb-0">GMT-0400 Eastern Delight Time</p>
-                                    </div>
-                                  </div>
-                                  <div class="graph-custom-legend clearfix" id="device-sales-legend"></div>
-                                  <canvas id="device-sales"></canvas>
-                                </div>
-                              </div>
+                            <h4 class="card-title">
+                              	상품 목록 (총 <span>0</span> 개)
+                            </h4>
+                            <div class="btns-flex">
+                              <button>선택 삭제</button>
+                              <spna>|</spna>
+                              <select>
+                                <option selected>판매변경</option>
+                                <option>판매중</option>
+                                <option>판매중지</option>
+                              </select>
+                              <spna>|</spna>
+                              <button>판매가 변경</button>
+                              <button>판매기간 변경</button>
                             </div>
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>First name</th>
+                                  <th>Progress</th>
+                                  <th>Amount</th>
+                                  <th>Deadline</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</td>
+                                  <td>Herman Beck</td>
+                                  <td>
+                                    <div class="progress">
+                                      <div
+                                        class="progress-bar bg-success"
+                                        role="progressbar"
+                                        style="width: 25%"
+                                        aria-valuenow="25"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                      ></div>
+                                    </div>
+                                  </td>
+                                  <td>$ 77.99</td>
+                                  <td>May 15, 2015</td>
+                                </tr>
+                                <tr>
+                                  <td>2</td>
+                                  <td>Messsy Adam</td>
+                                  <td>
+                                    <div class="progress">
+                                      <div
+                                        class="progress-bar bg-danger"
+                                        role="progressbar"
+                                        style="width: 75%"
+                                        aria-valuenow="75"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                      ></div>
+                                    </div>
+                                  </td>
+                                  <td>$245.30</td>
+                                  <td>July 1, 2015</td>
+                                </tr>
+                                <tr>
+                                  <td>3</td>
+                                  <td>John Richards</td>
+                                  <td>
+                                    <div class="progress">
+                                      <div
+                                        class="progress-bar bg-warning"
+                                        role="progressbar"
+                                        style="width: 90%"
+                                        aria-valuenow="90"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                      ></div>
+                                    </div>
+                                  </td>
+                                  <td>$138.00</td>
+                                  <td>Apr 12, 2015</td>
+                                </tr>
+                                <tr>
+                                  <td>4</td>
+                                  <td>Peter Meggik</td>
+                                  <td>
+                                    <div class="progress">
+                                      <div
+                                        class="progress-bar bg-primary"
+                                        role="progressbar"
+                                        style="width: 50%"
+                                        aria-valuenow="50"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                      ></div>
+                                    </div>
+                                  </td>
+                                  <td>$ 77.99</td>
+                                  <td>May 15, 2015</td>
+                                </tr>
+                                <tr>
+                                  <td>5</td>
+                                  <td>Edward</td>
+                                  <td>
+                                    <div class="progress">
+                                      <div
+                                        class="progress-bar bg-danger"
+                                        role="progressbar"
+                                        style="width: 35%"
+                                        aria-valuenow="35"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                      ></div>
+                                    </div>
+                                  </td>
+                                  <td>$ 160.25</td>
+                                  <td>May 03, 2015</td>
+                                </tr>
+                                <tr>
+                                  <td>6</td>
+                                  <td>John Doe</td>
+                                  <td>
+                                    <div class="progress">
+                                      <div
+                                        class="progress-bar bg-info"
+                                        role="progressbar"
+                                        style="width: 65%"
+                                        aria-valuenow="65"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                      ></div>
+                                    </div>
+                                  </td>
+                                  <td>$ 123.21</td>
+                                  <td>April 05, 2015</td>
+                                </tr>
+                                <tr>
+                                  <td>7</td>
+                                  <td>Henry Tom</td>
+                                  <td>
+                                    <div class="progress">
+                                      <div
+                                        class="progress-bar bg-warning"
+                                        role="progressbar"
+                                        style="width: 20%"
+                                        aria-valuenow="20"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                      ></div>
+                                    </div>
+                                  </td>
+                                  <td>$ 150.00</td>
+                                  <td>June 16, 2015</td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       </div>
@@ -205,7 +473,7 @@
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:/WEB-INF/views/inc/admin_footer.jsp -->
-		  <%@ include file="/WEB-INF/views/inc/admin_footer.jsp"%>
+          <%@ include file="/WEB-INF/views/inc/admin_footer.jsp"%>
           <!-- partial -->
         </div>
         <!-- main-panel ends -->

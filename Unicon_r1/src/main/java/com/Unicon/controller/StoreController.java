@@ -21,4 +21,10 @@ public class StoreController {
 	}
 	
 	
+	@RequestMapping( value="/products/list" , method =RequestMethod.GET )
+	public void productsList() {
+		logger.info("products/list 실행");
+		
+	}
+	
 }
