@@ -9,6 +9,7 @@
 
     <!-- Template Stylesheet -->
     <link href="${pageContext.request.contextPath }/resources/assets_sub/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <%@ include file="../inc/header.jsp" %> <!-- header -->
 
@@ -17,9 +18,9 @@
 	<!-- Slider -->
 	<section class="section-slide">
 		<div class="wrap-slick1">
-			<div class="slick1">
-				<a href="#"><div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-01.jpg);">
-				</div></a>
+			<div class="slick1">	
+				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-01.jpg);">
+				</div>
 
 				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-02.jpg);">
 				</div>
@@ -31,6 +32,10 @@
 				</div>
 			</div>
 		</div>
+		
+		<button class="arrow-slick1 next-slick1 slick-arrow js-show-modal2" style="top: 20%; opacity: 1; font-size: 40px;">
+		<i class="fa-solid fa-gear"></i></button>
+		
 	</section>
 
 	<!-- Product -->
@@ -345,7 +350,7 @@
 				</h3>
 			</div>
 			<div class="row isotope-grid">
-				<div class="col-lg-2 p-b-35 isotope-item">
+				<div class="col-lg-3 p-b-35 isotope-item">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -367,7 +372,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-2 p-b-35 isotope-item">
+				<div class="col-lg-3 p-b-35 isotope-item">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -389,7 +394,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-2 p-b-35 isotope-item">
+				<div class="col-lg-3 p-b-35 isotope-item">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -411,51 +416,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-2 p-b-35 isotope-item">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<a href="#"><img src="${pageContext.request.contextPath }/resources/assets_sub/img/service-5.jpg" alt="IMG-PRODUCT"></a>
-						</div>
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<div class="m-b-5">
-									<button class="btn-secondary rounded p-1">강아지</button>
-									<span class="mtext-101">푸들</span>	
-								</div>
-								<span class="stext-105 cl3 m-b-2"><i class="fa fa-award"></i>
-									서울 강남구 강남초옆
-								</span>	
-								<span class="stext-105 cl3"><i class="fa fa-award"></i>
-									2024.11.19
-								</span>	
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-2 p-b-35 isotope-item">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<a href="#"><img src="${pageContext.request.contextPath }/resources/assets_sub/img/service-5.jpg" alt="IMG-PRODUCT"></a>
-						</div>
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<div class="m-b-5">
-									<button class="btn-secondary rounded p-1">강아지</button>
-									<span class="mtext-101">푸들</span>	
-								</div>
-								<span class="stext-105 cl3 m-b-2"><i class="fa fa-award"></i>
-									서울 강남구 강남초옆
-								</span>	
-								<span class="stext-105 cl3"><i class="fa fa-award"></i>
-									2024.11.19
-								</span>	
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-2 p-b-35 isotope-item">
+				
+				
+				<div class="col-lg-3 p-b-35 isotope-item">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
