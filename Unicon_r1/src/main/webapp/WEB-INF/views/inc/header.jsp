@@ -92,7 +92,7 @@
 	                    <ul class="main-menu" style="padding: 0px;">
 							<li class="active-menu" style="padding: 0px;">
 							<a href="index.html">
-								<button class="cl0 bg1" style="border-radius: 5px; padding: 5px 10px;" >글쓰기<i class="fa fa-award"></i>
+								<button class="cl0 bg1" style="border-radius: 5px; padding: 5px 10px;" >글쓰기
 								</button>
 							</a>
 								<ul class="sub-menu">

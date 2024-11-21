@@ -28,5 +28,13 @@ public class MainController {
 		return "main/test";
 	}
 	
+	//템플릿 테스트
+	@GetMapping("/admin")
+	public String adminPage() {
+		
+		return "main/admin";
+	}
+	
+	
 	
 } //controller
