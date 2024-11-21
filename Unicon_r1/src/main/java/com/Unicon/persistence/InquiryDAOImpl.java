@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.Unicon.domain.InquiryVO;
@@ -19,10 +20,10 @@ public class InquiryDAOImpl implements InquiryDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(InquiryDAOImpl.class);
 
-	@Inject
+	@Autowired
 	private SqlSession sqlSession; 
 
-	private static final String NAMESPACE = "com.Unicon.mapper.InquiryMapper";
+	private static final String NAMESPACE = "com.unicon.mapper.InquiryMapper";
 
 	@Override
 	public List<InquiryVO> getAllInquiries() {
