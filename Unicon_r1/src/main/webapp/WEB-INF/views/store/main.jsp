@@ -45,6 +45,17 @@
 		font-size: 20px;
 	} 
 	
+	.store-card-flex a {
+    	color: #8e94a9; 
+    	transition: color 0.3s; 
+	}
+	/* 호버 시 색상 */
+	.store-card-flex a:hover {
+	    color: #bf94e4; 
+	}
+	.store-flex span a {
+		color : gray;
+	}
 	</style>    
     
     
@@ -60,7 +71,7 @@
 		<%@ include file="/WEB-INF/views/inc/admin_sidebar_store.jsp"%>
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">
+          <div style="padding: .8rem 2.875rem 0 2.875rem;" class="content-wrapper">
 <!--             <div class="row" id="proBanner">
               <div class="col-12">
 				<span class="d-flex align-items-center purchase-popup">
@@ -85,104 +96,137 @@
                 <div class="tab-content tab-transparent-content">
                   <div class="tab-pane fade show active" id="business-1" role="tabpanel" aria-labelledby="business-tab">
                     <div class="row">
-                      <div class="col-xl-4 col-lg-4 col-sm-12 grid-margin stretch-card">
-                        <div style="height: 230px" class="card">
+                      <div class="col-xl-3 col-lg-3 col-sm-12 grid-margin stretch-card">
+                        <div class="card">
                           <div class="card-body ">
                             <h5 class="mb-4 text-dark font-weight-bold">주문/배송</h5>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">신규주문</h5>
-	                            <span>0 건</span>
+	                            <h5 class="text-dark font-weight-normal">신규 주문</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
+	                            
                             </div>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">배송준비</h5>
-	                            <span>0 건</span>
+	                            <h5 class="text-dark font-weight-normal">배송 준비</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
 	                            <h5 class="text-dark font-weight-normal">배송중</h5>
-	                            <span>0 건</span>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">배송완료</h5>
-	                            <span>0 건</span>
+	                            <h5 class="text-dark font-weight-normal">배송 완료</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-xl-4 col-lg-4 col-sm-12 grid-margin stretch-card">
-                        <div style="height: 230px" class="card">
+                      <div class="col-xl-3 col-lg-3 col-sm-12 grid-margin stretch-card">
+                        <div class="card">
                           <div class="card-body ">
                             <h5 class="mb-4 text-dark font-weight-bold">클레임</h5>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">취소요청</h5>
-	                            <span>0 건</span>
+	                            <h5 class="text-dark font-weight-normal">취소 요청</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">반품요청</h5>
-	                            <span>0 건</span>
+	                            <h5 class="text-dark font-weight-normal">반품 요청</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">교환요청</h5>
-	                            <span>0 건</span>
+	                            <h5 class="text-dark font-weight-normal">교환 요청</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-xl-4 col-lg-4 col-sm-12 grid-margin stretch-card">
-                        <div style="height: 230px" class="card">
+                      <div class="col-xl-3 col-lg-3 col-sm-12 grid-margin stretch-card">
+                        <div class="card">
                           <div class="card-body ">
-                          	<div class="store-card-flex">
-                          		<div class="store-card-title">
-		                            <h5 class="mb-4 text-dark font-weight-bold">문의</h5>
-		                            <i class="mdi mdi-message-text"></i>
-                          		</div>
-                          		<div>
-                          			<a style="color :#8e94a9;" href="/#">더보기</a>
-                          		</div>
-                          	</div>
-                            <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">이름</h5>
-	                            <h5 class="text-dark font-weight-normal">문의 	내용</h5>
-	                            <h6 class="text-dark font-weight-normal">2024.11.20</h6>
+                          	<h5 class="mb-4 text-dark font-weight-bold">상품</h5>
+                            <div class="dropdown-divider"></div>
+                           	<div class="store-flex">
+	                            <h5 class="text-dark font-weight-normal">판매중 상품</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">이름</h5>
-	                            <h5 class="text-dark font-weight-normal">문의 	내용</h5>
-	                            <h6 class="text-dark font-weight-normal">2024.11.20</h6>
+	                            <h5 class="text-dark font-weight-normal">품절 상품</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                             <div class="store-flex">
-	                            <h5 class="text-dark font-weight-normal">이름</h5>
-	                            <h5 class="text-dark font-weight-normal">문의 	내용</h5>
-	                            <h6 class="text-dark font-weight-normal">2024.11.20</h6>
+	                            <h5 class="text-dark font-weight-normal">등록/수정요청 상품</h5>
+	                            <span>
+	                            	<a href="/#">0</a> 건
+	                            </span>
                             </div>
+                            <div class="dropdown-divider"></div>
                           </div>
                         </div>
                       </div>
-                     
-                      
+                      <div class="col-xl-3 col-lg-3 col-sm-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body ">
+                          	<h5 class="mb-4 text-dark font-weight-bold">문의</h5>
+                            <div class="dropdown-divider"></div>
+                            <div class="store-flex">
+	                            <h5 class="text-dark font-weight-normal">이름</h5>
+	                            <h5 class="text-dark font-weight-normal">문의 	내용</h5>
+	                            <h6 class="text-dark font-weight-normal">2024.11.20</h6>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="store-flex">
+	                            <h5 class="text-dark font-weight-normal">이름</h5>
+	                            <h5 class="text-dark font-weight-normal">문의 	내용</h5>
+	                            <h6 class="text-dark font-weight-normal">2024.11.20</h6>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="store-flex">
+	                            <h5 class="text-dark font-weight-normal">이름</h5>
+	                            <h5 class="text-dark font-weight-normal">문의 	내용</h5>
+	                            <h6 class="text-dark font-weight-normal">2024.11.20</h6>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-4 grid-margin stretch-card">
                         <div class="card">
                           <div class="card-body mb-4">
-                            <h4 class="card-title text-dark">상품</h4>
-                            <h5 class="text-dark font-weight-normal">이름</h5>
-                            <h5 class="text-dark font-weight-normal">문의 	내용</h5>
-                            <h6 class="text-dark font-weight-normal">2024.11.20</h6>
-                          </div>
-                          <div class="card-body bg-white pt-4">
-                            <div class="row pt-4">
-                              <div class="col-sm-6">
-                                <div class="text-center border-right border-md-0">
-                                  <h4>Conversion</h4>
-                                  <h1 class="text-dark font-weight-bold mb-md-3">$306</h1>
-                                </div>
-                              </div>
-                              <div class="col-sm-6">
-                                <div class="text-center">
-                                  <h4>Cancellation</h4>
-                                  <h1 class="text-dark font-weight-bold">$1,520</h1>
-                                </div>
-                              </div>
+                            <h4 class="card-title text-dark">솔루션(AI)</h4>
+                            <div style="display: flex;justify-content: center;align-items: center;height: 100%;margin-top: -2rem;">
+	                            <a href="/#">	
+		                            <img src="${pageContext.request.contextPath}/resources/admin/images/ChatGPT-Logo.svg.png">
+	                            </a>
                             </div>
                           </div>
                         </div>
