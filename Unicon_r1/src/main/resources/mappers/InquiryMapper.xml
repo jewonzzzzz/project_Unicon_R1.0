@@ -29,13 +29,8 @@
 
 	<!-- 문의 데이터 삽입 -->
 	<insert id="insertInquiry" parameterType="InquiryVO">
-		INSERT INTO _inquiry (
-		member_id, title, content, istatus, created_at, image_id, attachment, status,
-		email, phone
-		) VALUES (
-		#{member_id}, #{title}, #{content}, #{istatus}, NOW(), #{image_id}, #{attachment},
-		#{status}, #{email}, #{phone}
-		)
+		INSERT INTO _inquiry (member_id, member_name, title, content, istatus, created_at, email, phone) 
+		VALUES (#{member_id}, #{member_name}, #{title}, #{content}, #{istatus}, NOW(), #{email}, #{phone})
 	</insert>
 
 

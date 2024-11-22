@@ -223,7 +223,7 @@ $(document).ready(function () {
                         '<tr>' +
                         '<td class="no">' + inquiry.bno + '</td>' +
                         '<td class="title">' + inquiry.title + '</td>' +
-                        '<td class="member">' + inquiry.member_id + '</td>' +
+                        '<td class="member">' + inquiry.member_name + '</td>' +
                         '<td class="date">' + inquiry.created_at + '</td>' +
                         '<td class="status ' + statusClass + '">' + statusText + '</td>' +
                         '</tr>';
