@@ -23,7 +23,6 @@
 	<result property="adpt_intro" column="adpt_intro"/>
 	<result property="adpt_etc" column="adpt_etc"/>
 	<result property="adpt_status" column="adpt_status"/>
-	<result property="adpt_interest_sum" column="adpt_interest_sum"/>
 	
 	<association property="adptCounsel" resultMap="CounselResultMap"/>
 	<association property="adptMember" resultMap="MemberResultMap"/>
@@ -31,7 +30,7 @@
 	
 	<collection property="adpt_images" ofType="com.Unicon.domain.ImageVO" resultMap="ImageResultMap"/>
 	<collection property="adpt_healths" ofType="com.Unicon.domain.AdptHealthVO" resultMap="HealthResultMap"/>
-	<collection property="adpt_vaccins" ofType="com.Unicon.domain.AdptVaccinVO" resultMap="VaccinResultMap"/>
+	<collection property="adpt_vaccines" ofType="com.Unicon.domain.AdptVaccineVO" resultMap="VaccineResultMap"/>
 </resultMap>
 
 
@@ -46,12 +45,14 @@
 <resultMap id="HealthResultMap" type="com.Unicon.domain.AdptHealthVO">
 	<result property="adpt_id" column="adpt_id"/>
 	<result property="health" column="health"/>
+	<result property="health_check" column="health_check"/>
 </resultMap>
 
 
-<resultMap id="VaccinResultMap" type="com.Unicon.domain.AdptVaccinVO">
+<resultMap id="VaccineResultMap" type="com.Unicon.domain.AdptVaccineVO">
 	<result property="adpt_id" column="adpt_id"/>
-	<result property="vaccin" column="vaccin"/>
+	<result property="vaccine" column="vaccine"/>
+	<result property="vaccine_check" column="vaccine_check"/>
 </resultMap>
 
 
@@ -65,7 +66,6 @@
 
 
 <resultMap id="MemberResultMap" type="com.Unicon.domain.AdptMemberVO">
-	<result property="adpt_id" column="adpt_id"/>
 	<result property="member_id" column="member_id"/>
 	<result property="member_name" column="member_name"/>
 	<result property="member_tel" column="member_tel"/>
@@ -80,31 +80,31 @@
 	<result property="adpt_id" column="adpt_id"/>
 	<result property="member_id" column="member_id"/>
 	<result property="interest_regdate" column="interest_regdate"/>
+	<result property="adpt_interest_sum" column="adpt_interest_sum"/>
 </resultMap>
 
 
-<select id="selectAdpt" resultMap="AdptResultMap">
-	select 
-		a.adpt_id, a.pet_code, a.pet_etc_breed, a.adpt_name, 
-		a.adpt_color, a.adpt_gender, a.adpt_neuter, 
-		a.adpt_age, a.adpt_weight, a.adpt_regdate, 
-		a.adpt_upddate, a.adpt_regnum, a.adpt_act, 
-		a.adpt_social, a.adpt_intro, a.adpt_etc, 
-		a.adpt_status, a.adpt_interest_sum, 
-		c.counsel_id, c.counsel_subdate, c.counsel_procdate, c.counsel_status, 
-		m.member_id, m.member_name, m.member_tel, m.member_addr, 
-		m.member_email, m.membar_age, m.member_gender, 
-		i.image_id, i.image_type, i.image_sequence, i.image_src, 
-		h.health, v.vaccin, 
-		i.adpt_id AS image_adpt_id, h.adpt_id AS health_adpt_id, v.adpt_id AS vaccin_adpt_id 
-	 from adoption a 
-		LEFT JOIN adpt_counsel c ON a.adpt_id = c.adpt_id 
-		LEFT JOIN adpt_member m ON a.adpt_id = m.adpt_id 
-		LEFT JOIN images i ON a.adpt_id = i.adpt_id 
-		LEFT JOIN adpt_health h ON a.adpt_id = h.adpt_id 
-		LEFT JOIN adpt_vaccin v ON a.adpt_id = v.adpt_id 
-	where a.adpt_id = #{adpt_id}
-</select>
+<insert id="adptInsert">
+	insert into _adpt (adpt_id, pet_code,  adpt_name, adpt_color, 
+	 adpt_gender, adpt_neuter, adpt_age, adpt_weight, member_id, 
+	  pet_etc_breed, adpt_regnum, adpt_act, adpt_social, adpt_intro, adpt_etc, adpt_status) 
+	values (#{adpt_id}, #{pet_code}, #{adpt_name}, #{adpt_color}, 
+	 #{adpt_gender}, #{adpt_neuter}, #{adpt_age}, #{adpt_weight}, #{member_id}, 
+	  #{pet_etc_breed}, #{adpt_regnum}, #{adpt_act}, #{adpt_social}, #{adpt_intro}, #{adpt_etc}, #{adpt_status}) 
+</insert>
+<insert id="adptImageInsert">
+	insert into _image (image_id, image_type, image_sequence, image_src) 
+	 values (#{image_id}, #{image_type}, #{image_sequence}, #{image_src}) 
+</insert>
+<insert id="adptHealthInsert">
+	insert into _adpt_health (adpt_id, health, health_check) 
+	 values (#{adpt_id}, #{health}, #{health_check})
+</insert>
+<insert id="adptVaccineInsert">
+	insert into _adpt_vaccine (adpt_id, vaccine, vaccine_check) 
+	 values (#{adpt_id}, #{vaccine}, #{vaccine_check}) 
+</insert>
+
 
 
 

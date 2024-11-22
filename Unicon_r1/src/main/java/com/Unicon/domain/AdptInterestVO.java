@@ -10,6 +10,7 @@ public class AdptInterestVO {
 	private String adpt_id;
 	private String member_id;
 	private Timestamp interest_regdate;
+	private int adpt_interest_sum;
 	
 } 
 
