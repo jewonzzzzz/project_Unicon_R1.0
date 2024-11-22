@@ -4,9 +4,9 @@
           <ul class="nav">
             <!-- <li class="nav-item nav-category">Main</li> -->
             <li class="nav-item">
-              <a class="nav-link" href="/pages/connect_plus">
+              <a class="nav-link" href="/adptmgmt">
                 <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
-                <span class="menu-title">Dashboard</span>
+                <span class="menu-title">메인페이지</span>
               </a>
             </li>
             <li class="nav-item">
