@@ -9,7 +9,6 @@
 
     <!-- Template Stylesheet -->
     <link href="${pageContext.request.contextPath }/resources/assets_sub/css/style.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <%@ include file="../inc/header.jsp" %> <!-- header -->
 
@@ -19,23 +18,42 @@
 	<section class="section-slide">
 		<div class="wrap-slick1">
 			<div class="slick1">	
-				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-01.jpg);">
+				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-01_1.jpg);">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
+								<span class="ltext-101 cl2 respon2">
+									Men Collection 2018
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
+								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+									New arrivals
+								</h2>
+							</div>
+						</div>
+					</div>
 				</div>
-
-				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-02.jpg);">
-				</div>
-
-				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-03.jpg);">
-				</div>
-				
-				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-04.jpg);">
+				<div class="item-slick1" style="background-image: url(${pageContext.request.contextPath }/resources/assets/images/slide-01_1.jpg);">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
+								<span class="ltext-101 cl2 respon2">
+									Men Collection 2018
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
+								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+									New arrivals
+								</h2>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		<button class="arrow-slick1 next-slick1 slick-arrow js-show-modal2" style="top: 20%; opacity: 1; font-size: 40px;">
-		<i class="fa-solid fa-gear"></i></button>
-		
 	</section>
 
 	<!-- Product -->
@@ -186,7 +204,7 @@
 			</div>
             <div class="row g-5 align-items-end">
                 <div class="col-lg-3 col-md-5">
-                    <img class="img-fluid rounded" src="${pageContext.request.contextPath }/resources/assets/images/product-01.jpg">
+                    <img class="img-fluid rounded" src="${pageContext.request.contextPath }/resources/assets/images/poster.png">
                 </div>
                 <div class="col-lg-6 col-md-7">
                     <h1 class="display-4 mb-0">11.19</h1>
@@ -228,13 +246,13 @@
 				<p class="mtext-102">오늘 있었던 유니콘들의 하루를 공유해봐요</p>
 			</div>
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="team-item rounded">
                         <img class="img-fluid" src="${pageContext.request.contextPath }/resources/assets_sub/img/team-1.jpg" alt="">
                         <div class="team-text">
-                            <h4 class="mb-10">나의 일상일상일상일상</h4>
+                            <h5 class="mb-15">나의 일상일상일상일상</h5>
                             <div class="d-flex m-b-10">
-                                <div class="btn-lg-square rounded-circle me-2">
+                                <div class="btn-lg-square me-2" style="width: 80px;">
                                 	<img class="img-fluid rounded-circle" src="${pageContext.request.contextPath }/resources/assets_sub/img/service-1.jpg" >
                              	</div>
 								<div class="block2-txt-child1 flex-col-l ">
@@ -248,34 +266,6 @@
 	                            <div class="team-social">
 	                                <a class="btn" href="">상세보기</a>
 	                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="team-item rounded">
-                        <img class="img-fluid" src="${pageContext.request.contextPath }/resources/assets_sub/img/team-2.jpg" alt="">
-                        <div class="team-text">
-                            <h4 class="mb-10">Johnny Ramirez</h4>
-                            <p class="text-primary">Garden Designer</p>
-                            <div class="team-social d-flex">
-                                <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="team-item rounded">
-                        <img class="img-fluid" src="${pageContext.request.contextPath }/resources/assets_sub/img/team-3.jpg" alt="">
-                        <div class="team-text">
-                            <h4 class="mb-0">Diana Wagner</h4>
-                            <p class="text-primary">Senior Gardener</p>
-                            <div class="team-social d-flex">
-                                <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square rounded-circle me-2" href=""><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>

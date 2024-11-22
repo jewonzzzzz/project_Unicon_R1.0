@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Unicon.mapper.NewsMapper">
+
+	<!-- 소식 등록하기 -->
+	<select id="newsCreate">
+		insert into _news(news_subject, news_content, news_place, news_date, news_time, news_resion, news_src, 
+		news_ins, news_att) 
+		values(#{news_subject}, #{news_content}, #{news_place}, #{news_date}, #{news_time}, #{news_resion}, 
+		#{news_src}, #{news_ins}, #{news_att}) 
+	</select>
+	
+	<!-- 모든 소식 조회하기 -->
+	<select id="getNewsAll" resultType="newsVO">
+		select * from _news 
+	</select>
+	
+	<!-- 특정 소식 조회하기 -->
+	<select id="getNews" resultType="newsVO">
+		select * from _news where news_id = #{news_id} 
+	</select>
+
+</mapper>
+
+

@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/main/*")
 public class MainController {
 	
-	@GetMapping("/")
+	@GetMapping("/main")
 	public String mainTest() {
 		
 		return "main/main";
@@ -27,14 +26,6 @@ public class MainController {
 		
 		return "main/test";
 	}
-	
-	//템플릿 테스트
-	@GetMapping("/admin")
-	public String adminPage() {
-		
-		return "main/admin";
-	}
-	
 	
 	
 } //controller
