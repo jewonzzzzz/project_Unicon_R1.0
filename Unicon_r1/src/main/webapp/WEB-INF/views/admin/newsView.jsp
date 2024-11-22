@@ -41,13 +41,14 @@
 						</div>
 						
 					<div class="p-t-20 p-b-40 p-lr-15-lg w-full-md">
-				<form id="newsCreateForm" action="/admin/newsCreate" method="post" enctype="multipart/form-data">
+				<form role="form" enctype="multipart/form-data">
 					<div class="row">
 					<div class="col-lg-4" >
 						<span class="mtext-101">이미지</span>
 						<div id="news_preview" class="bor8 m-b-20" style="min-height: 330px;">
 							<img src="${newsInfo.news_src }" style="max-width: 100%; max-height: 100%; object-fit: cover;" />
 						</div>
+							<input name="news_src" type="hidden" value=${newsInfo.news_src }>
 							<input id="news_image" class="stext-111 cl2 plh3 size-116" type="file" 
 							name="news_file">
 					</div>
@@ -142,11 +143,11 @@
 
 
 						<div style="display: flex; justify-content: center; gap: 10px;">
-							<button id="btn_newsCreate" type="submit"
+							<button id="btn_newsUpdate" type="submit"
 								    class="cl0 bg3 bor1 hov-btn3 p-lr-30" style="height: 40px;">
 								수정하기
 							</button>
-							<button id="btn_newsCreate" type="submit"
+							<button id="btn_newsDelete" type="submit"
 								    class="cl0 bg10 bor1 hov-btn1 p-lr-30" style="height: 40px;">
 								삭제하기
 							</button>
@@ -167,6 +168,7 @@
 <script>
 	$(document).ready(function (){
 	
+		// 이미지 선택 시 미리보기 기능
 		$('#news_image').on('change', function(event){
     		const file = event.target.files[0]; // 업로드한 파일 가져오기
     	    const $preview = $('#news_preview'); // 미리보기 영역 선택
@@ -185,17 +187,62 @@
     	});
 		
 		
-		$('#newsCreateForm').on('submit', function(event){
+		// bno를 가지고있는 폼태그 정보를 가져오기
+		var formObj = $("form[role='form']");
+		
+		// 수정 버튼 클릭시
+		$("#btn_newsUpdate").click(function(){
+			formObj.attr("action","/admin/newsUpdate/${newsInfo.news_id}");
+			formObj.attr("method","post");
+			formObj.submit();			
+		});
+		
+		// 삭제 버튼 클릭시
+		$("#btn_newsDelete").click(function(){
+			formObj.attr("action","/admin/remove");
+			formObj.attr("method","post");
+			formObj.submit();
+		});
+		
+		
+		// suubmit 시 알람표시
+		$(formObj).on('submit', function(event){
 			event.preventDefault();
-			console.log($('input[name="news_subject"]').val());
 			
-			swal("aaaa", "is added to wishlist !", "success")
-			.then(function() {
-	           $('#newsCreateForm').off('submit').submit();
-            });;
+			swal({
+ 	              title: "교육정보를 수정하시겠습니까?",
+ 	              text: "교육정보 수정은 임시저장 상태에서만 가능합니다.",
+ 	              icon: "success",
+ 	              buttons: {
+ 	                confirm: {
+ 	                  text: "교육수정",
+ 	                },
+ 	                cancel: {
+ 	                  visible: true,
+ 	                  text: "취소하기",
+ 	                },
+ 	              },
+ 	            }).then(function(willDelete) {
+ 	             if (willDelete) {
+ 	            	swal({
+ 	            	    title: "Success!",
+ 	            	    text: "수정완료",
+ 	            	    icon: "success",
+ 	            	    buttons: "OK", 
+ 	            	}).then(function() {
+ 	            		$(formObj).off('submit').submit();
+                    });
+	             	}
+                });
 		
 		});
-	});
+		
+		
+		
+		
+		
+		
+	}); //reday
 
 </script>
 
