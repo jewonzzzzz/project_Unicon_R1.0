@@ -43,7 +43,7 @@ public class InquiryDAOImpl implements InquiryDAO {
 
 	@Override
 	public void insertInquiry(InquiryVO inquiry) {
-		sqlSession.insert(NAMESPACE + ".insertInquiry");
+	    sqlSession.insert(NAMESPACE + ".insertInquiry", inquiry);  // inquiry 객체를 전달
 	}
 
 }

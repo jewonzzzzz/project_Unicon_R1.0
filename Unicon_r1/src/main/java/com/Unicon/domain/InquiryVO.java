@@ -3,6 +3,8 @@ package com.Unicon.domain;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
@@ -13,6 +15,7 @@ public class InquiryVO {
 
 	int bno; // 글번호
 	String member_id;
+	String member_name;
 	String title; // 제목
 	String content;// 내용
 	String istatus; // 카테고리 분류
@@ -30,7 +33,8 @@ public class InquiryVO {
 	Timestamp answerdate; // 답변일
 	
 	String email;
-	int phone; 
+	int phone;
+	String MultipartFile;
 	
 	
 	
