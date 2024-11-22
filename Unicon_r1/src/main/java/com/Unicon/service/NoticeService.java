@@ -8,18 +8,18 @@ import com.Unicon.domain.NoticeVO;
 
 public interface NoticeService {
 	// 공지사항 등록
-    void registerNotice(NoticeVO noVO, MultipartFile thumbnail, MultipartFile[] contentFiles) throws Exception;
+    void registerNotice(NoticeVO noVO) throws Exception;
+    
+    // 공지사항 목록 조회
+    Map<String, Object> getNoticeList(int page, int size, String category, String keyword) throws Exception;
+    
+    // 공지사항 상세 조회
+    NoticeVO getNotice(Long noId) throws Exception;
     
     // 공지사항 수정
-    void updateNotice(NoticeVO noVO, MultipartFile thumbnail, MultipartFile[] contentFiles) throws Exception;
+    void updateNotice(NoticeVO noVO) throws Exception;
     
     // 공지사항 삭제
     void deleteNotice(Long noId) throws Exception;
-    
-    // 공지사항 목록조회
-    Map<String, Object> getNoticeList(int page, int size, String category, String keyword) throws Exception;
-    
-    // 공지사항 상세조회
-    NoticeVO getNotice(Long noId) throws Exception;
 }
 

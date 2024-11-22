@@ -17,7 +17,7 @@ public class NoticeFileDAOImpl implements NoticeFileDAO {
     @Inject
     private SqlSession sqlSession;
     
-    private static final String NAMESPACE = "com.Unicon.mapper.FileMapper";
+    private static final String NAMESPACE = "com.Unicon.mapper.NoticeMapper";
     
     @Override
     public void insertFile(NoticeFileVO file) throws Exception {
