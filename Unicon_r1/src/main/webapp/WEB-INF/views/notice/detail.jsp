@@ -1,5 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../inc/topHeader.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
+<%@ include file="../inc/topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
+
+<!-- 추가 템플릿 css/js 작성란 -->
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="${pageContext.request.contextPath }/resources/assets_sub/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="${pageContext.request.contextPath }/resources/assets_sub/css/style.css" rel="stylesheet">
+</head>
+<%@ include file="../inc/header.jsp" %> <!-- header -->
+
+<!--====================================작성부=====================================-->
 
 <div class="container-xxl py-5">
     <div class="container">
@@ -17,6 +32,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="card-body">
                 <!-- 썸네일 이미지가 있는 경우 -->
                 <c:if test="${not empty notice.noThumb}">
@@ -38,7 +54,7 @@
                             <c:forEach items="${notice.files}" var="file">
                                 <li>
                                     <i class="fas fa-paperclip me-2"></i>
-                                    <a href="/download/${file.fileId}">${file.originalName}</a>
+                                    <a href="/notice/download/${file.fileId}">${file.originalName}</a>
                                     <span class="text-muted ms-2">
                                         (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
                                     </span>
@@ -48,15 +64,16 @@
                     </div>
                 </c:if>
             </div>
+            
             <div class="card-footer bg-white">
                 <div class="d-flex justify-content-between">
                     <a href="/notice" class="btn btn-secondary">목록으로</a>
                     <div>
                         <c:if test="${prevNotice != null}">
-                            <a href="/notice/detail/${prevNotice.noId}" class="btn btn-outline-primary me-2">이전글</a>
+                            <a href="/notice/${prevNotice.noId}" class="btn btn-outline-primary me-2">이전글</a>
                         </c:if>
                         <c:if test="${nextNotice != null}">
-                            <a href="/notice/detail/${nextNotice.noId}" class="btn btn-outline-primary">다음글</a>
+                            <a href="/notice/${nextNotice.noId}" class="btn btn-outline-primary">다음글</a>
                         </c:if>
                     </div>
                 </div>
@@ -65,4 +82,20 @@
     </div>
 </div>
 
-<%@ include file="../inc/footer.jsp" %>
+<!--====================================작성부=====================================-->
+	<!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/wow/wow.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/easing/easing.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/waypoints/waypoints.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/counterup/counterup.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/parallax/parallax.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/js/main.js"></script>
+
+<%@ include file="../inc/footer.jsp" %> <!-- footer -->

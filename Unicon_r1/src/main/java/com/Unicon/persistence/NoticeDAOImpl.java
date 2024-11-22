@@ -31,7 +31,10 @@ public class NoticeDAOImpl implements NoticeDAO {
     
     @Override
     public void deleteNotice(Long noId) throws Exception {
-        sqlSession.update(NAMESPACE + ".deleteNotice", noId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("noId", noId);
+        params.put("status", "deleted");
+        sqlSession.update(NAMESPACE + ".deleteNotice", params);
     }
     
     @Override

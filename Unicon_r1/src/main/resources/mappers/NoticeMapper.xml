@@ -32,14 +32,21 @@
             noId = #{noId}
     </update>
     
-    <update id="deleteNotice" parameterType="Long">
-        update _notice 
-        set 
-            status = 'deleted',
-            noModdate = now()
-        where 
-            noId = #{noId}
-    </update>
+    <update id="deleteNotice" parameterType="map">
+    update _notice 
+    set 
+        status = #{status},
+        noModdate = now()
+    where 
+        noId = #{noId}
+	</update>
+    
+    <select id="selectNotice" parameterType="Long" resultType="NoticeVO">
+    select *
+    from _notice 
+    where noId = #{noId}
+    and status = 'active'
+	</select>
     
     <select id="selectNoticeList" parameterType="map" resultType="NoticeVO">
         select * 
@@ -124,5 +131,29 @@
         where noId = #{noId} 
         and fileType = #{fileType}
     </delete>
+    
+    <!-- 단일 파일 삭제 -->
+	<delete id="deleteFile" parameterType="Long">
+	    delete from _notice_file 
+	    where fileId = #{fileId}
+	</delete>
+	
+	<!-- 단일 파일 조회 -->
+	<select id="selectFile" parameterType="Long" resultType="NoticeFileVO">
+	    select * from _notice_file
+	    where fileId = #{fileId}
+	</select>
+	
+	<!-- 파일 수정 -->
+	<update id="updateFile" parameterType="NoticeFileVO">
+	    update _notice_file set
+	        originalName = #{originalName},
+	        storedName = #{storedName},
+	        filePath = #{filePath},
+	        fileSize = #{fileSize},
+	        fileType = #{fileType},
+	        uploadDate = now()
+	    where fileId = #{fileId}
+	</update>
 	
 </mapper>
