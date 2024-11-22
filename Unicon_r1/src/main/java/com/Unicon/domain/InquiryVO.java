@@ -15,10 +15,10 @@ public class InquiryVO {
 	String member_id;
 	String title; // 제목
 	String content;// 내용
-	String author; // 작성자
+	String istatus; // 카테고리 분류
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	Date created_at; // 작성일
-	String image; // 이미지
+	String image_id; // 이미지
 	String attachment; // 첨부파일주소
 
 	int dno; // 댓글 번호
@@ -28,6 +28,9 @@ public class InquiryVO {
 	int status; // 상태 (1: 진행 중, 2: 답변완료)
 	String acontent; // 답변내용
 	Timestamp answerdate; // 답변일
+	
+	String email;
+	int phone; 
 	
 	
 	

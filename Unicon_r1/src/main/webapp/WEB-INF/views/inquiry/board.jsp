@@ -89,6 +89,78 @@ h2 {
 	text-align: center;
 	margin-bottom: 20px;
 }
+
+/* 글쓰기 버튼 스타일 */
+.write-btn-container {
+    text-align: right; /* 오른쪽 정렬 */
+    margin: 20px 390px 20px 40px; /* 페이지 우측 공간과 상단 여백 설정 */
+}
+
+.write-btn {
+    background-color: #2ecc71; /* 버튼 색상 */
+    color: white; /* 텍스트 색상 */
+    font-size: 14px; /* 폰트 크기 */
+    font-weight: bold;
+    padding: 10px 20px; /* 버튼 여백 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    transition: background-color 0.3s ease; /* 호버 효과 추가 */
+}
+
+.write-btn:hover {
+    background-color: #27ae60; /* 호버 시 색상 변경 */
+}
+
+/* 상태 열 스타일 */
+.status {
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 진행 중 상태 */
+.status-ongoing {
+    color: #2ecc71; /* 초록색 */
+}
+
+/* 답변 완료 상태 */
+.status-completed {
+    color: #3498db; /* 파란색 */
+}
+
+/* 페이징 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #333;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 14px; /* 화살표 버튼 크기와 텍스트 크기 조정 */
+}
+
+.pagination li a:hover,
+.pagination li.active a {
+    background-color: #2ecc71;
+    color: white;
+}
+
+
+
 </style>
 </head>
 <%@ include file="../inc/header.jsp"%>
@@ -109,6 +181,7 @@ h2 {
 			<th class="title">제목</th>
 			<th class="member">작성자</th>
 			<th class="date">작성일</th>
+			<th class="status">상태</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -116,31 +189,96 @@ h2 {
 	</tbody>
 </table>
 
-<script>
-$(document).ready(function() {
-    // 데이터를 가져와서 테이블에 추가
-    $.ajax({
-        url: "/api/boards",  
-        method: "GET",
-        dataType: "json",
-        success: function(data) {
-            let tbody = "";
-            data.forEach(function(inquiry) {
-            	tbody += '<tr>' +
-                '<td class="no">' + inquiry.bno + '</td>' +
-                '<td class="title">' + inquiry.title + '</td>' +
-                '<td class="member">' + inquiry.member_id + '</td>' +
-                '<td class="date">' + inquiry.created_at + '</td>' +
-                '</tr>';
-            });
-            $("#inquiryTable tbody").html(tbody);
-        },
-        error: function(error) {
-            console.error("데이터 로드 실패:", error);
-        }
-    });
-});
+<!-- 글쓰기 버튼 -->
+<div class="write-btn-container">
+    <button class="write-btn" onclick="location.href='/inquiry/write'">문의하기</button>
+</div>
 
+
+<!-- 페이지네이션 -->
+<ul class="pagination" id="pagination"></ul>
+
+<script>
+$(document).ready(function () {
+    // 현재 페이지와 페이지 크기
+    let currentPage = 1;
+    const pageSize = 10;
+
+    function loadPage(page) {
+        $.ajax({
+            url: "/api/boards",
+            method: "GET",
+            data: { page: page, size: pageSize },
+            dataType: "json",
+            success: function (response) {
+                const data = response.boards; // 서버에서 가져온 데이터
+                const totalPages = response.totalPages; // 전체 페이지 수
+
+                let tbody = "";
+                data.forEach(function (inquiry) {
+                    let statusText = inquiry.status === 1 ? "진행 중" : "답변 완료";
+                    let statusClass = inquiry.status === 1 ? "status-ongoing" : "status-completed";
+
+                    tbody +=
+                        '<tr>' +
+                        '<td class="no">' + inquiry.bno + '</td>' +
+                        '<td class="title">' + inquiry.title + '</td>' +
+                        '<td class="member">' + inquiry.member_id + '</td>' +
+                        '<td class="date">' + inquiry.created_at + '</td>' +
+                        '<td class="status ' + statusClass + '">' + statusText + '</td>' +
+                        '</tr>';
+                });
+
+                $("#inquiryTable tbody").html(tbody);
+                renderPagination(totalPages, page);
+            },
+            error: function (error) {
+                console.error("데이터 로드 실패:", error);
+            }
+        });
+    }
+
+    function renderPagination(totalPages, currentPage) {
+        let paginationHtml = "";
+
+        // 이전 버튼
+        if (currentPage > 1) {
+            paginationHtml +=
+                '<li>' +
+                '<a href="#" data-page="' + (currentPage - 1) + '">«</a>' +
+                '</li>';
+        }
+
+        // 페이지 번호
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHtml +=
+                '<li class="' + (i === currentPage ? "active" : "") + '">' +
+                '<a href="#" data-page="' + i + '">' + i + '</a>' +
+                '</li>';
+        }
+
+        // 다음 버튼
+        if (currentPage < totalPages) {
+            paginationHtml +=
+                '<li>' +
+                '<a href="#" data-page="' + (currentPage + 1) + '">»</a>' +
+                '</li>';
+        }
+
+        $("#pagination").html(paginationHtml);
+    }
+
+    // 페이지네이션 클릭 이벤트
+    $(document).on("click", ".pagination a", function (e) {
+        e.preventDefault();
+        const page = $(this).data("page");
+        currentPage = page;
+        loadPage(page);
+    });
+
+    // 초기 페이지 로드
+    loadPage(currentPage);
+});
 
 </script>
 
