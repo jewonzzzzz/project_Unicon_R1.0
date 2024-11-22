@@ -66,6 +66,10 @@
 
 							<li>
 								<a href="/inquiry/inquiry">고객센터</a>
+							</li>		
+									
+							<li>
+								<a href="/admin">관리자페이지</a>
 							</li>				
 							
 						</ul>
@@ -92,7 +96,8 @@
 	                    <ul class="main-menu" style="padding: 0px;">
 							<li class="active-menu" style="padding: 0px;">
 							<a href="index.html">
-								<button class="cl0 bg1" style="border-radius: 5px; padding: 5px 10px;" >글쓰기
+								<button class="cl0 bg1" style="border-radius: 5px; padding: 5px 10px; width: 85px;
+								height: 40px; font-size: 15px;" >글쓰기
 								</button>
 							</a>
 								<ul class="sub-menu">

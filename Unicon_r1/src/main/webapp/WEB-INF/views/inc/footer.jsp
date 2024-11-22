@@ -311,18 +311,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	
 	
 	
-	<div class="wrap-modal1 js-modal2 p-t-10 p-b-10">
-		<div class="overlay-modal1 js-hide-modal2"></div>
+	<div class="wrap-modal1 js-modal-news p-t-10 p-b-10">
+		<div class="overlay-modal1 js-hide-modal-news"></div>
 
 		<div class="container">
 			<div class="bg0 p-t-10 p-b-10 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal2">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal-news">
 					<img src="${pageContext.request.contextPath }/resources/assets/images/icons/icon-close.png" alt="CLOSE">
 				</button>
 
 				<div class="p-t-20 p-b-20">
 					<h3 class="ltext-103 cl5">
-						메인슬라이드 설정
+						소식
 					</h3>
 				</div>
 				<div class="row isotope-grid">
@@ -417,8 +417,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					</div>
 				</div>
 			</div>
-				
-				
 			</div>
 		</div>
 	</div>
