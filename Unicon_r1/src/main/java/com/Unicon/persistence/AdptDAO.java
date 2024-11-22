@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Unicon.domain.AdptHealthVO;
@@ -24,7 +25,7 @@ public class AdptDAO {
 	
 	private static final String NAMESPACE = "com.Unicon.mapper.AdptMapper.";
 	
-	@Transactional(rollbackFor = {SQLException.class, Exception.class})
+	@Transactional(rollbackFor = {SQLException.class, Exception.class}, propagation = Propagation.REQUIRES_NEW)
 	public void adptInsert(AdptVO adptVO) {
 		
 		log.info("( •̀ ω •́ )✧ adptInsert() 실행");
