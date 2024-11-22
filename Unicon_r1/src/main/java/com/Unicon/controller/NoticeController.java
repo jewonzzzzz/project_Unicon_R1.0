@@ -112,6 +112,7 @@ public class NoticeController {
     @PostMapping("/manage/update/{noId}")
     public String updateAndRedirect(
             @PathVariable("noId") Long noId,
+            @RequestParam("noWriter") String noWriter,
             @RequestParam("noTitle") String noTitle,
             @RequestParam("noContent") String noContent,
             @RequestParam("noCategory") String noCategory,
@@ -122,6 +123,7 @@ public class NoticeController {
         try {
             NoticeVO noVO = new NoticeVO();
             noVO.setNoId(noId);
+            noVO.setNoWriter(noWriter);
             noVO.setNoTitle(noTitle);
             noVO.setNoContent(noContent);
             noVO.setNoCategory(noCategory);
@@ -161,6 +163,7 @@ public class NoticeController {
     @PostMapping("/api")
     @ResponseBody
     public ResponseEntity<String> register(
+    		@RequestParam("noWriter") String noWriter,
             @RequestParam("noTitle") String noTitle,
             @RequestParam("noContent") String noContent,
             @RequestParam("noCategory") String noCategory,
@@ -171,6 +174,7 @@ public class NoticeController {
         try {
             // 1. 공지사항 기본 정보 저장
             NoticeVO noVO = new NoticeVO();
+            noVO.setNoWriter(noWriter);
             noVO.setNoTitle(noTitle);
             noVO.setNoContent(noContent);
             noVO.setNoCategory(noCategory);
@@ -207,6 +211,7 @@ public class NoticeController {
     @ResponseBody
     public ResponseEntity<String> update(
             @PathVariable("noId") Long noId,
+            @RequestParam("noWriter") String noWriter,
             @RequestParam("noTitle") String noTitle,
             @RequestParam("noContent") String noContent,
             @RequestParam("noCategory") String noCategory,
@@ -217,6 +222,7 @@ public class NoticeController {
         try {
             NoticeVO noVO = new NoticeVO();
             noVO.setNoId(noId);
+            noVO.setNoWriter(noWriter);
             noVO.setNoTitle(noTitle);
             noVO.setNoContent(noContent);
             noVO.setNoCategory(noCategory);
