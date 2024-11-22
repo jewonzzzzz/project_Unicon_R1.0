@@ -48,14 +48,14 @@
 						<div id="news_preview" class="bor8 m-b-20" style="min-height: 330px;">
 						</div>
 							<input id="news_image" class="stext-111 cl2 plh3 size-116" type="file" 
-							name="news_file">
+							name="news_file" required>
 					</div>
 					
 					<div class="col-lg-8" >
 						<span class="mtext-101">제목</span>
 						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-20 p-r-30" type="text" 
-							name="news_subject" placeholder="제목을 입력하세요">
+							name="news_subject" placeholder="제목을 입력하세요" required>
 						</div>
 						
 						<div style="display: flex; justify-content: space-between;">
@@ -63,7 +63,7 @@
 							<h4 class="mtext-101">지역</h4>
 								<div class="m-b-20">
 										<select class="stext-111 plh3 size-116 p-l-20 p-r-30 bor8" 
-										name="news_resion">
+										name="news_resion" required>
 											<option>지역선택</option>
 											<option>서울</option>
 											<option>인천</option>
@@ -83,7 +83,7 @@
 							<h4 class="mtext-101">장소</h4>
 							<div class="bor8 m-b-20">
 								<input class="stext-111 cl2 plh3 size-116 p-l-20 p-r-30" type="text" 
-								name="news_place" placeholder="장소를 입력하세요">
+								name="news_place" placeholder="장소를 입력하세요" required>
 							</div>
 							</div>
 						</div>
@@ -94,7 +94,7 @@
 							<h4 class="mtext-101">행사일자</h4>
 								<div class="bor8 m-b-20">
 									<input class="stext-111 cl2 plh3 size-116 p-l-20 p-r-30" type="date" 
-									name="news_date">
+									name="news_date" required>
 								</div>
 							</div>
 							
@@ -104,7 +104,7 @@
 							<h4 class="mtext-101">행사시간</h4>
 							<div class="bor8 m-b-20">
 								<input class="stext-111 cl2 plh3 size-116 p-l-20 p-r-30" 
-								type="time" name="news_time">
+								type="time" name="news_time" required>
 							</div>
 							</div>
 						</div>
@@ -114,7 +114,7 @@
 							<h4 class="mtext-101">주관기관</h4>
 								<div class="bor8 m-b-20">
 									<input class="stext-111 cl2 plh3 size-116 p-l-20 p-r-30" 
-									type="text" name="news_ins" placeholder="주관기관을 입력하세요">
+									type="text" name="news_ins" placeholder="주관기관을 입력하세요" required>
 								</div>
 							</div>
 							
@@ -124,7 +124,7 @@
 							<h4 class="mtext-101">참여대상</h4>
 							<div class="bor8 m-b-20">
 								<input class="stext-111 cl2 plh3 size-116 p-l-20 p-r-30" type="text" 
-								name="news_att" placeholder="참여대상을 입력하세요">
+								name="news_att" placeholder="참여대상을 입력하세요" required>
 							</div>
 							</div>
 						</div>
@@ -135,12 +135,12 @@
 						<span class="mtext-101">내용</span>
 						<div class="bor8 m-b-30">
 							<textarea class="stext-111 cl2 plh3 size-124 p-lr-20 p-tb-25" 
-							name="news_content" placeholder="내용을 입력하세요"></textarea>
+							name="news_content" placeholder="내용을 입력하세요" required></textarea>
 						</div>
 
 						<button id="btn_newsCreate" type="submit"
 							    class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
-							소식 등록하기
+							등록하기
 						</button>
 						</div>
 					</form>
@@ -178,12 +178,11 @@
 		
 		$('#newsCreateForm').on('submit', function(event){
 			event.preventDefault();
-			console.log($('input[name="news_subject"]').val());
 			
 			swal("aaaa", "is added to wishlist !", "success")
 			.then(function() {
 	           $('#newsCreateForm').off('submit').submit();
-            });;
+            });
 		
 		});
 	});

@@ -24,14 +24,14 @@ import com.Unicon.service.NewsService;
 
 @Controller
 @RequestMapping("/admin")
-public class adminController {
+public class AdminController {
 	
 	@Autowired
 	private ServletContext servletContext;
 	@Autowired
 	private NewsService nService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(adminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 	//관리자페이지 이동(슬라이드 설정 보여주기)
 	@GetMapping("")
@@ -101,6 +101,15 @@ public class adminController {
 		model.addAttribute("newsInfo", newsInfo);
 		
 		return "admin/newsView";
+	}
+	
+	// 소식정보 수정
+	@PostMapping(value = "/newsUpdate/{num}")
+	public String updateNewsInfo(newsVO vo) {
+		
+		logger.debug(vo.toString());
+		
+		return "";
 	}
 	
 		
