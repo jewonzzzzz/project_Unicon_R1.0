@@ -33,7 +33,7 @@ public class NoticeDAOImpl implements NoticeDAO {
     public void deleteNotice(Long noId) throws Exception {
         Map<String, Object> params = new HashMap<>();
         params.put("noId", noId);
-        params.put("status", "deleted");
+        params.put("status", "DELETED");
         sqlSession.update(NAMESPACE + ".deleteNotice", params);
     }
     

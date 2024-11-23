@@ -322,12 +322,20 @@ public class NoticeController {
         }
     }
 
-    @RequestMapping(value = "/api/{noId}", method = RequestMethod.DELETE)
+    @PostMapping("/api/delete/{noId}")  // URL 패턴 변경
     @ResponseBody
     public ResponseEntity<String> delete(@PathVariable("noId") Long noId) {
         try {
+            // 1. 공지사항 존재 여부 확인
+            NoticeVO notice = noService.getNotice(noId);
+            if (notice == null) {
+                return new ResponseEntity<>("존재하지 않는 공지사항입니다.", HttpStatus.NOT_FOUND);
+            }
+            
+            // 2. 파일 삭제 후 공지사항 삭제
             fileService.deleteFilesByNoticeId(noId);
             noService.deleteNotice(noId);
+            
             return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
         } catch (Exception e) {
             logger.error("공지사항 삭제 실패", e);
