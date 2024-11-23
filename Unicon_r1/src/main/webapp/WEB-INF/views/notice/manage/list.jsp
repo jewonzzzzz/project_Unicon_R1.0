@@ -237,15 +237,25 @@
             return;
         }
         
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        
         $.ajax({
-            url: `/notice/api/${noId}`,
-            type: 'DELETE',
+        	url: '/notice/api/delete/' + noId,  
+            type: 'POST',
+            beforeSend: function(xhr) {
+                if(token && header) {
+                    xhr.setRequestHeader(header, token);
+                }
+            },
             success: function() {
                 alert('삭제되었습니다.');
                 location.reload();
             },
             error: function(xhr) {
-                alert('삭제 실패: ' + (xhr.responseText || '서버 오류가 발생했습니다.'));
+                console.error('Error:', xhr);
+                const errorMsg = xhr.responseText || '서버 오류가 발생했습니다.';
+                alert('삭제 실패: ' + errorMsg);
             }
         });
     }

@@ -42,30 +42,30 @@
 	</update>
     
     <select id="selectNotice" parameterType="Long" resultType="NoticeVO">
-    select *
-    from _notice 
-    where noId = #{noId}
-    and status = 'active'
+	    SELECT *
+	    FROM _notice 
+	    WHERE noId = #{noId}
+	    AND (status != 'DELETED' OR status IS NULL)
 	</select>
     
     <select id="selectNoticeList" parameterType="map" resultType="NoticeVO">
-        select * 
-        from _notice
-        where status = #{status}
-        <if test="category != null and category != ''">
-            and noCategory = #{category}
-        </if>
-        <if test="keyword != null and keyword != ''">
-            and (
-                noTitle like concat('%', #{keyword}, '%')
-                or noContent like concat('%', #{keyword}, '%')
-            )
-        </if>
-        order by 
-            important desc,
-            noRegdate desc
-        limit #{start}, #{size}
-    </select>
+    SELECT * 
+    FROM _notice
+    WHERE (status != 'DELETED' OR status IS NULL)
+    <if test="category != null and category != ''">
+        AND noCategory = #{category}
+    </if>
+    <if test="keyword != null and keyword != ''">
+        AND (
+            noTitle LIKE CONCAT('%', #{keyword}, '%')
+            OR noContent LIKE CONCAT('%', #{keyword}, '%')
+        )
+    </if>
+    ORDER BY 
+        important DESC,
+        noRegdate DESC
+    LIMIT #{start}, #{size}
+	</select>
     
     <select id="selectNoticeCount" parameterType="map" resultType="int">
         select count(*) 
