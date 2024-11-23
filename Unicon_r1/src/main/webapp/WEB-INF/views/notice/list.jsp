@@ -1,18 +1,56 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
-<%@ include file="../inc/topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
+<%@ include file="../inc/topHeader.jsp" %>
 
-<!-- 추가 템플릿 css/js 작성란 -->
+<!-- CSS 파일 -->
+<link href="${pageContext.request.contextPath }/resources/assets_sub/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/assets_sub/css/style.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="${pageContext.request.contextPath }/resources/assets_sub/css/bootstrap.min.css" rel="stylesheet">
+<!-- 추가 스타일 -->
+<style>
+.notice-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+    height: 100%;  /* 카드 높이 100% 설정 */
+}
+.notice-card:hover {
+    transform: translateY(-5px);
+}
+.notice-image-wrapper {
+    position: relative;
+    padding-bottom: 75%;  /* 4:3 비율 설정 */
+    overflow: hidden;
+}
+.notice-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.notice-title {
+    font-size: 1.1rem;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.badge-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;  /* 뱃지 사이 간격 */
+}
+.notice-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+</style>
 
-    <!-- Template Stylesheet -->
-    <link href="${pageContext.request.contextPath }/resources/assets_sub/css/style.css" rel="stylesheet">
-</head>
-<%@ include file="../inc/header.jsp" %> <!-- header -->
+<%@ include file="../inc/header.jsp" %>
 
 <!--====================================작성부=====================================-->
 <div class="container-xxl py-5">
@@ -42,32 +80,40 @@
 
         <!-- 공지사항 목록 -->
         <div class="row g-4">
-            <c:forEach items="${notices}" var="notice">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item rounded h-100 p-5">
-                        <div class="d-flex align-items-center ms-n5 mb-4">
-                            <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
-                                <img class="img-fluid" src="${notice.noThumb}" alt="">
-                            </div>
-                            <h4 class="mb-0">${notice.noTitle}</h4>
-                        </div>
-                        <p class="mb-4">${notice.noContent}</p>
-                        <div class="d-flex justify-content-between">
-                            <span><i class="far fa-calendar-alt me-2"></i>
-                                <fmt:formatDate value="${notice.noRegDate}" pattern="yyyy-MM-dd"/>
-                            </span>
-                            <a class="btn btn-light px-3" href="/notice/${notice.noId}">자세히 보기</a>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
-            
-            <c:if test="${empty notices}">
-                <div class="col-12 text-center">
-                    <p>등록된 공지사항이 없습니다.</p>
-                </div>
-            </c:if>
-        </div>
+		    <c:forEach items="${notices}" var="notice">
+		        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+		            <div class="card notice-card" onclick="location.href='/notice/${notice.noId}'">
+		                <!-- 썸네일 이미지 -->
+		                <div class="notice-image-wrapper">
+		                    <img src="${notice.noThumb != null ? notice.noThumb : '/resources/assets_sub/img/default-thumb.jpg'}" 
+		                         class="notice-image" 
+		                         alt="공지사항 썸네일">
+		                </div>
+		                <!-- 카테고리와 제목 -->
+		                <div class="card-body">
+		                    <div class="notice-header">
+		                        <!-- 중요 표시가 제일 먼저 -->
+		                        <c:if test="${notice.important}">
+		                            <span class="badge bg-danger">중요</span>
+		                        </c:if>
+		                        <!-- 카테고리 -->
+		                        <span class="badge bg-primary">${notice.noCategory}</span>
+		                        <!-- 제목 -->
+		                        <h5 class="notice-title">
+		                            ${notice.noTitle}
+		                        </h5>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </c:forEach>
+		    
+		    <c:if test="${empty notices}">
+		        <div class="col-12 text-center">
+		            <p>등록된 공지사항이 없습니다.</p>
+		        </div>
+		    </c:if>
+		</div>
 
         <!-- 페이지네이션 -->
         <div class="row mt-5">
@@ -76,14 +122,14 @@
                     <ul class="pagination justify-content-center">
                         <c:if test="${page > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="/notice?page=1&category=${category}&keyword=${keyword}" aria-label="First">
-                                    <span aria-hidden="true">&laquo;</span>
+                                <a class="page-link" href="/notice?page=1&category=${category}&keyword=${keyword}">
+                                    <i class="fas fa-angle-double-left"></i>
                                 </a>
                             </li>
                         </c:if>
                         
                         <c:forEach begin="${Math.max(1, page - 2)}" end="${Math.min(totalPages, page + 2)}" var="pageNum">
-                            <li class="page-item <c:if test='${pageNum == page}'>active</c:if>'">
+                            <li class="page-item <c:if test='${pageNum == page}'>active</c:if>">
                                 <a class="page-link" href="/notice?page=${pageNum}&category=${category}&keyword=${keyword}">
                                     ${pageNum}
                                 </a>
@@ -92,8 +138,8 @@
                         
                         <c:if test="${page < totalPages}">
                             <li class="page-item">
-                                <a class="page-link" href="/notice?page=${totalPages}&category=${category}&keyword=${keyword}" aria-label="Last">
-                                    <span aria-hidden="true">&raquo;</span>
+                                <a class="page-link" href="/notice?page=${totalPages}&category=${category}&keyword=${keyword}">
+                                    <i class="fas fa-angle-double-right"></i>
                                 </a>
                             </li>
                         </c:if>
@@ -104,20 +150,9 @@
     </div>
 </div>
 
-<!--====================================작성부=====================================-->
-	<!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/wow/wow.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/easing/easing.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/waypoints/waypoints.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/counterup/counterup.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/parallax/parallax.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/lightbox/js/lightbox.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 기존 JavaScript 라이브러리들 -->
 
-    <!-- Template Javascript -->
-    <script src="${pageContext.request.contextPath }/resources/assets_sub/js/main.js"></script>
-
-<%@ include file="../inc/footer.jsp" %> <!-- footer -->
+<%@ include file="../inc/footer.jsp" %>
