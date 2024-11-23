@@ -43,10 +43,9 @@
                 <h5 class="card-title mb-0">공지사항 ${notice.noId == null ? '등록' : '수정'}</h5>
             </div>
             <div class="card-body">
-                <form method="post" 
-				      action="/notice/manage/update/${notice.noId}" 
-				      enctype="multipart/form-data">
-                    <input type="hidden" name="noId" value="${notice.noId}">
+                <form id="noticeForm" method="post" action="/notice/manage/submit" enctype="multipart/form-data">
+				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				    <input type="hidden" name="noId" value="${notice.noId}" />
                     
                     <div class="row mb-3">
                     	<div class="col-md-6">
@@ -156,74 +155,44 @@
 
         $('#noticeForm').submit(function(e) {
             e.preventDefault();
-
-            if (!$('input[name="noTitle"]').val().trim()) {
-                alert('제목을 입력해주세요.');
-                return false;
-            }
-
-            if ($('#noContent').summernote('isEmpty')) {
-                alert('내용을 입력해주세요.');
+            
+            if (!validateForm()) {
                 return false;
             }
             
-            const formData = new FormData();
-            const noId = $('input[name="noId"]').val();
+            const form = $(this);
+            const formData = new FormData(this);
             
-            formData.append("noWriter", $('input[name="noWriter"]').val());
-            formData.append("noTitle", $('input[name="noTitle"]').val().trim());
-            formData.append("noContent", $('#noContent').summernote('code'));
-            formData.append("noCategory", $('select[name="noCategory"]').val());
-            formData.append("important", $('#important').is(':checked'));
-            formData.append("noEmail", $('#noEmail').is(':checked'));
+            $('#submitBtn').prop('disabled', true)
+                .html('<span class="spinner-border spinner-border-sm"></span> 저장 중...');
             
-            const thumbnailFile = $('input[name="thumbnail"]')[0].files[0];
-            if(thumbnailFile) {
-                if (!checkFileSize(thumbnailFile, 5 * 1024 * 1024) || !checkFileType(thumbnailFile)) {
-                    return false;
-                }
-                formData.append("thumbnail", thumbnailFile);
-            }
-            
-            const files = $('input[name="files"]')[0].files;
-            if(files && files.length > 0) {
-                for(let i = 0; i < files.length; i++) {
-                    if (!checkFileSize(files[i], 10 * 1024 * 1024) || !checkFileType(files[i])) {
-                        return false;
-                    }
-                    formData.append("files", files[i]);
-                }
-            }
-
-            const header = $("meta[name='_csrf_header']").attr("content");
-            const token = $("meta[name='_csrf']").attr("content");
-            
-            $('#submitBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span> 저장 중...');
-            
-            $.ajax({
-                url: noId ? `/notice/api/${noId}` : '/notice/api',
-                type: noId ? 'PUT' : 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                beforeSend: function(xhr) {
-                	if (header && header.trim() !== '') {
-                        xhr.setRequestHeader(header, token);
-                    }
-                },
-                success: function(response) {
-                    alert('저장되었습니다.');
-                    location.href = '/notice/manage';
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    const errorMessage = xhr.responseJSON?.message || '서버 오류가 발생했습니다.';
-                    alert('저장 실패: ' + errorMessage);
-                    $('#submitBtn').prop('disabled', false).text('저장');
-                }
-            });
+            // 폼 제출
+            form[0].submit();
         });
     });
+    
+    function validateForm() {
+        const title = $('input[name="noTitle"]').val().trim();
+        const content = $('#noContent').summernote('isEmpty');
+        const category = $('select[name="noCategory"]').val();
+        
+        if (!title) {
+            alert('제목을 입력해주세요.');
+            return false;
+        }
+        
+        if (content) {
+            alert('내용을 입력해주세요.');
+            return false;
+        }
+        
+        if (!category) {
+            alert('카테고리를 선택해주세요.');
+            return false;
+        }
+        
+        return true;
+    }
 
     function checkFileSize(file, maxSize) {
         if (file.size > maxSize) {

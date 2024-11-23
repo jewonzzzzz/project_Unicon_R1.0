@@ -233,19 +233,21 @@
     }
 
     function deleteNotice(noId) {
-        fetch(`/api/${noId}`, {
-            method: 'DELETE',
-        })
-        .then(response => {
-            if (response.ok) {
-                alert("삭제 성공");
-                // 성공 시 페이지를 새로 고침하거나 필요한 UI 갱신을 수행
+        if (!confirm('정말 삭제하시겠습니까?')) {
+            return;
+        }
+        
+        $.ajax({
+            url: `/notice/api/${noId}`,
+            type: 'DELETE',
+            success: function() {
+                alert('삭제되었습니다.');
                 location.reload();
-            } else {
-                response.text().then(text => alert("삭제 실패: " + text));
+            },
+            error: function(xhr) {
+                alert('삭제 실패: ' + (xhr.responseText || '서버 오류가 발생했습니다.'));
             }
-        })
-        .catch(error => console.error("에러 발생:", error));
+        });
     }
  	
     </script>

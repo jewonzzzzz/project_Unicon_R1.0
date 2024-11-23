@@ -109,9 +109,69 @@ public class NoticeController {
         return "notice/manage/form"; 
     }
     
+    @PostMapping("/manage/submit")  
+    public String submitNotice(
+        @RequestParam(value = "noId", required = false) Long noId,
+        @RequestParam("noWriter") String noWriter,
+        @RequestParam("noTitle") String noTitle,
+        @RequestParam("noContent") String noContent,
+        @RequestParam("noCategory") String noCategory,
+        @RequestParam(value = "important", defaultValue = "false") boolean important,
+        @RequestParam(value = "noEmail", defaultValue = "false") boolean noEmail,
+        @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
+        @RequestPart(value = "files", required = false) MultipartFile[] files) {
+        
+        try {
+            NoticeVO noVO = new NoticeVO();
+            noVO.setNoId(noId);
+            noVO.setNoWriter(noWriter);
+            noVO.setNoTitle(noTitle);
+            noVO.setNoContent(noContent);
+            noVO.setNoCategory(noCategory);
+            noVO.setImportant(important);
+            noVO.setNoEmail(noEmail);
+            
+            if (noId == null) {
+                noService.registerNotice(noVO);
+            } else {
+                noService.updateNotice(noVO);
+            }
+            
+            // 파일 처리
+            if (thumbnail != null && !thumbnail.isEmpty()) {
+                if (noId != null) {
+                    fileService.deleteFilesByType(noId, "THUMBNAIL");
+                }
+                NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
+                thumbnailFile.setNoticeId(noVO.getNoId());
+                fileService.saveFile(thumbnailFile);
+            }
+            
+            if (files != null && files.length > 0) {
+                if (noId != null) {
+                    fileService.deleteFilesByType(noId, "CONTENT");
+                }
+                for (MultipartFile file : files) {
+                    if (!file.isEmpty()) {
+                        NoticeFileVO contentFile = fileService.uploadFile(file, "CONTENT");
+                        contentFile.setNoticeId(noVO.getNoId());
+                        fileService.saveFile(contentFile);
+                    }
+                }
+            }
+            
+            return "redirect:/notice/manage";
+            
+        } catch (Exception e) {
+            logger.error("공지사항 저장 실패", e);
+            return "redirect:/notice/manage/form" + (noId != null ? "?noId=" + noId : "");
+        }
+    }
+    
     @PostMapping("/manage/update/{noId}")
     public String updateAndRedirect(
             @PathVariable("noId") Long noId,
+            @RequestParam("noWriter") String noWriter,
             @RequestParam("noTitle") String noTitle,
             @RequestParam("noContent") String noContent,
             @RequestParam("noCategory") String noCategory,
@@ -122,14 +182,22 @@ public class NoticeController {
         try {
             NoticeVO noVO = new NoticeVO();
             noVO.setNoId(noId);
+            noVO.setNoWriter(noWriter);
             noVO.setNoTitle(noTitle);
             noVO.setNoContent(noContent);
             noVO.setNoCategory(noCategory);
             noVO.setImportant(important);
             noVO.setNoEmail(noEmail);
             
-            noService.updateNotice(noVO);
+            if (noId == null) {
+                // 신규 등록
+                noService.registerNotice(noVO);
+            } else {
+                // 수정
+                noService.updateNotice(noVO);
+            }
             
+            // 파일 처리
             if (thumbnail != null && !thumbnail.isEmpty()) {
                 fileService.deleteFilesByType(noId, "THUMBNAIL");
                 NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
@@ -151,7 +219,7 @@ public class NoticeController {
             return "redirect:/notice/manage";
             
         } catch (Exception e) {
-            logger.error("공지사항 수정 실패", e);
+            logger.error("공지사항 저장 실패", e);
             return "redirect:/notice/manage/form?noId=" + noId;
         }
     }
@@ -161,6 +229,7 @@ public class NoticeController {
     @PostMapping("/api")
     @ResponseBody
     public ResponseEntity<String> register(
+    		@RequestParam("noWriter") String noWriter,
             @RequestParam("noTitle") String noTitle,
             @RequestParam("noContent") String noContent,
             @RequestParam("noCategory") String noCategory,
@@ -171,6 +240,7 @@ public class NoticeController {
         try {
             // 1. 공지사항 기본 정보 저장
             NoticeVO noVO = new NoticeVO();
+            noVO.setNoWriter(noWriter);
             noVO.setNoTitle(noTitle);
             noVO.setNoContent(noContent);
             noVO.setNoCategory(noCategory);
@@ -207,6 +277,7 @@ public class NoticeController {
     @ResponseBody
     public ResponseEntity<String> update(
             @PathVariable("noId") Long noId,
+            @RequestParam("noWriter") String noWriter,
             @RequestParam("noTitle") String noTitle,
             @RequestParam("noContent") String noContent,
             @RequestParam("noCategory") String noCategory,
@@ -217,6 +288,7 @@ public class NoticeController {
         try {
             NoticeVO noVO = new NoticeVO();
             noVO.setNoId(noId);
+            noVO.setNoWriter(noWriter);
             noVO.setNoTitle(noTitle);
             noVO.setNoContent(noContent);
             noVO.setNoCategory(noCategory);
