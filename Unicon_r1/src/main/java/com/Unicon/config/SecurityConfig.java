@@ -17,10 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()  // REST API이므로 CSRF 보안 비활성화
+            .csrf()
+                .ignoringAntMatchers("/notice/api/**")  // REST API 엔드포인트는 CSRF 제외
+            .and()
             .authorizeRequests()
-                .antMatchers("/api/admin/**").hasRole("ADMIN")  // 관리자 접근 제한
-                .antMatchers("/api/notice/**").permitAll()      // 공지사항 접근 허용
+                .antMatchers("/notice/manage/**").hasRole("ADMIN")
+                .antMatchers("/notice/**").permitAll()
                 .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -31,10 +33,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true);
-    }
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
