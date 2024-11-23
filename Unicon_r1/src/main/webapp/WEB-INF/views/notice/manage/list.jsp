@@ -107,7 +107,7 @@
                                         <input type="checkbox" class="form-check-input notice-check" 
                                                value="${notice.noId}">
                                     </td>
-                                    <td>${notice.noBno}</td>
+                                    <td>${notice.noId}</td>
                                     <td>
                                         <a href="/notice/manage/${notice.noId}" class="notice-title">
                                             ${notice.important ? '<span class="important-badge">[중요]</span>' : ''}

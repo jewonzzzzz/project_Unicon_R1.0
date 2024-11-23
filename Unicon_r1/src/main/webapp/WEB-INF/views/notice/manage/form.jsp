@@ -48,24 +48,24 @@
 				    <input type="hidden" name="noId" value="${notice.noId}" />
                     
                     <div class="row mb-3">
-                    	<div class="col-md-6">
+					    <div class="col-md-6">
+					        <label class="form-label">제목</label>
+					        <input type="text" class="form-control" name="noTitle" value="${notice.noTitle}" required>
+					    </div>
+					    <div class="col-md-3">
 					        <label class="form-label">작성자</label>
 					        <input type="text" class="form-control" name="noWriter" value="${notice.noWriter}" required>
 					    </div>
-                        <div class="col-md-8">
-                            <label class="form-label">제목</label>
-                            <input type="text" class="form-control" name="noTitle" value="${notice.noTitle}" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">카테고리</label>
-                            <select class="form-control" name="noCategory" required>
-                                <option value="">카테고리 선택</option>
-                                <option value="안내사항" ${notice.noCategory == '안내사항' ? 'selected' : ''}>안내사항</option>
-                                <option value="이벤트" ${notice.noCategory == '이벤트' ? 'selected' : ''}>이벤트</option>
-                                <option value="센터소식" ${notice.noCategory == '센터소식' ? 'selected' : ''}>센터소식</option>
-                            </select>
-                        </div>
-                    </div>
+					    <div class="col-md-3">
+					        <label class="form-label">카테고리</label>
+					        <select class="form-control" name="noCategory" required>
+					            <option value="">카테고리 선택</option>
+					            <option value="안내사항" ${notice.noCategory == '안내사항' ? 'selected' : ''}>안내사항</option>
+					            <option value="이벤트" ${notice.noCategory == '이벤트' ? 'selected' : ''}>이벤트</option>
+					            <option value="센터소식" ${notice.noCategory == '센터소식' ? 'selected' : ''}>센터소식</option>
+					        </select>
+					    </div>
+					</div>
                     
                     <div class="mb-3">
                         <label class="form-label">내용</label>
