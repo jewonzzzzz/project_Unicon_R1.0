@@ -6,7 +6,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- CSRF 토큰 -->
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     
@@ -41,7 +40,6 @@
     </style>
 </head>
 <body>
-    <!-- 메인 컨텐츠 -->
     <div class="main-content">
         <div class="card">
             <div class="card-header">
@@ -49,61 +47,41 @@
             </div>
             <div class="card-body">
                 <form id="noticeForm" method="post" action="/notice/manage/submit" enctype="multipart/form-data">
-    				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				    <input type="hidden" name="noId" value="${notice.noId}" />
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <input type="hidden" name="noId" value="${notice.noId}" />
                     
                     <div class="row mb-3">
-					    <div class="col-md-6">
-					        <label class="form-label">제목</label>
-					        <input type="text" class="form-control" name="noTitle" value="${notice.noTitle}" required>
-					    </div>
-					    <div class="col-md-3">
-					        <label class="form-label">작성자</label>
-					        <input type="text" class="form-control" name="noWriter" value="${notice.noWriter}" required>
-					    </div>
-					    <div class="col-md-3">
-					        <label class="form-label">카테고리</label>
-					        <select class="form-control" name="noCategory" required>
-					            <option value="">카테고리 선택</option>
-					            <option value="안내사항" ${notice.noCategory == '안내사항' ? 'selected' : ''}>안내사항</option>
-					            <option value="이벤트" ${notice.noCategory == '이벤트' ? 'selected' : ''}>이벤트</option>
-					            <option value="센터소식" ${notice.noCategory == '센터소식' ? 'selected' : ''}>센터소식</option>
-					        </select>
-					    </div>
-					</div>
+                        <div class="col-md-6">
+                            <label class="form-label">제목</label>
+                            <input type="text" class="form-control" name="noTitle" value="${notice.noTitle}" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">작성자</label>
+                            <input type="text" class="form-control" name="noWriter" value="${notice.noWriter}" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">카테고리</label>
+                            <select class="form-control" name="noCategory" required>
+                                <option value="">카테고리 선택</option>
+                                <option value="안내사항" ${notice.noCategory == '안내사항' ? 'selected' : ''}>안내사항</option>
+                                <option value="이벤트" ${notice.noCategory == '이벤트' ? 'selected' : ''}>이벤트</option>
+                                <option value="센터소식" ${notice.noCategory == '센터소식' ? 'selected' : ''}>센터소식</option>
+                            </select>
+                        </div>
+                    </div>
                     
                     <div class="mb-3">
                         <label class="form-label">내용</label>
                         <textarea id="noContent" name="noContent">${notice.noContent}</textarea>
                     </div>
                     
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">썸네일</label>
-                            <input type="file" class="form-control" name="thumbnail" accept="image/*" 
-                                   onchange="previewImage(this, 'thumbnailPreview')">
-                            <div class="mt-2">
-                                <img id="thumbnailPreview" src="${notice.noThumb}" class="preview-image">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">첨부파일</label>
-                            <input type="file" class="form-control" name="files" multiple>
-                            <c:if test="${not empty notice.files}">
-                                <ul class="list-unstyled mt-2">
-                                    <c:forEach items="${notice.files}" var="file">
-                                        <li>
-                                            <div class="d-flex align-items-center">
-                                                <span>${file.originalName}</span>
-                                                <button type="button" class="btn btn-sm btn-danger ml-2" 
-                                                        onclick="deleteFile(${file.fileId})">삭제</button>
-                                            </div>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
-                            </c:if>
-                        </div>
-                    </div>
+                    <div class="mb-3">
+					    <label class="form-label">썸네일</label>
+					    <input type="file" class="form-control" name="thumbnail" accept="image/*" onchange="previewImage(this, 'thumbnailPreview')">
+					    <div class="mt-2">
+					        <img id="thumbnailPreview" src="${notice.noThumb}" class="preview-image" onerror="this.src='/resources/assets_sub/img/default-thumb.jpg'">
+					    </div>
+					</div>
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -132,15 +110,10 @@
     </div>
 
     <script>
- 	// 전역 변수로 CSRF 토큰 설정
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    
     $(document).ready(function() {
-        console.log('Initializing Summernote...');
-        console.log('CSRF Token:', token);
-        console.log('CSRF Header:', header);
-        
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
         // Summernote 초기화
         $('#noContent').summernote({
             height: 300,
@@ -155,56 +128,69 @@
                 ['view', ['fullscreen', 'codeview', 'help']]
             ],
             callbacks: {
-                onInit: function() {
-                    console.log('Summernote initialized');
-                },
                 onImageUpload: function(files) {
-                    console.log('Image upload triggered');
                     for(let file of files) {
-                        uploadImage(file, this);
+                        uploadSummernoteImage(file, this);
                     }
                 }
             }
         });
 
-        // 폼 제출 처리
-        $('#noticeForm').submit(function(e) {
+        // 폼 제출
+        $('#noticeForm').on('submit', function(e) {
             e.preventDefault();
+            
             if (!validateForm()) {
                 return false;
             }
-            this.submit();
+
+            // FormData 객체 생성
+            var formData = new FormData(this);
+            
+            // 폼 제출
+            $.ajax({
+                url: this.action,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    window.location.href = '/notice/manage';
+                },
+                error: function(xhr, status, error) {
+                    console.error('저장 실패:', error);
+                    alert('저장에 실패했습니다.');
+                }
+            });
         });
     });
 
     // 이미지 업로드 함수
-    function uploadImage(file, editor) {
-    console.log('Uploading image:', file.name);
-    var formData = new FormData();
-    formData.append("file", file);
+    function uploadSummernoteImage(file, editor) {
+        var formData = new FormData();
+        formData.append("file", file);
 
-    $.ajax({
-        url: '/notice/api/upload',
-        type: 'POST',
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(imageUrl) {
-            console.log('Upload success, URL:', imageUrl);
-            // 전체 URL 구성
-            var fullUrl = window.location.origin + imageUrl;
-            console.log('Full image URL:', fullUrl);
-            $(editor).summernote('insertImage', fullUrl);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error('Upload failed:', textStatus, errorThrown);
-            alert('이미지 업로드에 실패했습니다.');
-        }
-    });
-}
+        $.ajax({
+            url: '/notice/api/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function(imageUrl) {
+                console.log('이미지 업로드 성공:', imageUrl);
+                var fullUrl = window.location.origin + imageUrl;
+                $(editor).summernote('insertImage', fullUrl);
+            },
+            error: function(xhr, status, error) {
+                console.error('이미지 업로드 실패:', error);
+                alert('이미지 업로드에 실패했습니다.');
+            }
+        });
+    }
 
-    // 폼 검증
     function validateForm() {
         const title = $('input[name="noTitle"]').val().trim();
         const content = $('#noContent').summernote('isEmpty');
@@ -225,57 +211,14 @@
         return true;
     }
 
-    // 파일 크기 검사
-    function checkFileSize(file, maxSize) {
-        if (file.size > maxSize) {
-            alert('파일 크기는 ' + (maxSize/1024/1024) + 'MB를 초과할 수 없습니다.');
-            return false;
-        }
-        return true;
-    }
-
-    // 파일 타입 검사
-    function checkFileType(file) {
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!allowedTypes.includes(file.type)) {
-            alert('지원하지 않는 파일 형식입니다. (jpg, png, gif만 가능)');
-            return false;
-        }
-        return true;
-    }
-
-    // 이미지 미리보기
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById(previewId).src = e.target.result;
+                $('#' + previewId).attr('src', e.target.result);
             };
             reader.readAsDataURL(input.files[0]);
         }
-    }
-
-    // 파일 삭제
-    function deleteFile(fileId) {
-        if (!confirm('파일을 삭제하시겠습니까?')) {
-            return;
-        }
-        
-        $.ajax({
-            url: '/notice/api/file/' + fileId,
-            type: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-            },
-            success: function() {
-                alert('파일이 삭제되었습니다.');
-                location.reload();
-            },
-            error: function(xhr, status, error) {
-                alert('파일 삭제에 실패했습니다.');
-                console.error(error);
-            }
-        });
     }
     </script>
 </body>

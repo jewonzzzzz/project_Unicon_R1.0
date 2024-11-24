@@ -35,11 +35,11 @@
             
             <div class="card-body">
                 <!-- 썸네일 이미지가 있는 경우 -->
-                <c:if test="${not empty notice.noThumb}">
-                    <div class="text-center mb-4">
-                        <img src="${notice.noThumb}" class="img-fluid" alt="썸네일">
-                    </div>
-                </c:if>
+<%--                 <c:if test="${not empty notice.noThumb}"> --%>
+<!--                     <div class="text-center mb-4"> -->
+<%--                         <img src="${notice.noThumb}" class="img-fluid" alt="썸네일"> --%>
+<!--                     </div> -->
+<%--                 </c:if> --%>
                 
                 <!-- 본문 내용 -->
                 <div class="notice-content">
@@ -47,27 +47,27 @@
                 </div>
                 
                 <!-- 첨부파일 목록 -->
-                <c:if test="${not empty notice.files}">
-                    <div class="mt-4 border-top pt-3">
-                        <h6>첨부파일</h6>
-                        <ul class="list-unstyled">
-                            <c:forEach items="${notice.files}" var="file">
-                                <li class="d-flex align-items-center mb-2">
-                                    <div>
-                                        <i class="fas fa-paperclip me-2"></i>
-                                        <a href="/notice/download/${file.fileId}">${file.originalName}</a>
-                                        <span class="text-muted ms-2">
-                                            (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB)
-                                        </span>
-                                    </div>
-                                    <!-- 관리자 전용 삭제 버튼 -->
-                                    <button class="btn btn-sm btn-outline-danger ms-auto" 
-                                            onclick="deleteFile(${file.fileId})">삭제</button>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
-                </c:if>
+<%--                 <c:if test="${not empty notice.files}"> --%>
+<!--                     <div class="mt-4 border-top pt-3"> -->
+<!--                         <h6>썸네일</h6> -->
+<!--                         <ul class="list-unstyled"> -->
+<%--                             <c:forEach items="${notice.files}" var="file"> --%>
+<!--                                 <li class="d-flex align-items-center mb-2"> -->
+<!--                                     <div> -->
+<!--                                         <i class="fas fa-paperclip me-2"></i> -->
+<%--                                         <a href="/notice/download/${file.fileId}">${file.originalName}</a> --%>
+<!--                                         <span class="text-muted ms-2"> -->
+<%--                                             (<fmt:formatNumber value="${file.fileSize / 1024}" pattern="#,##0.0"/> KB) --%>
+<!--                                         </span> -->
+<!--                                     </div> -->
+<!--                                     관리자 전용 삭제 버튼 -->
+<!--                                     <button class="btn btn-sm btn-outline-danger ms-auto"  -->
+<%--                                             onclick="deleteFile(${file.fileId})">삭제</button> --%>
+<!--                                 </li> -->
+<%--                             </c:forEach> --%>
+<!--                         </ul> -->
+<!--                     </div> -->
+<%--                 </c:if> --%>
             </div>
             
             <div class="card-footer bg-white">

@@ -13,9 +13,6 @@ public interface NoticeFileService {
     // 파일 정보 저장
     void saveFile(NoticeFileVO file) throws Exception;
     
-    // 파일 단건 삭제
-    void deleteFile(Long fileId) throws Exception;
-    
     // 공지사항 ID로 파일 목록 조회
     List<NoticeFileVO> getFilesByNoticeId(Long noId) throws Exception;
     

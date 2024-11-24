@@ -39,11 +39,7 @@ public class NoticeFileServiceImpl implements NoticeFileService {
     @Transactional
     public NoticeFileVO uploadFile(MultipartFile file, String fileType) throws Exception {
         try {
-            if ("THUMBNAIL".equals(fileType)) {
-                return processThumbnail(file);
-            } else {
-                return processContentFile(file);
-            }
+            return "THUMBNAIL".equals(fileType) ? processThumbnail(file) : processImageFile(file);
         } catch (Exception e) {
             logger.error("파일 업로드 중 오류 발생", e);
             throw new NoticeException("파일 업로드에 실패했습니다.", e);
@@ -62,26 +58,6 @@ public class NoticeFileServiceImpl implements NoticeFileService {
     }
     
     @Override
-    @Transactional
-    public void deleteFile(Long fileId) throws Exception {
-        try {
-            NoticeFileVO fileVO = fileDAO.selectFile(fileId);
-            if (fileVO != null) {
-                // 물리적 파일 삭제
-                File file = new File(fileVO.getFilePath() + File.separator + fileVO.getStoredName());
-                if (file.exists()) {
-                    file.delete();
-                }
-                // DB 데이터 삭제
-                fileDAO.deleteFile(fileId);
-            }
-        } catch (Exception e) {
-            logger.error("파일 삭제 중 오류 발생", e);
-            throw new NoticeException("파일 삭제에 실패했습니다.", e);
-        }
-    }
-    
-    @Override
     public List<NoticeFileVO> getFilesByNoticeId(Long noId) throws Exception {
         return fileDAO.selectFilesByNoticeId(noId);
     }
@@ -92,10 +68,7 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         try {
             List<NoticeFileVO> files = fileDAO.selectFilesByType(noticeId, fileType);
             for (NoticeFileVO file : files) {
-                File physicalFile = new File(file.getFilePath() + File.separator + file.getStoredName());
-                if (physicalFile.exists()) {
-                    physicalFile.delete();
-                }
+                deletePhysicalFile(file);
             }
             fileDAO.deleteFilesByType(noticeId, fileType);
         } catch (Exception e) {
@@ -110,10 +83,7 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         try {
             List<NoticeFileVO> files = fileDAO.selectFilesByNoticeId(noticeId);
             for (NoticeFileVO file : files) {
-                File physicalFile = new File(file.getFilePath() + File.separator + file.getStoredName());
-                if (physicalFile.exists()) {
-                    physicalFile.delete();
-                }
+                deletePhysicalFile(file);
             }
             fileDAO.deleteFilesByNoticeId(noticeId);
         } catch (Exception e) {
@@ -122,7 +92,13 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         }
     }
     
-    // Private helper methods
+    private void deletePhysicalFile(NoticeFileVO file) {
+        File physicalFile = new File(file.getFilePath() + File.separator + file.getStoredName());
+        if (physicalFile.exists()) {
+            physicalFile.delete();
+        }
+    }
+    
     private NoticeFileVO processThumbnail(MultipartFile file) throws IOException {
         BufferedImage originalImage = ImageIO.read(file.getInputStream());
         BufferedImage thumbnail = createSquareThumbnail(originalImage);
@@ -135,12 +111,12 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         return createFileVO(file, thumbnailName, thumbnailFile.length(), "THUMBNAIL");
     }
     
-    private NoticeFileVO processContentFile(MultipartFile file) throws IOException {
-        String storedFileName = "content_" + UUID.randomUUID().toString() + getExtension(file.getOriginalFilename());
+    private NoticeFileVO processImageFile(MultipartFile file) throws IOException {
+        String storedFileName = "image_" + UUID.randomUUID().toString() + getExtension(file.getOriginalFilename());
         File savedFile = new File(uploadPath + File.separator + storedFileName);
         file.transferTo(savedFile);
         
-        return createFileVO(file, storedFileName, savedFile.length(), "CONTENT");
+        return createFileVO(file, storedFileName, savedFile.length(), "IMAGE");
     }
     
     private BufferedImage createSquareThumbnail(BufferedImage original) {
@@ -150,7 +126,7 @@ public class NoticeFileServiceImpl implements NoticeFileService {
         
         int squareSize = Math.min(width, height);
         int x = (width - squareSize) / 2;
-        int y = 0;
+        int y = (height - squareSize) / 2;
         
         BufferedImage cropped = original.getSubimage(x, y, squareSize, squareSize);
         BufferedImage thumbnail = new BufferedImage(thumbSize, thumbSize, BufferedImage.TYPE_INT_RGB);
@@ -177,6 +153,6 @@ public class NoticeFileServiceImpl implements NoticeFileService {
     }
     
     private String getExtension(String filename) {
-        return filename.substring(filename.lastIndexOf("."));
+        return filename.substring(filename.lastIndexOf(".")).toLowerCase();
     }
 }
