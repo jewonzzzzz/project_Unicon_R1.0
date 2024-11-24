@@ -1,8 +1,15 @@
 package com.Unicon.controller;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -270,6 +277,120 @@ public class NoticeController {
         } catch (Exception e) {
             logger.error("공지사항 등록 실패", e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping("/api/upload")
+    @ResponseBody
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file,
+                                            HttpServletRequest request) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("파일이 비어있습니다.");
+            }
+
+            // 웹 애플리케이션의 실제 경로 얻기
+            String realPath = request.getSession().getServletContext().getRealPath("/uploads");
+            File uploadDir = new File(realPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            // 파일 확장자 검사
+            String originalFilename = file.getOriginalFilename();
+            String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
+            
+            if (!Arrays.asList("jpg", "jpeg", "png", "gif").contains(extension)) {
+                return ResponseEntity.badRequest().body("지원하지 않는 파일 형식입니다.");
+            }
+
+            // 파일명 생성
+            String newFileName = UUID.randomUUID().toString() + "." + extension;
+            
+            // 파일 저장
+            File destFile = new File(uploadDir, newFileName);
+            file.transferTo(destFile);
+
+            // 상대 경로로 URL 반환
+            return ResponseEntity.ok("/uploads/" + newFileName);
+            
+        } catch (Exception e) {
+            logger.error("파일 업로드 실패", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                               .body("파일 업로드 실패: " + e.getMessage());
+        }
+    }
+    
+    @PostMapping("/api/upload/thumbnail")
+    @ResponseBody
+    public ResponseEntity<String> uploadThumbnail(@RequestParam("thumbnail") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return new ResponseEntity<>("파일이 비어있습니다.", HttpStatus.BAD_REQUEST);
+            }
+            
+            // 파일 확장자 검사
+            String originalFilename = file.getOriginalFilename();
+            String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
+            if (!Arrays.asList("jpg", "jpeg", "png", "gif").contains(extension)) {
+                return new ResponseEntity<>("지원하지 않는 파일 형식입니다.", HttpStatus.BAD_REQUEST);
+            }
+            
+            // 저장할 파일명 생성
+            String fileName = "thumb_" + UUID.randomUUID().toString() + "." + extension;
+            
+            // 파일 저장 경로
+            String uploadDir = "C:/uploads/notice/thumbnails/";
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            
+            // 파일 저장
+            File destFile = new File(uploadDir + fileName);
+            file.transferTo(destFile);
+            
+            // 썸네일 URL 반환
+            return new ResponseEntity<>("/uploads/thumbnails/" + fileName, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("썸네일 업로드 실패: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping("/api/upload/file")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            
+            // 저장할 파일명 생성
+            String originalFilename = file.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
+            
+            // 파일 저장 경로
+            String uploadDir = "C:/uploads/notice/files/";
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            
+            // 파일 저장
+            File destFile = new File(uploadDir + fileName);
+            file.transferTo(destFile);
+            
+            // 파일 정보 반환
+            Map<String, String> fileInfo = new HashMap<>();
+            fileInfo.put("originalName", originalFilename);
+            fileInfo.put("fileName", fileName);
+            fileInfo.put("fileUrl", "/uploads/files/" + fileName);
+            
+            return new ResponseEntity<>(fileInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
