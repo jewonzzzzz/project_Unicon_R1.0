@@ -24,6 +24,7 @@ import com.Unicon.domain.NoticeVO;
 import com.Unicon.service.NoticeFileService;
 import com.Unicon.service.NoticeService;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
@@ -116,7 +117,7 @@ public class NoticeController {
         return "notice/manage/form"; 
     }
     
-    @PostMapping("/manage/submit")  
+    @PostMapping("/manage/submit")
     public String submitNotice(
         @RequestParam(value = "noId", required = false) Long noId,
         @RequestParam("noWriter") String noWriter,
@@ -125,8 +126,7 @@ public class NoticeController {
         @RequestParam("noCategory") String noCategory,
         @RequestParam(value = "important", defaultValue = "false") boolean important,
         @RequestParam(value = "noEmail", defaultValue = "false") boolean noEmail,
-        @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
-        @RequestPart(value = "files", required = false) MultipartFile[] files) {
+        @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail) {
         
         try {
             NoticeVO noVO = new NoticeVO();
@@ -144,7 +144,7 @@ public class NoticeController {
                 noService.updateNotice(noVO);
             }
             
-            // 파일 처리
+            // 썸네일 처리
             if (thumbnail != null && !thumbnail.isEmpty()) {
                 if (noId != null) {
                     fileService.deleteFilesByType(noId, "THUMBNAIL");
@@ -152,19 +152,6 @@ public class NoticeController {
                 NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
                 thumbnailFile.setNoticeId(noVO.getNoId());
                 fileService.saveFile(thumbnailFile);
-            }
-            
-            if (files != null && files.length > 0) {
-                if (noId != null) {
-                    fileService.deleteFilesByType(noId, "CONTENT");
-                }
-                for (MultipartFile file : files) {
-                    if (!file.isEmpty()) {
-                        NoticeFileVO contentFile = fileService.uploadFile(file, "CONTENT");
-                        contentFile.setNoticeId(noVO.getNoId());
-                        fileService.saveFile(contentFile);
-                    }
-                }
             }
             
             return "redirect:/notice/manage";
@@ -184,8 +171,7 @@ public class NoticeController {
             @RequestParam("noCategory") String noCategory,
             @RequestParam(value = "important", defaultValue = "false") boolean important,
             @RequestParam(value = "noEmail", defaultValue = "false") boolean noEmail,
-            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
-            @RequestPart(value = "files", required = false) MultipartFile[] files) {
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail) {
         try {
             NoticeVO noVO = new NoticeVO();
             noVO.setNoId(noId);
@@ -212,17 +198,6 @@ public class NoticeController {
                 fileService.saveFile(thumbnailFile);
             }
             
-            if (files != null && files.length > 0) {
-                fileService.deleteFilesByType(noId, "CONTENT");
-                for (MultipartFile file : files) {
-                    if (!file.isEmpty()) {
-                        NoticeFileVO contentFile = fileService.uploadFile(file, "CONTENT");
-                        contentFile.setNoticeId(noId);
-                        fileService.saveFile(contentFile);
-                    }
-                }
-            }
-            
             return "redirect:/notice/manage";
             
         } catch (Exception e) {
@@ -242,8 +217,7 @@ public class NoticeController {
             @RequestParam("noCategory") String noCategory,
             @RequestParam(value = "important", defaultValue = "false") boolean important,
             @RequestParam(value = "noEmail", defaultValue = "false") boolean noEmail,
-            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
-            @RequestPart(value = "files", required = false) MultipartFile[] files) {
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail) {
         try {
             // 1. 공지사항 기본 정보 저장
             NoticeVO noVO = new NoticeVO();
@@ -261,16 +235,6 @@ public class NoticeController {
                 NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
                 thumbnailFile.setNoticeId(noVO.getNoId());
                 fileService.saveFile(thumbnailFile);
-            }
-            
-            if (files != null && files.length > 0) {
-                for (MultipartFile file : files) {
-                    if (!file.isEmpty()) {
-                        NoticeFileVO contentFile = fileService.uploadFile(file, "CONTENT");
-                        contentFile.setNoticeId(noVO.getNoId());
-                        fileService.saveFile(contentFile);
-                    }
-                }
             }
             
             return new ResponseEntity<>("등록 성공", HttpStatus.CREATED);
@@ -336,64 +300,16 @@ public class NoticeController {
                 return new ResponseEntity<>("지원하지 않는 파일 형식입니다.", HttpStatus.BAD_REQUEST);
             }
             
-            // 저장할 파일명 생성
-            String fileName = "thumb_" + UUID.randomUUID().toString() + "." + extension;
+            NoticeFileVO thumbnailFile = fileService.uploadFile(file, "THUMBNAIL");
+            return new ResponseEntity<>(thumbnailFile.getStoredName(), HttpStatus.OK);
             
-            // 파일 저장 경로
-            String uploadDir = "C:/uploads/notice/thumbnails/";
-            File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            
-            // 파일 저장
-            File destFile = new File(uploadDir + fileName);
-            file.transferTo(destFile);
-            
-            // 썸네일 URL 반환
-            return new ResponseEntity<>("/uploads/thumbnails/" + fileName, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("썸네일 업로드 실패: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("썸네일 업로드 실패", e);
+            return new ResponseEntity<>("썸네일 업로드 실패: " + e.getMessage(), 
+                                      HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
-    @PostMapping("/api/upload/file")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            if (file.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            
-            // 저장할 파일명 생성
-            String originalFilename = file.getOriginalFilename();
-            String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-            
-            // 파일 저장 경로
-            String uploadDir = "C:/uploads/notice/files/";
-            File dir = new File(uploadDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            
-            // 파일 저장
-            File destFile = new File(uploadDir + fileName);
-            file.transferTo(destFile);
-            
-            // 파일 정보 반환
-            Map<String, String> fileInfo = new HashMap<>();
-            fileInfo.put("originalName", originalFilename);
-            fileInfo.put("fileName", fileName);
-            fileInfo.put("fileUrl", "/uploads/files/" + fileName);
-            
-            return new ResponseEntity<>(fileInfo, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @PostMapping("/api/{noId}/update")
     @ResponseBody
     public ResponseEntity<String> update(
@@ -404,8 +320,7 @@ public class NoticeController {
             @RequestParam("noCategory") String noCategory,
             @RequestParam(value = "important", defaultValue = "false") boolean important,
             @RequestParam(value = "noEmail", defaultValue = "false") boolean noEmail,
-            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
-            @RequestPart(value = "files", required = false) MultipartFile[] files) {
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail) {
         try {
             NoticeVO noVO = new NoticeVO();
             noVO.setNoId(noId);
@@ -423,17 +338,6 @@ public class NoticeController {
                 NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
                 thumbnailFile.setNoticeId(noId);
                 fileService.saveFile(thumbnailFile);
-            }
-            
-            if (files != null && files.length > 0) {
-                fileService.deleteFilesByType(noId, "CONTENT");
-                for (MultipartFile file : files) {
-                    if (!file.isEmpty()) {
-                        NoticeFileVO contentFile = fileService.uploadFile(file, "CONTENT");
-                        contentFile.setNoticeId(noId);
-                        fileService.saveFile(contentFile);
-                    }
-                }
             }
             
             return new ResponseEntity<>("수정 성공", HttpStatus.OK);
@@ -460,18 +364,6 @@ public class NoticeController {
             return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
         } catch (Exception e) {
             logger.error("공지사항 삭제 실패", e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @RequestMapping(value = "/api/file/{fileId}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ResponseEntity<String> deleteFile(@PathVariable Long fileId) {
-        try {
-            fileService.deleteFile(fileId);
-            return new ResponseEntity<>("파일 삭제 성공", HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("파일 삭제 실패", e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
