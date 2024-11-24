@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class NoticeFileVO {
     private Long fileId;
-    private Long noticeId;        
+    private Long noId;        
     private String originalName;   // 원본 파일명
     private String storedName;    // 저장된 파일명
     private String filePath;      // 파일 경로

@@ -75,16 +75,13 @@
                         <textarea id="noContent" name="noContent">${notice.noContent}</textarea>
                     </div>
                     
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">썸네일</label>
-                            <input type="file" class="form-control" name="thumbnail" accept="image/*" 
-                                   onchange="previewImage(this, 'thumbnailPreview')">
-                            <div class="mt-2">
-                                <img id="thumbnailPreview" src="${notice.noThumb}" class="preview-image">
-                            </div>
-                        </div>
-                    </div>
+                    <div class="mb-3">
+					    <label class="form-label">썸네일</label>
+					    <input type="file" class="form-control" name="thumbnail" accept="image/*" onchange="previewImage(this, 'thumbnailPreview')">
+					    <div class="mt-2">
+					        <img id="thumbnailPreview" src="${notice.noThumb}" class="preview-image" onerror="this.src='/resources/assets_sub/img/default-thumb.jpg'">
+					    </div>
+					</div>
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -113,20 +110,10 @@
     </div>
 
     <script>
- 	// CSRF 토큰 설정
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    
- 	// Ajax 전역 설정
-    $.ajaxSetup({
-        beforeSend: function(xhr) {
-            if (token && header) {
-                xhr.setRequestHeader(header, token);
-            }
-        }
-    });
-    
     $(document).ready(function() {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
         // Summernote 초기화
         $('#noContent').summernote({
             height: 300,
@@ -143,23 +130,26 @@
             callbacks: {
                 onImageUpload: function(files) {
                     for(let file of files) {
-                        uploadImage(file, this);
+                        uploadSummernoteImage(file, this);
                     }
                 }
             }
         });
 
         // 폼 제출
-        $('#noticeForm').submit(function(e) {
+        $('#noticeForm').on('submit', function(e) {
             e.preventDefault();
+            
             if (!validateForm()) {
                 return false;
             }
 
+            // FormData 객체 생성
             var formData = new FormData(this);
             
+            // 폼 제출
             $.ajax({
-                url: $(this).attr('action'),
+                url: this.action,
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -168,15 +158,15 @@
                     window.location.href = '/notice/manage';
                 },
                 error: function(xhr, status, error) {
+                    console.error('저장 실패:', error);
                     alert('저장에 실패했습니다.');
-                    console.error(error);
                 }
             });
         });
     });
 
     // 이미지 업로드 함수
-    function uploadImage(file, editor) {
+    function uploadSummernoteImage(file, editor) {
         var formData = new FormData();
         formData.append("file", file);
 
@@ -184,15 +174,18 @@
             url: '/notice/api/upload',
             type: 'POST',
             data: formData,
-            cache: false,
-            contentType: false,
             processData: false,
+            contentType: false,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function(imageUrl) {
+                console.log('이미지 업로드 성공:', imageUrl);
                 var fullUrl = window.location.origin + imageUrl;
                 $(editor).summernote('insertImage', fullUrl);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('Upload failed:', textStatus, errorThrown);
+            error: function(xhr, status, error) {
+                console.error('이미지 업로드 실패:', error);
                 alert('이미지 업로드에 실패했습니다.');
             }
         });
@@ -220,9 +213,9 @@
 
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById(previewId).src = e.target.result;
+                $('#' + previewId).attr('src', e.target.result);
             };
             reader.readAsDataURL(input.files[0]);
         }

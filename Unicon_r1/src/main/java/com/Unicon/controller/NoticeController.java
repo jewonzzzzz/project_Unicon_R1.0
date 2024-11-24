@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -118,7 +119,7 @@ public class NoticeController {
     }
     
     @PostMapping("/manage/submit")
-    public String submitNotice(
+    public ResponseEntity<?> submitNotice(
         @RequestParam(value = "noId", required = false) Long noId,
         @RequestParam("noWriter") String noWriter,
         @RequestParam("noTitle") String noTitle,
@@ -126,9 +127,12 @@ public class NoticeController {
         @RequestParam("noCategory") String noCategory,
         @RequestParam(value = "important", defaultValue = "false") boolean important,
         @RequestParam(value = "noEmail", defaultValue = "false") boolean noEmail,
-        @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail) {
+        @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
+        HttpServletRequest request) {
         
         try {
+            logger.info("공지사항 등록 시작 - Writer: {}, Title: {}", noWriter, noTitle);
+            
             NoticeVO noVO = new NoticeVO();
             noVO.setNoId(noId);
             noVO.setNoWriter(noWriter);
@@ -138,30 +142,91 @@ public class NoticeController {
             noVO.setImportant(important);
             noVO.setNoEmail(noEmail);
             
-            if (noId == null) {
-                noService.registerNotice(noVO);
-            } else {
-                noService.updateNotice(noVO);
-            }
-            
             // 썸네일 처리
             if (thumbnail != null && !thumbnail.isEmpty()) {
-                if (noId != null) {
-                    fileService.deleteFilesByType(noId, "THUMBNAIL");
+                logger.info("썸네일 처리 시작 - Original filename: {}", thumbnail.getOriginalFilename());
+                
+                // 파일 저장 경로 설정
+                String uploadDir = request.getServletContext().getRealPath("/uploads/thumbnails");
+                File dir = new File(uploadDir);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                    logger.info("업로드 디렉토리 생성: {}", uploadDir);
                 }
-                NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
-                thumbnailFile.setNoticeId(noVO.getNoId());
-                fileService.saveFile(thumbnailFile);
+                
+                // 파일명 생성
+                String originalFilename = thumbnail.getOriginalFilename();
+                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String storedFileName = "thumb_" + UUID.randomUUID().toString() + fileExtension;
+                
+                // 파일 저장
+                File destFile = new File(dir, storedFileName);
+                thumbnail.transferTo(destFile);
+                logger.info("썸네일 파일 저장 완료: {}", destFile.getAbsolutePath());
+                
+                // 썸네일 URL 설정
+                String thumbnailUrl = "/uploads/thumbnails/" + storedFileName;
+                noVO.setNoThumb(thumbnailUrl);
+                logger.info("썸네일 URL 설정: {}", thumbnailUrl);
+                
+                // 기존 썸네일 삭제 (수정 시)
+                if (noId != null) {
+                    try {
+                        fileService.deleteFilesByType(noId, "THUMBNAIL");
+                        logger.info("기존 썸네일 삭제 완료");
+                    } catch (Exception e) {
+                        logger.warn("기존 썸네일 삭제 실패", e);
+                    }
+                }
             }
             
-            return "redirect:/notice/manage";
+            // 공지사항 저장
+            if (noId == null) {
+                logger.info("신규 공지사항 등록");
+                noService.registerNotice(noVO);
+                
+                // 썸네일 파일 정보 저장
+                if (thumbnail != null && !thumbnail.isEmpty()) {
+                    NoticeFileVO fileVO = new NoticeFileVO();
+                    fileVO.setNoId(noVO.getNoId());
+                    fileVO.setOriginalName(thumbnail.getOriginalFilename());
+                    fileVO.setStoredName(noVO.getNoThumb().substring(noVO.getNoThumb().lastIndexOf("/") + 1));
+                    fileVO.setFilePath(request.getServletContext().getRealPath("/uploads/thumbnails"));
+                    fileVO.setFileSize(thumbnail.getSize());
+                    fileVO.setFileType("THUMBNAIL");
+                    
+                    fileService.saveFile(fileVO);
+                    logger.info("썸네일 파일 정보 저장 완료");
+                }
+            } else {
+                logger.info("기존 공지사항 수정 - ID: {}", noId);
+                noService.updateNotice(noVO);
+                
+                // 썸네일 파일 정보 저장
+                if (thumbnail != null && !thumbnail.isEmpty()) {
+                    NoticeFileVO fileVO = new NoticeFileVO();
+                    fileVO.setNoId(noId);
+                    fileVO.setOriginalName(thumbnail.getOriginalFilename());
+                    fileVO.setStoredName(noVO.getNoThumb().substring(noVO.getNoThumb().lastIndexOf("/") + 1));
+                    fileVO.setFilePath(request.getServletContext().getRealPath("/uploads/thumbnails"));
+                    fileVO.setFileSize(thumbnail.getSize());
+                    fileVO.setFileType("THUMBNAIL");
+                    
+                    fileService.saveFile(fileVO);
+                    logger.info("썸네일 파일 정보 저장 완료");
+                }
+            }
+            
+            logger.info("공지사항 저장 완료");
+            return ResponseEntity.ok().body("/notice/manage");
             
         } catch (Exception e) {
-            logger.error("공지사항 저장 실패", e);
-            return "redirect:/notice/manage/form" + (noId != null ? "?noId=" + noId : "");
+            logger.error("공지사항 저장 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                               .body(e.getMessage());
         }
     }
-    
+
     @PostMapping("/manage/update/{noId}")
     public String updateAndRedirect(
             @PathVariable("noId") Long noId,
@@ -194,7 +259,7 @@ public class NoticeController {
             if (thumbnail != null && !thumbnail.isEmpty()) {
                 fileService.deleteFilesByType(noId, "THUMBNAIL");
                 NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
-                thumbnailFile.setNoticeId(noId);
+                thumbnailFile.setNoId(noId);
                 fileService.saveFile(thumbnailFile);
             }
             
@@ -233,7 +298,7 @@ public class NoticeController {
             // 2. 파일 처리
             if (thumbnail != null && !thumbnail.isEmpty()) {
                 NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
-                thumbnailFile.setNoticeId(noVO.getNoId());
+                thumbnailFile.setNoId(noVO.getNoId());
                 fileService.saveFile(thumbnailFile);
             }
             
@@ -246,67 +311,76 @@ public class NoticeController {
     
     @PostMapping("/api/upload")
     @ResponseBody
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file,
-                                            HttpServletRequest request) {
+    public ResponseEntity<String> uploadImage(
+            @RequestParam("file") MultipartFile file,
+            HttpServletRequest request) {
         try {
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest().body("파일이 비어있습니다.");
             }
 
-            // 웹 애플리케이션의 실제 경로 얻기
-            String realPath = request.getSession().getServletContext().getRealPath("/uploads");
-            File uploadDir = new File(realPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-
             // 파일 확장자 검사
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
-            
-            if (!Arrays.asList("jpg", "jpeg", "png", "gif").contains(extension)) {
+            if (!extension.matches("jpg|jpeg|png|gif")) {
                 return ResponseEntity.badRequest().body("지원하지 않는 파일 형식입니다.");
             }
 
-            // 파일명 생성
-            String newFileName = UUID.randomUUID().toString() + "." + extension;
+            // 저장할 파일명 생성
+            String storedFileName = "image_" + UUID.randomUUID().toString() + "." + extension;
+            
+            // 이미지 저장 경로 설정
+            String uploadDir = request.getServletContext().getRealPath("/uploads/images");
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
             
             // 파일 저장
-            File destFile = new File(uploadDir, newFileName);
+            File destFile = new File(dir, storedFileName);
             file.transferTo(destFile);
+            
+            // 이미지 URL 반환
+            String imageUrl = "/uploads/images/" + storedFileName;
+            logger.info("이미지 업로드 완료: {}", imageUrl);
 
-            // 상대 경로로 URL 반환
-            return ResponseEntity.ok("/uploads/" + newFileName);
+            return ResponseEntity.ok(imageUrl);
             
         } catch (Exception e) {
-            logger.error("파일 업로드 실패", e);
+            logger.error("이미지 업로드 실패", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                               .body("파일 업로드 실패: " + e.getMessage());
+                               .body("이미지 업로드 실패: " + e.getMessage());
         }
     }
     
     @PostMapping("/api/upload/thumbnail")
     @ResponseBody
-    public ResponseEntity<String> uploadThumbnail(@RequestParam("thumbnail") MultipartFile file) {
+    public ResponseEntity<Map<String, Object>> uploadThumbnail(@RequestParam("thumbnail") MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                return new ResponseEntity<>("파일이 비어있습니다.", HttpStatus.BAD_REQUEST);
-            }
-            
-            // 파일 확장자 검사
-            String originalFilename = file.getOriginalFilename();
-            String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
-            if (!Arrays.asList("jpg", "jpeg", "png", "gif").contains(extension)) {
-                return new ResponseEntity<>("지원하지 않는 파일 형식입니다.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(
+                    Map.of("error", "파일이 비어있습니다."), 
+                    HttpStatus.BAD_REQUEST
+                );
             }
             
             NoticeFileVO thumbnailFile = fileService.uploadFile(file, "THUMBNAIL");
-            return new ResponseEntity<>(thumbnailFile.getStoredName(), HttpStatus.OK);
+            String thumbnailUrl = "/uploads/thumbnails/" + thumbnailFile.getStoredName();
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("url", thumbnailUrl);
+            response.put("originalName", file.getOriginalFilename());
+            response.put("storedName", thumbnailFile.getStoredName());
+            
+            logger.info("썸네일 업로드 성공 - URL: {}", thumbnailUrl);
+            return new ResponseEntity<>(response, HttpStatus.OK);
             
         } catch (Exception e) {
             logger.error("썸네일 업로드 실패", e);
-            return new ResponseEntity<>("썸네일 업로드 실패: " + e.getMessage(), 
-                                      HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                Map.of("error", "썸네일 업로드 실패: " + e.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
     
@@ -336,7 +410,7 @@ public class NoticeController {
             if (thumbnail != null && !thumbnail.isEmpty()) {
                 fileService.deleteFilesByType(noId, "THUMBNAIL");
                 NoticeFileVO thumbnailFile = fileService.uploadFile(thumbnail, "THUMBNAIL");
-                thumbnailFile.setNoticeId(noId);
+                thumbnailFile.setNoId(noId);
                 fileService.saveFile(thumbnailFile);
             }
             
