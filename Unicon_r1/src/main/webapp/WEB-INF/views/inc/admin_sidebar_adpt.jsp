@@ -4,10 +4,24 @@
           <ul class="nav">
             <!-- <li class="nav-item nav-category">Main</li> -->
             <li class="nav-item">
-              <a class="nav-link" href="/adptmgmt">
+              <a class="nav-link" href="/adptmgmt/main">
                 <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
                 <span class="menu-title">메인페이지</span>
               </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#adoption-mgmt" aria-expanded="false" aria-controls="adoption-mgmt">
+                <span class="icon-bg"><i class="mdi mdi-crosshairs-gps menu-icon"></i></span>
+                <span class="menu-title">입양글 관리</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="adoption-mgmt">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="/adptmgmt/writings">입양글 등록</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="#">Dropdowns</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="#">Typography</a></li>
+                </ul>
+              </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
