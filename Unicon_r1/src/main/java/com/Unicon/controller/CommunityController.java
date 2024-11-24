@@ -1,5 +1,7 @@
 package com.Unicon.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/community/*")
 public class CommunityController {
-	
 	
 //	//템플릿 테스트
 //	@GetMapping("/shop")
@@ -23,9 +24,14 @@ public class CommunityController {
 //		return "main/test";
 //	}
 	
+	
+	private static final Logger logger = LoggerFactory.getLogger(CommunityController.class);
+	
 	// http://localhost:8088/community/
 	@GetMapping("")
 	public String readCommunityAll() {
+		
+		logger.info(" community 메인페이지(전체 글) 실행 ");
 		
 		return "community/community";
 	}
