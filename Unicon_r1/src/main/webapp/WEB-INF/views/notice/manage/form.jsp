@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <!-- CSRF 토큰 -->
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+    
     <title>공지사항 ${notice.noId == null ? '등록' : '수정'}</title>
     
     <!-- jQuery -->
@@ -15,15 +18,17 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     
-    <!-- Summernote -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Summernote CSS -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    
+    <!-- Summernote JS -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.min.js"></script>
     
@@ -44,7 +49,7 @@
             </div>
             <div class="card-body">
                 <form id="noticeForm" method="post" action="/notice/manage/submit" enctype="multipart/form-data">
-				    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				    <input type="hidden" name="noId" value="${notice.noId}" />
                     
                     <div class="row mb-3">
@@ -127,50 +132,79 @@
     </div>
 
     <script>
+ 	// 전역 변수로 CSRF 토큰 설정
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    
     $(document).ready(function() {
+        console.log('Initializing Summernote...');
+        console.log('CSRF Token:', token);
+        console.log('CSRF Header:', header);
+        
+        // Summernote 초기화
         $('#noContent').summernote({
             height: 300,
             lang: 'ko-KR',
             toolbar: [
-                ['fontname', ['fontname']],
-                ['fontsize', ['fontsize']],
-                ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
-                ['color', ['forecolor', 'color']],
-                ['table', ['table']],
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']],
-                ['insert', ['picture', 'link', 'video']],
-                ['view', ['fullscreen', 'help']]
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
             ],
-            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체'],
-            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72'],
             callbacks: {
+                onInit: function() {
+                    console.log('Summernote initialized');
+                },
                 onImageUpload: function(files) {
+                    console.log('Image upload triggered');
                     for(let file of files) {
-                        uploadImage(file);
+                        uploadImage(file, this);
                     }
                 }
             }
         });
 
+        // 폼 제출 처리
         $('#noticeForm').submit(function(e) {
             e.preventDefault();
-            
             if (!validateForm()) {
                 return false;
             }
-            
-            const form = $(this);
-            const formData = new FormData(this);
-            
-            $('#submitBtn').prop('disabled', true)
-                .html('<span class="spinner-border spinner-border-sm"></span> 저장 중...');
-            
-            // 폼 제출
-            form[0].submit();
+            this.submit();
         });
     });
-    
+
+    // 이미지 업로드 함수
+    function uploadImage(file, editor) {
+    console.log('Uploading image:', file.name);
+    var formData = new FormData();
+    formData.append("file", file);
+
+    $.ajax({
+        url: '/notice/api/upload',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(imageUrl) {
+            console.log('Upload success, URL:', imageUrl);
+            // 전체 URL 구성
+            var fullUrl = window.location.origin + imageUrl;
+            console.log('Full image URL:', fullUrl);
+            $(editor).summernote('insertImage', fullUrl);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Upload failed:', textStatus, errorThrown);
+            alert('이미지 업로드에 실패했습니다.');
+        }
+    });
+}
+
+    // 폼 검증
     function validateForm() {
         const title = $('input[name="noTitle"]').val().trim();
         const content = $('#noContent').summernote('isEmpty');
@@ -180,20 +214,18 @@
             alert('제목을 입력해주세요.');
             return false;
         }
-        
         if (content) {
             alert('내용을 입력해주세요.');
             return false;
         }
-        
         if (!category) {
             alert('카테고리를 선택해주세요.');
             return false;
         }
-        
         return true;
     }
 
+    // 파일 크기 검사
     function checkFileSize(file, maxSize) {
         if (file.size > maxSize) {
             alert('파일 크기는 ' + (maxSize/1024/1024) + 'MB를 초과할 수 없습니다.');
@@ -202,6 +234,7 @@
         return true;
     }
 
+    // 파일 타입 검사
     function checkFileType(file) {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (!allowedTypes.includes(file.type)) {
@@ -211,6 +244,7 @@
         return true;
     }
 
+    // 이미지 미리보기
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -221,51 +255,27 @@
         }
     }
 
-    function uploadImage(file) {
-        const formData = new FormData();
-        formData.append('file', file);
+    // 파일 삭제
+    function deleteFile(fileId) {
+        if (!confirm('파일을 삭제하시겠습니까?')) {
+            return;
+        }
         
-        const header = $("meta[name='_csrf_header']").attr("content");
-        const token = $("meta[name='_csrf']").attr("content");
-
         $.ajax({
-            url: '/notice/api/upload',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(header, token);
+            url: '/notice/api/file/' + fileId,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
             },
-            success: function(url) {
-                $('#noContent').summernote('insertImage', url);
+            success: function() {
+                alert('파일이 삭제되었습니다.');
+                location.reload();
             },
-            error: function(xhr) {
-                alert('이미지 업로드에 실패했습니다.');
+            error: function(xhr, status, error) {
+                alert('파일 삭제에 실패했습니다.');
+                console.error(error);
             }
         });
-    }
-
-    function deleteFile(fileId) {
-        if (confirm('파일을 삭제하시겠습니까?')) {
-            const header = $("meta[name='_csrf_header']").attr("content");
-            const token = $("meta[name='_csrf']").attr("content");
-
-            $.ajax({
-                url: '/notice/api/file/' + fileId,
-                type: 'DELETE',
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader(header, token);
-                },
-                success: function() {
-                    alert('파일이 삭제되었습니다.');
-                    location.reload();
-                },
-                error: function(xhr) {
-                    alert('파일 삭제 실패: ' + (xhr.responseJSON?.message || '서버 오류가 발생했습니다.'));
-                }
-            });
-        }
     }
     </script>
 </body>
