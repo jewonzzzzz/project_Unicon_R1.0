@@ -18,7 +18,7 @@
 	<result property="post_pet_date" column="post_pet_date"/>
 	
 	<association property="jypMember" resultMap="JypMemberResultMap" />
-	<association property="petData" resultMap="PetDataResultMap" />
+	<association property="categoryData" resultMap="CategoryDataResultMap" />
 	
 <!-- 	<association property="adptCounsel" resultMap="CounselResultMap"/> -->
 <!-- 	<association property="adptMember" resultMap="MemberResultMap"/> -->
@@ -29,10 +29,10 @@
 <!-- 	<collection property="adpt_vaccins" ofType="com.Unicon.domain.AdptVaccinVO" resultMap="VaccinResultMap"/> -->
 </resultMap>
 
-<resultMap id="PetDataResultMap" type="com.Unicon.domain.PetDataVO">
-	<id property="pet_code" column="pet_code"/>
-	<result property="pet_type" column="pet_type"/>
-	<result property="pet_breed" column="pet_breed"/>
+<resultMap id="CategoryDataResultMap" type="com.Unicon.domain.CategoryDataVO">
+	<id property="category_code" column="category_code"/>
+	<result property="category_type" column="category_type"/>
+	<result property="category_value" column="category_value"/>
 </resultMap>
 
 <resultMap id="CommentResultMap" type="com.Unicon.domain.CommentVO">
