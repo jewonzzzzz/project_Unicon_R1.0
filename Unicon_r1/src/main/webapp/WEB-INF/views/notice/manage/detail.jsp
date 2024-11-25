@@ -107,16 +107,32 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- 기존 JavaScript 유지 -->
 <script>
 function confirmDelete(noId) {
     if(confirm('정말 삭제하시겠습니까?')) {
-        fetch(`/notice/api/${noId}`, {
-            method: 'DELETE'
-        }).then(response => {
-            if(response.ok) {
-                alert('삭제되었습니다');
-                location.href = '/notice/manage';
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        
+        $.ajax({
+            url: '/notice/api/delete/' + noId,
+            type: 'POST',
+            beforeSend: function(xhr) {
+                if(token && header) {
+                    xhr.setRequestHeader(header, token);
+                }
+            },
+            success: function() {
+                alert('삭제되었습니다.');
+                window.location.href = '/notice/manage';
+            },
+            error: function(xhr) {
+                console.error('Error:', xhr);
+                const errorMsg = xhr.responseText || '서버 오류가 발생했습니다.';
+                alert('삭제 실패: ' + errorMsg);
             }
         });
     }

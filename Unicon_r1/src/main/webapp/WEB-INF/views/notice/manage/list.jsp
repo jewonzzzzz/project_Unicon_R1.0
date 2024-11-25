@@ -28,12 +28,15 @@
 <body>
     <!-- 메인 컨텐츠 -->
     <div class="main-content">
-        <div class="content-header d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">공지사항 관리</h4>
-            <div>
-                <button class="btn btn-primary" onclick="location.href='/notice/manage/form'">공지사항 등록</button>
-            </div>
-        </div>
+        <div class="content-header d-flex justify-content-between align-items-center mb-4">
+		    <h4 class="mb-0">공지사항 관리</h4>
+		    <div>
+		        <button class="btn btn-danger me-2" onclick="deleteSelected()">
+		            <i class="fas fa-trash"></i> 선택 삭제
+		        </button>
+		        <button class="btn btn-primary" onclick="location.href='/notice/manage/form'">공지사항 등록</button>
+		    </div>
+		</div>
 
         <!-- 검색 영역 -->
         <form id="searchForm" class="search-bar">
@@ -71,19 +74,6 @@
         <!-- 공지사항 목록 -->
         <div class="card">
             <div class="card-body">
-                <!-- 전체 선택 및 액션 버튼 -->
-                <div class="d-flex justify-content-between mb-3">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="selectAll">
-                        <label class="form-check-label" for="selectAll">전체 선택</label>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger btn-sm" onclick="deleteSelected()">
-                            <i class="fas fa-trash"></i> 선택 삭제
-                        </button>
-                    </div>
-                </div>
-
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead class="table-light">
@@ -260,6 +250,64 @@
             }
         });
     };
+    
+    // 공지사항 선택 삭제
+    window.deleteSelected = function() {
+    const selectedIds = [];
+    $('.notice-check:checked').each(function() {
+        selectedIds.push($(this).val());
+    });
+    
+    if (selectedIds.length === 0) {
+        alert('삭제할 항목을 선택해주세요.');
+        return;
+    }
+    
+    if (!confirm('선택한 ' + selectedIds.length + '개의 항목을 삭제하시겠습니까?')) {
+        return;
+    }
+    
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    
+    // 선택된 항목들을 순차적으로 삭제
+    let deleteCount = 0;
+    let errorCount = 0;
+    
+    function deleteNext(index) {
+        if (index >= selectedIds.length) {
+            if (errorCount === 0) {
+                alert('선택한 항목이 모두 삭제되었습니다.');
+                location.reload();
+            } else {
+                alert(deleteCount + '개 항목이 삭제되었으며, ' + errorCount + '개 항목 삭제 중 오류가 발생했습니다.');
+                location.reload();
+            }
+            return;
+        }
+        
+        $.ajax({
+            url: '/notice/api/delete/' + selectedIds[index],
+            type: 'POST',
+            beforeSend: function(xhr) {
+                if (token && header) {
+                    xhr.setRequestHeader(header, token);
+                }
+            },
+            success: function() {
+                deleteCount++;
+                deleteNext(index + 1);
+            },
+            error: function(xhr) {
+                console.error('Error:', xhr);
+                errorCount++;
+                deleteNext(index + 1);
+            }
+        });
+    }
+    
+    deleteNext(0);
+};
 
     // DOM이 완전히 로드된 후 이벤트 핸들러 설정
     $(document).ready(function() {
