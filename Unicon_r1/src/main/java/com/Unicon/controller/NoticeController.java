@@ -475,4 +475,29 @@ public class NoticeController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("/api/more")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getMoreNotices(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String keyword) {
+        
+        try {
+            int size = 16; // 한 페이지당 16개의 게시글
+            Map<String, Object> result = noService.getNoticeList(page, size, category, keyword);
+            
+            List<NoticeVO> notices = (List<NoticeVO>) result.get("boards");
+            int totalCount = (Integer) result.get("totalCount");
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("notices", notices);
+            response.put("hasNext", (page * size) < totalCount);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("공지사항 추가 로딩 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
