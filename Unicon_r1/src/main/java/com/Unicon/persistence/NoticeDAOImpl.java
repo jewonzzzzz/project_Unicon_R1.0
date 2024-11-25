@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,9 @@ import com.Unicon.domain.NoticeVO;
 
 @Repository
 public class NoticeDAOImpl implements NoticeDAO {
+	
+	private static final Logger logger 
+					= LoggerFactory.getLogger(NoticeDAOImpl.class);
     
     @Inject
     private SqlSession sqlSession;
@@ -63,5 +68,25 @@ public class NoticeDAOImpl implements NoticeDAO {
         params.put("noticeId", noId);
         params.put("status", status);
         sqlSession.update(NAMESPACE + ".updateStatus", params);
+    }
+    
+    @Override
+    public NoticeVO selectPrevNotice(Long noId) throws Exception {
+        try {
+            return sqlSession.selectOne(NAMESPACE + ".selectPrevNotice", noId);
+        } catch (Exception e) {
+            logger.error("이전글 조회 실패: {}", noId, e);
+            throw new Exception("이전글 조회 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    @Override
+    public NoticeVO selectNextNotice(Long noId) throws Exception {
+        try {
+            return sqlSession.selectOne(NAMESPACE + ".selectNextNotice", noId);
+        } catch (Exception e) {
+            logger.error("다음글 조회 실패: {}", noId, e);
+            throw new Exception("다음글 조회 중 오류가 발생했습니다.", e);
+        }
     }
 }

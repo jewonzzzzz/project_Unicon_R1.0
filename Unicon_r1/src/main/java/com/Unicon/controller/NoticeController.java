@@ -79,21 +79,31 @@ public class NoticeController {
     @GetMapping("/manage")
     public String adminList(
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "12") int size,
+            @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "keyword", required = false) String keyword,
             Model model) throws Exception {
             
+        // 1부터 시작하는 페이지 번호를 0부터 시작하는 인덱스로 변환
         Map<String, Object> result = noService.getNoticeList(page, size, category, keyword);
         
+        List<NoticeVO> notices = (List<NoticeVO>) result.get("boards");
         int totalCount = (Integer) result.get("totalCount");
-        int totalPages = (int) Math.ceil(totalCount / (double) size);
         
-        model.addAttribute("result", result);
-        model.addAttribute("boards", result.get("boards"));
+        // 페이징 처리를 위한 계산
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+        int startPage = ((page - 1) / 10) * 10 + 1;
+        int endPage = Math.min(startPage + 9, totalPages);
+        
+        model.addAttribute("boards", notices);
+        model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
-        model.addAttribute("totalPages", totalPages);  
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("category", category);
+        model.addAttribute("keyword", keyword);
         
         return "notice/manage/list";
     }
@@ -104,8 +114,15 @@ public class NoticeController {
         List<NoticeFileVO> files = fileService.getFilesByNoticeId(noId);
         notice.setFiles(files);
         
+        // 이전글, 다음글 정보 조회
+        NoticeVO prevNotice = noService.getPrevNotice(noId);
+        NoticeVO nextNotice = noService.getNextNotice(noId);
+        
         model.addAttribute("notice", notice);
-        return "notice/manage/detail"; 
+        model.addAttribute("prevNotice", prevNotice);
+        model.addAttribute("nextNotice", nextNotice);
+        
+        return "notice/manage/detail";
     }
     
     @GetMapping("/manage/form")

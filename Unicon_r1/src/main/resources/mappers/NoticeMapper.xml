@@ -100,6 +100,26 @@
             noId = #{noId}
     </update>
     
+    <!-- 이전글 조회 -->
+	<select id="selectPrevNotice" resultType="com.Unicon.domain.NoticeVO">
+	    select noId, noTitle
+	    from _notice
+	    where noId &gt; #{noId}
+	    and status = 'active'
+	    order by noId asc
+	    limit 1
+	</select>
+
+	<!-- 다음글 조회 -->
+	<select id="selectNextNotice" resultType="com.Unicon.domain.NoticeVO">
+	    select noId, noTitle
+	    from _notice
+	    where noId &lt; #{noId}
+	    and status = 'active'
+	    order by noId desc
+	    limit 1
+	</select>
+    
     <!-- notice_file -->
     <insert id="insertFile" parameterType="NoticeFileVO">
         insert into _notice_file (

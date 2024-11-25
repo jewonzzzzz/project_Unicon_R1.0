@@ -54,16 +54,16 @@ public class NoticeServiceImpl implements NoticeService {
     }
     
     @Override
-    @Transactional
     public Map<String, Object> getNoticeList(int page, int size, String category, String keyword) throws Exception {
-        int start = (page - 1) * size;
+        // 1부터 시작하는 페이지 번호를 0부터 시작하는 인덱스로 변환
+        int startIndex = (page - 1) * size;
         
         Map<String, Object> params = new HashMap<>();
-        params.put("start", start);
+        params.put("start", startIndex);
         params.put("size", size);
         params.put("category", category);
         params.put("keyword", keyword);
-        params.put("status", "ACTIVE");
+        params.put("status", "active");
         
         List<NoticeVO> notices = noDAO.selectNoticeList(params);
         int totalCount = noDAO.selectNoticeCount(params);
@@ -71,9 +71,18 @@ public class NoticeServiceImpl implements NoticeService {
         Map<String, Object> result = new HashMap<>();
         result.put("boards", notices);
         result.put("totalCount", totalCount);
-        result.put("hasMore", (start + size) < totalCount);
         
         return result;
+    }
+    
+    @Override
+    public NoticeVO getPrevNotice(Long noId) throws Exception {
+        return noDAO.selectPrevNotice(noId);
+    }
+
+    @Override
+    public NoticeVO getNextNotice(Long noId) throws Exception {
+        return noDAO.selectNextNotice(noId);
     }
     
     @Override
