@@ -12,17 +12,124 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <style>
-        .sidebar { width: 250px; position: fixed; left: 0; height: 100vh; background: #f8f9fa; }
-        .main-content { margin-left: 250px; padding: 20px; }
-        .content-header { border-bottom: 1px solid #dee2e6; padding-bottom: 1rem; margin-bottom: 2rem; }
-        .table th { background: #f8f9fa; }
-        .search-bar { background: #f8f9fa; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
-        .action-buttons { gap: 0.5rem; }
-        .important-notice { background-color: #fff3f3; }
-        .important-badge { color: red; font-weight: bold; }
-        .notice-title { color: #333; text-decoration: none; }
-        .notice-title:hover { color: #007bff; text-decoration: underline; }
-        .spinner-border { width: 1rem; height: 1rem; }
+ 	.sidebar { 
+	   width: 250px; 
+	   position: fixed; 
+	   left: 0; 
+	   height: 100vh; 
+	   background: #f8f9fa; 
+	   transition: all 0.3s ease;
+	}
+	
+	.main-content { 
+	   margin-left: 250px; 
+	   padding: 20px; 
+	   transition: margin 0.3s ease;
+	}
+	
+	/* 헤더 영역 */
+	.content-header { 
+	   border-bottom: 1px solid #dee2e6; 
+	   padding-bottom: 1rem; 
+	   margin-bottom: 2rem; 
+	}
+	
+	.content-header .d-flex.flex-column {
+	   gap: 0.5rem;
+	}
+	
+	/* 검색 영역 */
+	.search-bar { 
+	   background: #f8f9fa; 
+	   padding: 1rem; 
+	   border-radius: 4px; 
+	   margin-bottom: 1rem; 
+	}
+	
+	/* 테이블 스타일 */
+	.table {
+	   border-collapse: collapse;
+	}
+	
+	.table-responsive {
+	   overflow-x: auto;
+	   -webkit-overflow-scrolling: touch;
+	}
+	
+	.table th,
+	.table td {
+	   border-top: 1px solid #dee2e6;      /* 가로줄만 표시 */
+  	   border-bottom: 1px solid #dee2e6;    /* 가로줄만 표시 */
+	   padding: 0.75rem;
+	   vertical-align: middle;
+	   line-height: 1.5;       /* 줄 높이 통일 */
+   	   min-height: 24px; 
+	}
+	
+	.table th {
+	   background-color: #f8f9fa;
+	   font-weight: 600;
+	}
+	
+	.badge {
+	   font-weight: normal;
+	   padding: 0.5em 0.8em;
+	}
+	
+	/* 모바일 반응형 */
+	@media (max-width: 768px) {
+	   /* 레이아웃 */
+	   .sidebar {
+	       width: 0;
+	       overflow: hidden;
+	   }
+	
+	   .main-content {
+	       margin-left: 0;
+	       padding: 15px;
+	   }
+	
+	   /* 헤더 영역 */
+	   .content-header {
+	       flex-direction: column;
+	       align-items: stretch;
+	       gap: 1rem;
+	   }
+	
+	   .content-header .btn {
+	       width: 100%;
+	       margin-bottom: 0.5rem;
+	   }
+	
+	   /* 검색 영역 */
+	   .search-bar .row {
+	       margin: 0;
+	   }
+	
+	   .search-bar .col-md-3,
+	   .search-bar .col-md-2,
+	   .search-bar .col-md-4 {
+	       padding: 5px;
+	       width: 100%;
+	   }
+	
+	   /* 테이블 영역 */
+	   .table th:not(:nth-child(1)):not(:nth-child(4)):not(:nth-child(8)),
+	   .table td:not(:nth-child(1)):not(:nth-child(4)):not(:nth-child(8)) {
+	       display: none;
+	   }
+	
+	   .notice-title {
+	       max-width: 200px;
+	   }
+	
+	   /* 버튼 영역 */
+	   .action-buttons {
+	       display: flex;
+	       gap: 0.25rem;
+	       justify-content: flex-end;
+	   }
+	}
     </style>
 </head>
 <body>
@@ -30,11 +137,13 @@
     <div class="main-content">
         <div class="content-header d-flex justify-content-between align-items-center mb-4">
 		    <h4 class="mb-0">공지사항 관리</h4>
-		    <div>
-		        <button class="btn btn-danger me-2" onclick="deleteSelected()">
+		    <div class="d-flex flex-column gap-2"> <!-- flex-column과 gap-2 추가 -->
+		        <button class="btn btn-primary" onclick="location.href='/notice/manage/form'">
+		            <i class="fas fa-plus"></i> 공지사항 등록
+		        </button>
+		        <button class="btn btn-danger" onclick="deleteSelected()">
 		            <i class="fas fa-trash"></i> 선택 삭제
 		        </button>
-		        <button class="btn btn-primary" onclick="location.href='/notice/manage/form'">공지사항 등록</button>
 		    </div>
 		</div>
 
@@ -75,77 +184,65 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th width="40px">
-                                    <input type="checkbox" class="form-check-input" id="headerCheckbox">
-                                </th>
-                                <th width="80px">번호</th>
-                                <th>제목</th>
-                                <th width="100px">카테고리</th>
-                                <th width="100px">작성자</th>
-                                <th width="120px">등록일</th>
-                                <th width="80px">조회수</th>
-                                <th width="120px">관리</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${boards}" var="notice">
-                                <tr class="${notice.important ? 'important-notice' : ''}">
-                                    <td>
-                                        <input type="checkbox" class="form-check-input notice-check" 
-                                               value="${notice.noId}">
-                                    </td>
-                                    <td>${notice.noId}</td>
-                                    <td>
-                                        <a href="/notice/manage/${notice.noId}" class="notice-title">
-                                            ${notice.important ? '<span class="important-badge">[중요]</span>' : ''}
-                                            ${notice.noTitle}
-                                            <c:if test="${not empty notice.noThumb}">
-                                                <i class="fas fa-image text-muted ms-1"></i>
-                                            </c:if>
-                                            <c:if test="${not empty notice.files}">
-                                                <i class="fas fa-paperclip text-muted ms-1"></i>
-                                            </c:if>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-secondary">${notice.noCategory}</span>
-                                    </td>
-                                    <td>${notice.noWriter}</td>
-                                    <td>
-                                        <fmt:formatDate value="${notice.noRegDate}" pattern="yyyy-MM-dd"/>
-                                    </td>
-                                    <td>${notice.viewCount}</td>
-                                    <td>
-                                        <div class="d-flex action-buttons">
-                                            <button class="btn btn-sm btn-outline-primary" 
-                                                    onclick="location.href='/notice/manage/form?noId=${notice.noId}'"
-                                                    title="수정">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" 
-											        onclick="deleteNotice(${notice.noId})"
-											        title="삭제">
-											    <i class="fas fa-trash"></i>
-											</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            <c:if test="${empty boards}">
-                                <tr>
-                                    <td colspan="8" class="text-center py-5">
-                                        <p class="mb-0 text-muted">
-                                            <i class="fas fa-info-circle me-2"></i>등록된 공지사항이 없습니다.
-                                        </p>
-                                    </td>
-                                </tr>
-                            </c:if>
-                        </tbody>
-                    </table>
-                </div>
+				    <table class="table table-hover">
+				        <thead class="table-light">
+				            <tr>
+				                <th class="text-center" style="width: 50px;">
+				                    <input type="checkbox" class="form-check-input" id="headerCheckbox">
+				                </th>
+				                <th class="text-center" style="width: 80px;">번호</th>
+				                <th style="width: 100px;">카테고리</th>
+				                <th>제목</th>
+				                <th style="width: 100px;">작성자</th>
+				                <th style="width: 120px;">등록일</th>
+				                <th class="text-center" style="width: 80px;">조회수</th>
+				                <th style="width: 100px;">관리</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				            <c:forEach items="${boards}" var="notice">
+				                <tr>
+				                    <td class="text-center">
+				                        <input type="checkbox" class="form-check-input notice-check" value="${notice.noId}">
+				                    </td>
+				                    <td class="text-center">${notice.noId}</td>
+				                    <td>
+				                        <span class="badge bg-secondary">${notice.noCategory}</span>
+				                    </td>
+				                    <td class="notice-title">
+				                        <a href="/notice/manage/${notice.noId}" class="notice-title">
+				                            ${notice.important ? '<span class="important-badge">[중요]</span>' : ''}
+				                            ${notice.noTitle}
+				                            <c:if test="${not empty notice.noThumb}">
+				                                <i class="fas fa-image text-muted ms-1"></i>
+				                            </c:if>
+				                            <c:if test="${not empty notice.files}">
+				                                <i class="fas fa-paperclip text-muted ms-1"></i>
+				                            </c:if>
+				                        </a>
+				                    </td>
+				                    <td>${notice.noWriter}</td>
+				                    <td><fmt:formatDate value="${notice.noRegDate}" pattern="yyyy-MM-dd"/></td>
+				                    <td class="text-center">${notice.viewCount}</td>
+				                    <td>
+				                        <div class="d-flex action-buttons">
+				                            <button class="btn btn-sm btn-outline-primary" 
+				                                    onclick="location.href='/notice/manage/form?noId=${notice.noId}'"
+				                                    title="수정">
+				                                <i class="fas fa-edit"></i>
+				                            </button>
+				                            <button class="btn btn-sm btn-outline-danger" 
+				                                    onclick="deleteNotice(${notice.noId})"
+				                                    title="삭제">
+				                                <i class="fas fa-trash"></i>
+				                            </button>
+				                        </div>
+				                    </td>
+				                </tr>
+				            </c:forEach>
+				        </tbody>
+				    </table>
+				</div>
 
                 <!-- 페이지네이션 -->
                 <div class="d-flex justify-content-center mt-4">
