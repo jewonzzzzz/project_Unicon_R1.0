@@ -128,148 +128,133 @@
 					    </div>
                         <div class="col-md-11 col-lg-12">
 
-                        <div class="border bg-white p-1-9 p-lg-2-3 p-xl-1-6 rounded">
-
-                            <form class="quform" action="quform/apply-job.php" method="post" enctype="multipart/form-data" onclick="">
+                        <form class="quform" action="/admin/news_create" method="post" enctype="multipart/form-data" onclick="">
                                 <div class="quform-elements">
-
                                     <div class="row">
-
+                                    
                                         <!-- Begin Select element -->
                                         <div class="col-md-12">
                                             <div class="quform-element form-group">
-                                                <label for="applyfor">소식 제목 <span class="quform-required">*</span></label>
-                                            	<input id="name" class="form-control" type="text" name="name" placeholder="First Name">
-                                            </div>
-
-                                        </div>
-                                        <!-- End Select element -->
-
-                                        <!-- Begin Text input element -->
-                                        <div class="col-md-6">
-                                            <div class="quform-element form-group">
-                                                <label for="name">First Name <span class="quform-required">*</span></label>
+                                            	<label for="name">소식명<span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <input id="name" class="form-control" type="text" name="name" placeholder="First Name">
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <!-- End Text input element -->
-
-                                        <!-- Begin Text input element -->
-                                        <div class="col-md-6">
-                                            <div class="quform-element form-group">
-                                                <label for="last_name">Last Name <span class="quform-required">*</span></label>
-                                                <div class="quform-input">
-                                                    <input id="last_name" class="form-control" type="text" name="last_name" placeholder="Last Name">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Text input element -->
-
-                                        <!-- Begin Text input element -->
-                                        <div class="col-md-6">
-                                            <div class="quform-element form-group">
-                                                <label for="email">Email Address <span class="quform-required">*</span></label>
-                                                <div class="quform-input">
-                                                    <input id="email" class="form-control" type="text" name="email" placeholder="name@example.com">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Text input element -->
-
-                                        <!-- Begin Text input element -->
-                                        <div class="col-md-6">
-                                            <div class="quform-element form-group">
-                                                <label for="linkedin">URL</label>
-                                                <div class="quform-input">
-                                                    <input id="linkedin" class="form-control" type="text" name="linkedin" placeholder="Linkedin">
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <!-- End Text input element -->
-
-                                        <!-- Begin Select element -->
-                                        <div class="col-md-6">
-                                            <div class="quform-element form-group">
-
-                                                <!-- Begin Upload element -->
-                                                <div class="quform-input">
-
-                                                    <label for="resume">Resume/CV <span class="quform-required">*</span></label>
-
-                                                    <div class="custom-file">
-                                                        <input class="custom-file-input" type="file" id="resume" name="resume">
-                                                        <label class="custom-file-label" data-browse="Browse">Choose file</label>
-                                                    </div>
-
-                                                    <p class="quform-description">All files allowed. Maximum size 10MB.</p>
-
-                                                </div>
-                                                <!-- End Upload element -->
-
-                                            </div>
-
-                                        </div>
-                                        <!-- End Select element -->
-
-                                        <!-- Begin Select element -->
-                                        <div class="col-md-6">
-                                            <div class="quform-element form-group">
-
-                                                <div class="quform-input">
-                                                    <label for="coverletter">Cover Letter</label>
-
-                                                    <div class="custom-file">
-                                                        <input class="custom-file-input" type="file" id="coverletter" name="coverletter">
-                                                        <label class="custom-file-label" data-browse="Browse">Choose file</label>
-                                                    </div>
-
-                                                    <p class="quform-description">All files allowed. Maximum size 10MB.</p>
-
+                                                    <input id="name" class="form-control" type="text" name="news_subject" placeholder="First Name">
                                                 </div>
                                             </div>
 
                                         </div>
                                         <!-- End Select element -->
+
+                                        <!-- Begin Text input element -->
+                                        <div class="col-md-6">
+                                            <div class="quform-element form-group">
+                                                <label for="applyfor">지역 <span class="quform-required">*</span></label>
+                                                <div class="quform-input">
+                                                    <select id="applyfor" class="form-control form-select" name="news_resion"
+                                                    style="padding: 6px 12px;">
+                                                        <option value="">-- 지역선택 --</option>
+                                                        <option value="Office Executive">Office Executive</option>
+                                                        <option value="Mutual Fund Executive">Mutual Fund Executive</option>
+                                                        <option value="Financial Investment">Financial Investment</option>
+                                                        <option value="Others">Others</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- End Text input element -->
+
+                                        <!-- Begin Text input element -->
+                                        <div class="col-md-6">
+                                            <div class="quform-element form-group">
+                                                <label for="last_name">장소 <span class="quform-required">*</span></label>
+                                                <div class="quform-input">
+                                                    <input id="last_name" class="form-control" type="text" name="news_place" placeholder="Last Name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Text input element -->
+                                        
+                                        <!-- Begin Text input element -->
+                                        <div class="col-md-6">
+                                            <div class="quform-element form-group">
+                                                <label for="last_name">주관기관 <span class="quform-required">*</span></label>
+                                                <div class="quform-input">
+                                                    <input id="last_name" class="form-control" type="text" name="news_ins" placeholder="Last Name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Text input element -->
+                                        <!-- Begin Text input element -->
+                                        <div class="col-md-6">
+                                            <div class="quform-element form-group">
+                                                <label for="last_name">참여대상 <span class="quform-required">*</span></label>
+                                                <div class="quform-input">
+                                                    <input id="last_name" class="form-control" type="text" name="news_att" placeholder="Last Name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Text input element -->
+                                        
+                                        <!-- Begin Text input element -->
+                                        <div class="col-md-6">
+                                            <div class="quform-element form-group">
+                                                <label for="email">행사일자 <span class="quform-required">*</span></label>
+                                                <div class="quform-input">
+                                                    <input id="email" class="form-control" type="date" name="news_date" placeholder="name@example.com">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Text input element -->
+
+                                        <!-- Begin Text input element -->
+                                        <div class="col-md-6">
+                                            <div class="quform-element form-group">
+                                                <label for="linkedin">행사시간</label>
+                                                <div class="quform-input">
+                                                    <input id="linkedin" class="form-control" type="time" name="news_time" placeholder="Linkedin">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Text input element -->
 
                                         <!-- Begin Textarea element -->
                                         <div class="col-md-12">
                                             <div class="quform-element form-group">
-                                                <label for="message">In a Few Words <span class="quform-required">*</span></label>
+                                                <label for="message">내용 <span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <textarea id="message" class="form-control" name="message" rows="4" placeholder="How'd you hear about Crizal?"></textarea>
+                                                    <textarea id="message" class="form-control" name="news_content" rows="4" placeholder="How'd you hear about Crizal?"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- End Textarea element -->
-
-                                        <!-- Begin Captcha element -->
+                                        
+                                        <!-- Begin Upload element -->
                                         <div class="col-md-12">
-                                            <div class="quform-element">
-                                                <label for="type_the_word">Type the word <span class="quform-required">*</span></label>
-                                                <div class="form-group">
-                                                    <div class="quform-input">
-                                                        <input id="type_the_word" class="form-control" type="text" name="type_the_word" placeholder="Type the below word">
+                                        <div class="col-md-6">
+                                            <div class="quform-element form-group">
+                                                <div class="quform-input">
+                                                    <label for="resume">소식 이미지 <span class="quform-required">*</span></label>
+                                                    <div class="custom-file">
+                                                        <input class="custom-file-input" type="file" id="resume" name="news_file">
+                                                        <label class="custom-file-label" data-browse="Browse">Choose file</label>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="quform-captcha">
-                                                        <div class="quform-captcha-inner">
-                                                            <img src="quform/images/captcha/courier-new-light.png" alt="...">
-                                                        </div>
-                                                    </div>
+                                                    <p class="quform-description">이미지파일만 업로드 가능. 최대크기 10MB.</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- End Captcha element -->
+                                        </div>
+                                       <!-- End Upload element -->
+                                        
+                                        <div class="col-md-4">
+                                            <div class="quform-element form-group">
+                                                <div id="news_preview"></div>
+                                            </div>
+                                        </div>
 
                                         <!-- Begin Submit button -->
                                         <div class="col-md-12">
-                                            <div class="quform-submit-inner text-center">
-                                                <button class="butn w-100" type="submit"><span>Apply Now</span></button>
+                                            <div class="text-center">
+                                                <button class="butn w-100" type="submit"><span>등록하기</span></button>
                                             </div>
                                             <div class="quform-loading-wrap"><span class="quform-loading"></span></div>
                                         </div>
@@ -280,14 +265,52 @@
                                 </div>
                             </form>
 
-                        </div>
-
                     </div>
 
                 </div>
             </div>
+            </div>
         </section>
 
 <!--====================================작성부=====================================-->
+
+<script>
+$(document).ready(function () {
+    // 파일 선택 이벤트 처리
+    $('.custom-file-input').on('change', function (event) {
+        // 선택된 파일 이름 가져오기
+        var fileName = $(this).val().split('\\').pop(); // 파일 경로에서 이름만 분리
+        // 파일 이름을 라벨에 적용
+        $(this).next('.custom-file-label').text(fileName || 'Choose file');
+        
+        const file = event.target.files[0]; // 업로드한 파일 가져오기
+	    const $preview = $('#news_preview'); // 미리보기 영역 선택
+	    if (file) {
+	    	const reader = new FileReader();
+	        reader.onload = function(e) {
+	          const imgTag = 
+	            "<img src='" + e.target.result + "' alt='Uploaded Image' " +
+	            "style='max-width: 100%; max-height: 100%; object-fit: cover;' />";
+	          $preview.html(imgTag);
+	        };
+	        reader.readAsDataURL(file); // 파일을 Data URL로 읽기
+	    } else {
+	    	$preview.empty();
+	    }
+        
+        
+        
+        
+    });
+    
+    
+    
+    
+    
+    
+}); //jquery
+
+</script>
+
 
 <%@ include file="../inc/new_footer.jsp" %> <!-- footer -->

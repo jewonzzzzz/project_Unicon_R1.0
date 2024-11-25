@@ -44,9 +44,9 @@ public class AdminController {
 	public String adminNews(Model model) {
 		
 		// 모든정보 조회 서비스
-		//List<newsVO> newsAllInfo = nService.getNewsAll();
+		List<newsVO> newsAllInfo = nService.getNewsAll();
 		
-		//model.addAttribute("newsAllInfo", newsAllInfo);
+		model.addAttribute("newsAllInfo", newsAllInfo);
 		
 		return "/admin/news_manage";
 	}
@@ -58,7 +58,7 @@ public class AdminController {
 	}
 	
 	//소식등록처리
-	@PostMapping("/newsCreate")
+	@PostMapping("/news_create")
 	public String adminNewsCreatePOST(newsVO vo) {
 		
 		logger.debug(vo.toString());
@@ -89,18 +89,18 @@ public class AdminController {
 			// 서비스 호출
 			nService.newsCreate(vo);
 		
-		return "redirect:/admin/newsCreate";
+		return "redirect:/admin/news_create";
 	}
 	
 	// 소식 조회
-	@GetMapping(value = "/newsView/{num}")
+	@GetMapping(value = "/news_view/{num}")
 	public String getNewsInfo(@PathVariable("num") int num, Model model) {
 		
 		// 특정 소식정보 가져오기
 		newsVO newsInfo  =	nService.getNews(num);
 		model.addAttribute("newsInfo", newsInfo);
 		
-		return "admin/newsView";
+		return "admin/news_view";
 	}
 	
 	// 소식정보 수정

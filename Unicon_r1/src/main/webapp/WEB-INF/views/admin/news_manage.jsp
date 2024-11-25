@@ -1,8 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../inc/new_topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
 
 <!-- 추가 템플릿 css/js 작성란 -->
+
+<style>
+.product-details:hover .image {
+    opacity: 0.7; /* 투명도 설정 */
+    transition: opacity 0.3s ease; /* 부드러운 애니메이션 효과 */
+}
+
+</style>
 
 </head>
 <%@ include file="../inc/new_header.jsp" %> <!-- header -->
@@ -123,54 +132,65 @@
 
                     <!-- start right panel section -->
                     <div class="col-lg-9 ps-lg-1-9">
-						<div class="line-title">
-					        <h5 class="mb-0">소식 등록내역</h5>
+						<div class="line-title" style="margin-bottom: 15px;">
+							<div style="display: flex; justify-content:space-between;">
+						        <h5 class="mb-0" style="display: inline-block;">소식 등록내역</h5>
+						        <button type="button" class="btn btn-secondary"><span class="small">등록하기</span></button>
+							</div>
 					    </div>
+					    
                         <div class="row">
-
                             <div class="col-12">
-                                <div class="row g-0 align-items-center bg-light rounded p-3">
+                            <div class="row g-0 align-items-center bg-light rounded p-3">
 
                                     <div class="col-12 col-md-auto">
                                         <div class="row justify-content-center">
-                                            
+
                                             <div class="col-auto my-2 my-md-0">
-                                            	<select id="applyfor" class="form-control form-select" name="applyfor">
-                                                        <option value="">등록순</option>
-                                                        <option value="">행사일순</option>
-                                                        <option value="">지역별</option>
-                                          		 </select>
+                                            	<select id="applyfor" class="form-control form-select" name="news_resion">
+                                                    <option value="">정렬</option>
+                                                    <option value="Office Executive">등록순</option>
+                                                    <option value="Mutual Fund Executive">행사일순</option>
+                                                    <option value="Financial Investment">지역별</option>
+                                                 </select>
                                             </div>
-
+                                            <div class="col-auto my-2 my-md-0">
+                                            	<select id="applyfor" class="form-control form-select" name="news_resion">
+                                                    <option value="">정렬</option>
+                                                    <option value="Office Executive">등록순</option>
+                                                    <option value="Mutual Fund Executive">행사일순</option>
+                                                    <option value="Financial Investment">지역별</option>
+                                                 </select>
+                                            </div>
+                                            
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="row product-grid">
-
-                            <div class="col-xl-3 col-sm-6">
-                                <div class="product-details">
-                                    <div class="product-img">
-                                        <img src="${pageContext.request.contextPath }/resources/new_assets/img/shop/product-01.jpg" alt="...">
-                                        <div class="product-cart">
-                                            <a href="#!"><i class="fa-regular fa-pen-to-square"></i></a>
-                                            <a href="#!"><i class="fa-solid fa-trash-can"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-info">
-                                        <a href="#!">Sneakers Shoe</a>
-                                    </div>
-                                </div>
-                            </div>
+							<c:forEach var="list" items="${newsAllInfo }">
+	                            <div class="col-xl-3 col-sm-6">
+	                                <div class="product-details">
+	                                    <div class="product-img">
+	                                        <img src="${list.news_src }" alt="..." class="image rounded-3">
+	                                        <div class="product-cart">
+	                                            <a href="/admin/news_view/${list.news_id }"><i class="fa-regular fa-pen-to-square"></i></a>
+	                                            <a href="#!"><i class="fa-solid fa-trash-can"></i></a>
+	                                        </div>
+	                                    </div>
+	                                    <div class="product-info" style="padding: 0;">
+	                                        <a href="/admin/news_view/${list.news_id }">${list.news_subject }</a>
+	                                    </div>
+	                                </div>
+	                            </div>
+							</c:forEach>
                    		</div>
                     <!-- end right panel section -->
 
                 </div>
+            </div>
             </div>
         </section>
 
