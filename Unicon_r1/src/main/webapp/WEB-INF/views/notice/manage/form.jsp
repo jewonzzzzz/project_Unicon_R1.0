@@ -32,11 +32,136 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.min.js"></script>
     
     <style>
-        .sidebar { width: 250px; position: fixed; left: 0; height: 100vh; background: #f8f9fa; }
-        .main-content { margin-left: 250px; padding: 20px; }
-        .preview-image { max-width: 200px; max-height: 200px; object-fit: contain; }
-        .spinner-border { width: 1rem; height: 1rem; }
-        .note-editor .note-editable { background-color: white; }
+     .sidebar { 
+       width: 250px; 
+       position: fixed; 
+       left: 0; 
+       height: 100vh; 
+       background: #f8f9fa;
+       transition: all 0.3s ease;
+   }
+   
+   .main-content { 
+       margin-left: 250px; 
+       padding: 20px;
+       transition: margin 0.3s ease;
+   }
+
+   /* 카드 스타일 */
+   .card {
+       margin-bottom: 20px;
+       border-radius: 8px;
+       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+   }
+
+   .card-body {
+       padding: 2rem;
+   }
+
+   /* 폼 요소 스타일 */
+   .form-label {
+       font-weight: 500;
+       margin-bottom: 0.5rem;
+   }
+
+   .form-control {
+       border-radius: 4px;
+   }
+
+   /* 에디터 스타일 */
+   .note-editor .note-editable { 
+       background-color: white; 
+   }
+
+   .note-editor {
+       border-radius: 4px;
+   }
+
+   /* 이미지 스타일 */
+   .preview-image { 
+       max-width: 200px; 
+       max-height: 200px; 
+       object-fit: contain;
+       border-radius: 4px;
+   }
+
+   /* 모바일 반응형 */
+   @media (max-width: 768px) {
+       /* 레이아웃 */
+       .sidebar {
+           width: 0;
+           overflow: hidden;
+       }
+       
+       .main-content {
+           margin-left: 0;
+           padding: 15px;
+       }
+
+       /* 카드 */
+       .card-body {
+           padding: 1rem;
+       }
+
+       /* 그리드 순서 */
+       .order-1 {
+           order: 1;
+       }
+       
+       .order-2 {
+           order: 2;
+       }
+       
+       .order-3 {
+           order: 3;
+       }
+
+       /* 폼 요소 */
+       .row > div[class^="col-"] {
+           margin-bottom: 1rem;
+       }
+
+       .form-control {
+           height: calc(2.5rem + 2px);
+       }
+
+       /* 에디터 */
+       #noContent {
+           height: 200px !important;
+       }
+
+       /* 이미지 */
+       .preview-image {
+           max-width: 100%;
+           height: auto;
+       }
+
+       /* 버튼 */
+       .btn {
+           padding: 0.75rem 1.5rem;
+           width: 100%;
+           margin-bottom: 0.5rem;
+       }
+   }
+
+   /* 태블릿 반응형 */
+   @media (min-width: 769px) and (max-width: 1024px) {
+       .sidebar {
+           width: 200px;
+       }
+       
+       .main-content {
+           margin-left: 200px;
+       }
+       
+       .card-body {
+           padding: 1.5rem;
+       }
+
+       .row > div[class^="col-"] {
+           margin-bottom: 1rem;
+       }
+   }
     </style>
 </head>
 <body>
@@ -51,24 +176,26 @@
                     <input type="hidden" name="noId" value="${notice.noId}" />
                     
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">제목</label>
-                            <input type="text" class="form-control" name="noTitle" value="${notice.noTitle}" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">작성자</label>
-                            <input type="text" class="form-control" name="noWriter" value="${notice.noWriter}" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">카테고리</label>
-                            <select class="form-control" name="noCategory" required>
-                                <option value="">카테고리 선택</option>
-                                <option value="안내사항" ${notice.noCategory == '안내사항' ? 'selected' : ''}>안내사항</option>
-                                <option value="이벤트" ${notice.noCategory == '이벤트' ? 'selected' : ''}>이벤트</option>
-                                <option value="센터소식" ${notice.noCategory == '센터소식' ? 'selected' : ''}>센터소식</option>
-                            </select>
-                        </div>
-                    </div>
+					    <div class="col-md-2 order-md-1 order-1">
+					        <label class="form-label">카테고리</label>
+					        <select class="form-control" name="noCategory" required>
+					            <option value="">카테고리 선택</option>
+					            <option value="안내사항" ${notice.noCategory == '안내사항' ? 'selected' : ''}>안내사항</option>
+					            <option value="이벤트" ${notice.noCategory == '이벤트' ? 'selected' : ''}>이벤트</option>
+					            <option value="센터소식" ${notice.noCategory == '센터소식' ? 'selected' : ''}>센터소식</option>
+					        </select>
+					    </div>
+					    
+					    <div class="col-md-7 order-md-2 order-2">
+					        <label class="form-label">제목</label>
+					        <input type="text" class="form-control" name="noTitle" value="${notice.noTitle}" required>
+					    </div>
+					    
+					    <div class="col-md-3 order-md-3 order-3">
+					        <label class="form-label">작성자</label>
+					        <input type="text" class="form-control" name="noWriter" value="${notice.noWriter}" required>
+					    </div>
+					</div>
                     
                     <div class="mb-3">
                         <label class="form-label">내용</label>
@@ -101,13 +228,17 @@
                     </div>
                     
                     <div class="text-right">
-                        <button type="button" class="btn btn-secondary" onclick="location.href='/notice/manage'">취소</button>
-                        <button type="submit" id="submitBtn" class="btn btn-primary">저장</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+			            <div class="row">
+			                <div class="col-6">
+			                    <button type="button" class="btn btn-secondary w-100" onclick="location.href='/notice/manage'">취소</button>
+			                </div>
+			                <div class="col-6">
+			                    <button type="submit" id="submitBtn" class="btn btn-primary w-100">저장</button>
+			                </div>
+			            </div>
+			        </div>
+			    </form>
+			</div>
 
     <script>
     var csrfToken = $("meta[name='_csrf']").attr("content");
