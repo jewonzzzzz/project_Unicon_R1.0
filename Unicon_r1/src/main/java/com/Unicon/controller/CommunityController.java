@@ -45,4 +45,15 @@ public class CommunityController {
 		return "community/insert";
 	}
 	
+	// http://localhost:8088/community/main
+	@GetMapping("main")
+	public String template() {
+		return "community/new_template";
+	}
+	
+	@GetMapping("main02")
+	public String templateInsert() {
+		return "community/new_template_insert";
+	}
+	
 } //controller
