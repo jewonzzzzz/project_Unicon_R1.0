@@ -27,13 +27,22 @@ public class CommunityController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
-	// http://localhost:8088/community/
-	@GetMapping("")
+	// http://localhost:8088/community/listAll
+	@GetMapping("listAll")
 	public String readCommunityAll() {
 		
 		logger.info(" community 메인페이지(전체 글) 실행 ");
 		
 		return "community/community";
+	}
+	
+	// http://localhost:8088/community/insert
+	@GetMapping("insert")
+	public String insertCommunity() {
+		
+		logger.info(" community 등록페이지 실행 ");
+		
+		return "community/insert";
 	}
 	
 } //controller
