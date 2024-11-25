@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
-<%@ include file="../inc/topHeader.jsp" %>
+<%@ include file="../inc/new_topHeader.jsp" %>
 
 <!-- CSS 파일 -->
 <link href="${pageContext.request.contextPath }/resources/assets_sub/css/bootstrap.min.css" rel="stylesheet">
@@ -69,7 +69,7 @@
 }
 </style>
 
-<%@ include file="../inc/header.jsp" %>
+<%@ include file="../inc/new_header.jsp" %>
 
 <!--====================================작성부=====================================-->
 <div class="container-xxl py-5">
@@ -287,4 +287,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 기존 JavaScript 라이브러리들 -->
 
-<%@ include file="../inc/footer.jsp" %>
+<%@ include file="../inc/new_footer.jsp" %>
