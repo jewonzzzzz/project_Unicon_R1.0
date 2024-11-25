@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/main")
 public class MainController {
 	
-	@GetMapping("/main")
+	@GetMapping("")
 	public String mainTest() {
 		
-		return "main/main";
+		return "/main/new_template";
 	}
 	
 	//템플릿 테스트
