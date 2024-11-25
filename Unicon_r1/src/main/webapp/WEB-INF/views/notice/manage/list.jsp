@@ -159,44 +159,47 @@
 
                 <!-- 페이지네이션 -->
                 <div class="d-flex justify-content-center mt-4">
-                    <nav>
-                        <ul class="pagination">
-                            <c:if test="${page > 1}">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="goToPage(1)">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="goToPage(${page-1})">
-                                        <i class="fas fa-angle-left"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-                            
-                            <c:forEach begin="${startPage}" end="${endPage}" var="pageNum">
-							    <li class="page-item ${pageNum == page ? 'active' : ''}">
-							        <a class="page-link" href="javascript:void(0)" onclick="goToPage(${pageNum})">
-							            ${pageNum}
-							        </a>
-							    </li>
-							</c:forEach>
-                            
-                            <c:if test="${page < totalPages}">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="goToPage(${page+1})">
-                                        <i class="fas fa-angle-right"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="goToPage(${totalPages})">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
-                                </li>
-                            </c:if>
-                        </ul>
-                    </nav>
-                </div>
+				    <nav>
+				        <ul class="pagination">
+				            <!-- 첫 페이지로 -->
+				            <c:if test="${page > 1}">
+				                <li class="page-item">
+				                    <a class="page-link" href="javascript:goToPage(1)">
+				                        <i class="fas fa-angle-double-left"></i>
+				                    </a>
+				                </li>
+				                <!-- 이전 페이지로 -->
+				                <li class="page-item">
+				                    <a class="page-link" href="javascript:goToPage(${page - 1})">
+				                        <i class="fas fa-angle-left"></i>
+				                    </a>
+				                </li>
+				            </c:if>
+				            
+				            <!-- 페이지 번호들 -->
+				            <c:forEach begin="${startPage}" end="${endPage}" var="pageNum">
+				                <li class="page-item ${pageNum == page ? 'active' : ''}">
+				                    <a class="page-link" href="javascript:goToPage(${pageNum})">${pageNum}</a>
+				                </li>
+				            </c:forEach>
+				            
+				            <!-- 다음 페이지로 -->
+				            <c:if test="${page < totalPages}">
+				                <li class="page-item">
+				                    <a class="page-link" href="javascript:goToPage(${page + 1})">
+				                        <i class="fas fa-angle-right"></i>
+				                    </a>
+				                </li>
+				                <!-- 마지막 페이지로 -->
+				                <li class="page-item">
+				                    <a class="page-link" href="javascript:goToPage(${totalPages})">
+				                        <i class="fas fa-angle-double-right"></i>
+				                    </a>
+				                </li>
+				            </c:if>
+				        </ul>
+				    </nav>
+				</div>
             </div>
         </div>
     </div>
@@ -206,45 +209,43 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-    $(document).ready(function() {
-        // 전체 선택 체크박스 이벤트
-        $('#headerCheckbox').change(function() {
-            $('.notice-check').prop('checked', $(this).is(':checked'));
-        });
-
-        // 검색 폼 제출
-        $('#searchForm').submit(function(e) {
-            e.preventDefault();
-            goToPage(1);
-        });
-    });
-
-    // 페이지 이동
-    function goToPage(page) {
-        const params = new URLSearchParams(new FormData(document.getElementById('searchForm')));
-        params.set('page', page);
-        params.set('size', ${size});
-        location.href = `/notice/manage?${params.toString()}`;
-    }
+    window.goToPage = function(page) {
+        var category = $('select[name="category"]').val();
+        var keyword = $('input[name="keyword"]').val();
+        var startDate = $('input[name="startDate"]').val();
+        var endDate = $('input[name="endDate"]').val();
+        
+        var params = new URLSearchParams();
+        params.append('page', page);
+        params.append('size', '10');
+        
+        if (category) params.append('category', category);
+        if (keyword) params.append('keyword', keyword);
+        if (startDate) params.append('startDate', startDate);
+        if (endDate) params.append('endDate', endDate);
+        
+        window.location.href = '/notice/manage?' + params.toString();
+    };
 
     // 검색 초기화
-    function resetSearch() {
-        location.href = '/notice/manage';
-    }
+    window.resetSearch = function() {
+        window.location.href = '/notice/manage?page=1&size=10';
+    };
 
-    function deleteNotice(noId) {
+    // 공지사항 삭제
+    window.deleteNotice = function(noId) {
         if (!confirm('정말 삭제하시겠습니까?')) {
             return;
         }
         
-        const token = $("meta[name='_csrf']").attr("content");
-        const header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         
         $.ajax({
-        	url: '/notice/api/delete/' + noId,  
+            url: '/notice/api/delete/' + noId,
             type: 'POST',
             beforeSend: function(xhr) {
-                if(token && header) {
+                if (token && header) {
                     xhr.setRequestHeader(header, token);
                 }
             },
@@ -254,11 +255,25 @@
             },
             error: function(xhr) {
                 console.error('Error:', xhr);
-                const errorMsg = xhr.responseText || '서버 오류가 발생했습니다.';
+                var errorMsg = xhr.responseText || '서버 오류가 발생했습니다.';
                 alert('삭제 실패: ' + errorMsg);
             }
         });
-    }
+    };
+
+    // DOM이 완전히 로드된 후 이벤트 핸들러 설정
+    $(document).ready(function() {
+        // 검색 폼 제출
+        $('#searchForm').on('submit', function(e) {
+            e.preventDefault();
+            goToPage(1);
+        });
+        
+        // 전체 선택 체크박스
+        $('#headerCheckbox').on('change', function() {
+            $('.notice-check').prop('checked', $(this).is(':checked'));
+        });
+    });
  	
     </script>
 </body>

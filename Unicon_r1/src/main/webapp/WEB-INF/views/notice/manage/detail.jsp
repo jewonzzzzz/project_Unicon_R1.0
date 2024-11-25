@@ -71,23 +71,38 @@
             </div>
             
             <div class="card-footer bg-white">
-                <div class="d-flex justify-content-between">
-                    <a href="/notice/manage" class="btn btn-secondary">목록으로</a>
-                    <div>
-                        <c:if test="${prevNotice != null}">
-                            <a href="/notice/manage/${prevNotice.noId}" class="btn btn-outline-primary me-2">이전글</a>
-                        </c:if>
-                        <c:if test="${nextNotice != null}">
-                            <a href="/notice/manage/${nextNotice.noId}" class="btn btn-outline-primary me-2">다음글</a>
-                        </c:if>
-                        <!-- 관리자 전용 버튼 -->
-                        <button class="btn btn-warning me-2" 
-                                onclick="location.href='/notice/manage/form?noId=${notice.noId}'">수정</button>
-                        <button class="btn btn-danger" 
-                                onclick="confirmDelete(${notice.noId})">삭제</button>
-                    </div>
-                </div>
-            </div>
+			    <div class="d-flex justify-content-between align-items-center">
+			        <a href="/notice/manage" class="btn btn-secondary">목록으로</a>
+			        <div>
+			            <!-- 이전글/다음글 네비게이션 -->
+			            <div class="btn-group me-2">
+			                <c:if test="${prevNotice != null}">
+			                    <a href="/notice/manage/${prevNotice.noId}" 
+			                       class="btn btn-outline-secondary d-flex align-items-center">
+			                        <i class="fas fa-chevron-left me-2"></i>
+			                        <span class="d-none d-md-inline">이전글: ${prevNotice.noTitle}</span>
+			                        <span class="d-inline d-md-none">이전글</span>
+			                    </a>
+			                </c:if>
+			                <c:if test="${nextNotice != null}">
+			                    <a href="/notice/manage/${nextNotice.noId}" 
+			                       class="btn btn-outline-secondary d-flex align-items-center">
+			                        <span class="d-none d-md-inline">다음글: ${nextNotice.noTitle}</span>
+			                        <span class="d-inline d-md-none">다음글</span>
+			                        <i class="fas fa-chevron-right ms-2"></i>
+			                    </a>
+			                </c:if>
+			            </div>
+			            <!-- 관리 버튼 -->
+			            <div class="btn-group">
+			                <button class="btn btn-warning" 
+			                        onclick="location.href='/notice/manage/form?noId=${notice.noId}'">수정</button>
+			                <button class="btn btn-danger" 
+			                        onclick="confirmDelete(${notice.noId})">삭제</button>
+			            </div>
+			        </div>
+			    </div>
+			</div>
         </div>
     </div>
 </div>
