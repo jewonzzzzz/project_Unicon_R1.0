@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
-<%@ include file="../inc/topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
+<%@ include file="../inc/new_topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
 
 <!-- 추가 템플릿 css/js 작성란 -->
 
@@ -14,7 +14,7 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<%@ include file="../inc/header.jsp" %> <!-- header -->
+<%@ include file="../inc/new_header.jsp" %> <!-- header -->
 
 <!--====================================작성부=====================================-->
 <!-- 공지사항 상세 부분 -->
@@ -113,4 +113,4 @@
     <!-- Template Javascript -->
     <script src="${pageContext.request.contextPath }/resources/assets_sub/js/main.js"></script>
 
-<%@ include file="../inc/footer.jsp" %> <!-- footer -->
+<%@ include file="../inc/new_footer.jsp" %> <!-- footer -->
