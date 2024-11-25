@@ -41,3 +41,6 @@
 
     <!-- custom css -->
     <link href="${pageContext.request.contextPath }/resources/new_assets/css/custom.css" rel="stylesheet">
+    
+    <!-- jquery -->
+    <script src="${pageContext.request.contextPath }/resources/new_assets/js/jquery.min.js"></script>

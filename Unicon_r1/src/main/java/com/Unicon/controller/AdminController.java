@@ -40,21 +40,21 @@ public class AdminController {
 	}
 	
 	//관리자페이지 - 소식관리페이지 이동
-	@GetMapping("/news")
+	@GetMapping("/news_manage")
 	public String adminNews(Model model) {
 		
 		// 모든정보 조회 서비스
-		List<newsVO> newsAllInfo = nService.getNewsAll();
+		//List<newsVO> newsAllInfo = nService.getNewsAll();
 		
-		model.addAttribute("newsAllInfo", newsAllInfo);
+		//model.addAttribute("newsAllInfo", newsAllInfo);
 		
-		return "admin/news";
+		return "/admin/news_manage";
 	}
 	
 	//소식등록페이지 이동
-	@GetMapping("/newsCreate")
+	@GetMapping("/news_create")
 	public String adminNewsCreateGET() {
-		return "admin/newsCreate";
+		return "admin/news_create";
 	}
 	
 	//소식등록처리

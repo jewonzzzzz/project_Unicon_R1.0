@@ -348,7 +348,7 @@
                                         <li><a href="#!">관리자페이지</a>
                                             <ul>
                                                 <li><a href="shop-product-grid.html">슬라이드관리</a></li>
-                                                <li><a href="shop-product-list.html">소식관리</a></li>
+                                                <li><a href="/admin/news_manage">소식관리</a></li>
                                             </ul>
                                         </li>
                                         <li></li>
