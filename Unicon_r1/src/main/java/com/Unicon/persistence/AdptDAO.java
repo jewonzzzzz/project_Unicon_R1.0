@@ -14,10 +14,11 @@ import com.Unicon.domain.AdptVO;
 import com.Unicon.domain.AdptVaccineVO;
 import com.Unicon.domain.ImageVO;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+
 
 @Repository("AdptDAO")
-@Log4j
+@Log4j2
 public class AdptDAO {
 	
 	@Inject

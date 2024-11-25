@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="/resources/admin/vendors/flag-icon-css/css/flag-icon.min.css">
 <link rel="stylesheet" href="/resources/admin/vendors/css/vendor.bundle.base.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <!-- endinject -->
 <!-- Plugin css for this page -->
 <!-- End plugin css for this page -->
@@ -24,7 +23,6 @@
 <style type="text/css">
 	.upload-container {
 		position: relative;
-		width: 11vw;
 		aspect-ratio: 1 / 1;
 		border: 2px dashed #ccc;
 		display: flex;
@@ -32,18 +30,6 @@
 		align-items: center;
 		overflow: hidden;
 		background-color: #f9f9f9;
-	}
-	
-	@media (max-width: 1024px) {
-		.upload-container {
-			width: 15vw;
-		}
-	}
-	
-	@media (max-width: 768px) {
-		.upload-container {
-			width: 20vw;
-		}
 	}
 	
 	.upload-button {
@@ -57,16 +43,12 @@
 		margin: 0;
 	}
 	
-	.upload-button input {
-		display: none;
-	}
-	
-	.mdi-plus {
+	#plusIcon1, #plusIcon2, #plusIcon3, #plusIcon4, #plusIcon5 {
 		font-size: 2rem;
 		color: #888;
 	}
 	
-	#image-preview {
+	#image-preview1, #image-preview2, #image-preview3, #image-preview4, #image-preview5 {
 		width: 100%;
 		height: 100%;
 		object-fit: fill;
@@ -77,13 +59,43 @@
 		display: flex;
 		flex: 1;
 	}
+	
 	.custom-label {
-		font-size: 1.4rem !important;
+		font-size: 1.2rem !important;
 	}
+	
 	.custom-select {
-		font-size: 1.25rem;
+		font-size: 1.1rem;
 	}
+	
+.dropdown {
+position: relative; /* 드롭다운 위치 설정 */
+}
 
+.dropdown-menu {
+display: none; /* 기본적으로 숨김 */
+position: absolute; /* 드롭다운 목록을 절대 위치로 설정 */
+z-index: 1000; /* 다른 요소 위에 표시 */
+background-color: white; /* 배경색 */
+border: 1px solid #ccc; /* 테두리 */
+width: 100%; /* 입력 필드와 같은 너비 */
+height: 50vh;
+overflow-y: auto; /* 세로 스크롤 가능 */
+}
+
+.dropdown-menu.show {
+display: block; /* show 클래스가 있을 때 표시 */
+}
+
+.dropdown-item {
+padding: 8px; /* 항목 패딩 */
+cursor: pointer; /* 포인터 커서 */
+}
+
+.dropdown-item:hover {
+background-color: #f0f0f0; /* 호버 효과 */
+}
+	
 </style>
 </head>
 	<body>
@@ -106,34 +118,63 @@
 										<form class="forms-adptwritings">
 											<div class="form-group row">
 												<div class="col-12 col-md-3 mb-2">
-												<label for="exampleSelectGender" class="text-dark custom-label">동물종류</label>
-												<select class="form-control custom-select" id="exampleSelectGender">
-													<option>개</option>
-													<option>고양이</option>
-													<option>기타</option>
-												</select>
+													<label for="petType" class="text-dark custom-label">동물 종류</label>
+													<select class="form-control custom-select" id="petType">
+														<option value="">동물 종류 선택</option>
+													</select>
+												</div>
+												<div class="dropdown col-12 col-md-3 mb-2">
+													<label class="text-dark custom-label">종류</label>
+													<input type="text" id="searchInput" class="form-control"/>
+													<div id="dropdownList" class="dropdown-menu"></div>
 												</div>
 												<div class="col-12 col-md-3 mb-2">
-												<label for="petType" class="text-dark custom-label">종류</label>
-												<select class="form-control custom-select" id="petType">
-													<option value="">선택</option>
-												</select>
-												</div>
-												<div class="col-12 col-md-3 mb-2">
-												<label for="exampleInputName2" class="text-dark custom-label">기타 종류</label>
-												<input type="text" class="form-control" id="exampleInputName2" placeholder="Name2">
+													<label for="exampleInputName2" class="text-dark custom-label">기타 종류</label>
+													<input type="text" class="form-control" id="exampleInputName2" placeholder="Name2">
 												</div>
 												<div class="col-12 col-md-3 mb-2"></div>
 											</div>
 											
-											<div class="form-group">
-												<label>Image upload</label>
-											    <div class="upload-container">
-													<label for="image-input" class="upload-button">
-														<input type="file" class="file-upload-default" accept="image/*" id="image-input" />
-														<i class="mdi mdi-plus"></i>
-														<img id="image-preview" alt="이미지 미리보기" />
-													</label>
+											<div class="form-group row">
+												<div class="col-10 col-xl-2 col-lg-3 col-md-3 mr-3 mb-2">
+													<label class="text-dark custom-label">대표 이미지</label>
+												    <div class="upload-container">
+														<label for="image-input1" class="upload-button">
+															<input type="file" class="file-upload-default image-input" accept="image/*" id="image-input1" />
+															<i id="plusIcon1" class="mdi mdi-plus"></i>
+															<img id="image-preview1" alt="이미지 미리보기" />
+														</label>
+													</div>
+												</div>
+												<div class="col-10 col-xl-2 col-lg-3 col-md-3 mr-3 mb-2">
+													<label class="text-dark custom-label">이미지</label>
+												    <div class="upload-container">
+														<label for="image-input2" class="upload-button">
+															<input type="file" class="file-upload-default image-input" accept="image/*" id="image-input2" />
+															<i id="plusIcon2" class="mdi mdi-plus"></i>
+															<img id="image-preview2" alt="이미지 미리보기" />
+														</label>
+													</div>
+												</div>
+												<div class="col-10 col-xl-2 col-lg-3 col-md-3 mr-3 mb-2">
+													<label class="text-dark custom-label">이미지</label>
+												    <div class="upload-container">
+														<label for="image-input3" class="upload-button">
+															<input type="file" class="file-upload-default image-input" accept="image/*" id="image-input3" />
+															<i id="plusIcon3" class="mdi mdi-plus"></i>
+															<img id="image-preview3" alt="이미지 미리보기" />
+														</label>
+													</div>
+												</div>
+												<div class="col-10 col-xl-2 col-lg-3 col-md-3 mr-3 mb-2">
+													<label class="text-dark custom-label">이미지</label>
+												    <div class="upload-container">
+														<label for="image-input4" class="upload-button">
+															<input type="file" class="file-upload-default image-input" accept="image/*" id="image-input4" />
+															<i id="plusIcon4" class="mdi mdi-plus"></i>
+															<img id="image-preview4" alt="이미지 미리보기" />
+														</label>
+													</div>
 												</div>
 											</div>
 											<div class="form-group">
@@ -171,73 +212,128 @@
 		<script src="/resources/admin/js/off-canvas.js"></script>
 		<script src="/resources/admin/js/hoverable-collapse.js"></script>
 		<script src="/resources/admin/js/misc.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 		<!-- endinject -->
 		<!-- Custom js for this page -->
 		<script>
 			$(function() {
 				/*=============== 이미지 미리보기 ===============*/
-				$('#image-input').change(function(e) {
+				$('.image-input').on('change', function(e) {
 					const file = e.target.files[0];
 					const reader = new FileReader();
-		
-					reader.onload = function(e) {
-						$('#image-preview').attr('src', e.target.result).show();
-						$('.mdi-plus').hide();
-					}
-		
+					
+					const inputId = e.target.id;
+					const previewId = '#image-preview' + inputId.charAt(inputId.length - 1);
+					const plusIconId = '#plusIcon' + inputId.charAt(inputId.length - 1);
+				
 					if (file) {
+						reader.onload = function(e) {
+							$(previewId).attr('src', e.target.result).show();
+							$(plusIconId).hide();
+						}
 						reader.readAsDataURL(file);
+					} else {
+						$(previewId).hide();
+						$(plusIconId).show();
 					}
 				});
 				/*=============== 이미지 미리보기 ===============*/
 				
 				
-				/*=============== 검색 드롭다운 ===============*/
-				let cachedData = null; 
+				/*=============== 동물 종류 리스트 가져오기 ===============*/
+				$('#petType').on('click', function() {
+					const $select = $('#petType');
 				
-				function loadData() {
-				    return $.ajax({
-				        url: '/path/to/your/api',
-				        dataType: 'json'
-				    }).then(function(data) {
-				        cachedData = data.items;
-				        return cachedData;
-				    });
+					if ($select.find('option').length === 1) {
+						$.ajax({
+							url: '/petData/petType',
+							type: 'GET',
+							dataType: 'json',
+							success: function(data) {
+								$select.empty();
+								$select.append('<option value="">동물 종류 선택</option>');
+				
+								data.forEach(function(item) {
+									$select.append("<option value='" + item.pet_code + "'>" + item.pet_type + "</option>");
+								});
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.error('AJAX 요청 실패:', textStatus, errorThrown);
+							}
+						});
+					}
+				});
+				/*=============== 동물 종류 리스트 가져오기 ===============*/
+				
+				
+				/*=============== 검색 드롭다운 ===============*/
+				function petTypeDetailList(petType) {
+					$.ajax({
+						url: '/petData/petType/' + petType,
+						method: 'GET',
+						success: function(data) {
+							populateDropdown(data);
+						},
+						error: function(error) {
+							console.error('데이터를 가져오는 데 실패했습니다:', error);
+						}
+					});
 				}
 				
-				// Select2를 초기화하고 AJAX 설정을 추가합니다.
-				$('#exampleSelect').select2({
-				    ajax: {
-				        transport: function(params, success, failure) {
-				            // AJAX 요청을 처리하는 transport 함수입니다.
-				            if (cachedData) {
-				                // 캐시된 데이터가 존재하는 경우
-				                // success 콜백을 호출하여 캐시된 데이터를 반환합니다.
-				                success(cachedData);
-				            } else {
-				                // 캐시된 데이터가 없는 경우
-				                // loadData() 함수를 호출하여 AJAX 요청을 수행합니다.
-				                loadData().then(success) // 요청이 성공하면 success 콜백을 호출합니다.
-				                    .catch(failure); // 요청이 실패하면 failure 콜백을 호출합니다.
-				            }
-				        },
-				        delay: 250, // 사용자가 입력한 후, AJAX 요청을 보내기까지의 지연 시간 (250ms)
-				        data: function (params) {
-				            // AJAX 요청 시 서버에 전달할 데이터를 정의합니다.
-				            return {
-				                q: params.term // 사용자가 입력한 검색어를 'q'라는 키로 전달합니다.
-				            };
-				        },
-				        processResults: function(data) {
-				            // 서버에서 받은 데이터를 Select2가 이해할 수 있는 형식으로 변환합니다.
-				            return {
-				                results: data // 캐시된 데이터를 반환합니다.
-				            };
-				        }
-				    },
-				    minimumInputLength: 1 // 사용자가 입력해야 하는 최소 문자 수를 설정합니다. 1글자 이상 입력해야 AJAX 요청이 발생합니다.
+				function populateDropdown(data) {
+					const dropdownList = $('#dropdownList');
+					dropdownList.empty();
+				
+					data.forEach(item => {
+						dropdownList.append("<div class='dropdown-item' data-value='" + item.pet_code + "'>" + item.pet_breed + "</div>");
+					});
+				
+					if (data.length > 0) {
+					} else {
+						dropdownList.removeClass('show');
+					}
+				}
+				
+				$('#petType').on('change', function() {
+					const selectedType = $(this).val();
+					if (selectedType) {
+						petTypeDetailList(selectedType);
+					} else {
+						$('#dropdownList').empty().removeClass('show');
+					}
 				});
+				
+				$('#searchInput').on('focus', function() {
+					const dropdownList = $('#dropdownList');
+					dropdownList.addClass('show');
+				});
+				
+				$('#searchInput').on('input', function() {
+					const filter = $(this).val().toLowerCase();
+					const dropdownList = $('#dropdownList');
+				
+					if (!filter) {
+						dropdownList.removeClass('show');
+					}
+				
+					dropdownList.addClass('show');
+				
+					dropdownList.children().each(function() {
+						const text = $(this).text().toLowerCase();
+						$(this).toggle(text.includes(filter));
+					});
+				});
+				
+				$(document).on('click', '.dropdown-item', function() {
+					$('#searchInput').val($(this).text());
+					$('#dropdownList').removeClass('show');
+				});
+				
+				$(document).click(function(event) {
+					if (!$(event.target).closest('.dropdown').length) {
+						$('#dropdownList').removeClass('show');
+					}
+				});
+
 				/*=============== 검색 드롭다운 ===============*/
 				
 				
