@@ -15,7 +15,7 @@
 <%@ include file="../inc/header.jsp" %> <!-- header -->
 
 <!--====================================작성부=====================================-->
-
+<!-- 공지사항 상세 부분 -->
 <div class="container-xxl py-5">
     <div class="container">
         <!-- 공지사항 상세 내용 -->
@@ -66,20 +66,33 @@
             </div>
             
             <div class="card-footer bg-white">
-                <div class="d-flex justify-content-between">
-                    <a href="/notice" class="btn btn-secondary">목록으로</a>
-                    <div>
+            	<div class="d-flex justify-content-between align-items-center">
+              	  <a href="/notice" class="btn btn-secondary">목록으로</a>
+           		<div>
+                    <!-- 이전글/다음글 네비게이션 -->
+                    <div class="btn-group me-2">
                         <c:if test="${prevNotice != null}">
-                            <a href="/notice/${prevNotice.noId}" class="btn btn-outline-primary me-2">이전글</a>
+                            <a href="/notice/${prevNotice.noId}" 
+                               class="btn btn-outline-secondary d-flex align-items-center">
+                                <i class="fas fa-chevron-left me-2"></i>
+                                <span class="d-none d-md-inline">이전글: ${prevNotice.noTitle}</span>
+                                <span class="d-inline d-md-none">이전글</span>
+                            </a>
                         </c:if>
                         <c:if test="${nextNotice != null}">
-                            <a href="/notice/${nextNotice.noId}" class="btn btn-outline-primary">다음글</a>
+                            <a href="/notice/${nextNotice.noId}" 
+                               class="btn btn-outline-secondary d-flex align-items-center">
+                                <span class="d-none d-md-inline">다음글: ${nextNotice.noTitle}</span>
+                                <span class="d-inline d-md-none">다음글</span>
+                                <i class="fas fa-chevron-left me-2"></i>
+                            </a>
                         </c:if>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!--====================================작성부=====================================-->

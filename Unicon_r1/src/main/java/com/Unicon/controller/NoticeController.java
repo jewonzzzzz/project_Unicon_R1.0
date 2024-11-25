@@ -64,12 +64,29 @@ public class NoticeController {
     
     @GetMapping("/{noId}")
     public String userDetail(@PathVariable Long noId, Model model) throws Exception {
-        NoticeVO notice = noService.getNotice(noId);
-        List<NoticeFileVO> files = fileService.getFilesByNoticeId(noId);
-        notice.setFiles(files);
-        
-        model.addAttribute("notice", notice);
-        return "notice/detail"; 
+        try {
+            // 현재 공지사항 조회
+            NoticeVO notice = noService.getNotice(noId);
+            
+            // 이전글/다음글 조회
+            NoticeVO prevNotice = noService.getPrevNotice(noId);
+            NoticeVO nextNotice = noService.getNextNotice(noId);
+            
+            // 첨부파일 조회
+            List<NoticeFileVO> files = fileService.getFilesByNoticeId(noId);
+            notice.setFiles(files);
+            
+            // 모델에 데이터 추가
+            model.addAttribute("notice", notice);
+            model.addAttribute("prevNotice", prevNotice);
+            model.addAttribute("nextNotice", nextNotice);
+            
+            return "notice/detail";
+        } catch (Exception e) {
+            // 예외 처리
+            logger.error("공지사항 조회 중 오류 발생", e);
+            return "redirect:/notice";
+        }
     }
     
     // ======= 관리자 뷰 매핑 =======
