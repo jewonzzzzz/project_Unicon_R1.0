@@ -18,10 +18,11 @@ import com.Unicon.domain.AdptVaccineVO;
 import com.Unicon.domain.ImageVO;
 import com.Unicon.service.AdptService;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+
 
 @RestController
-@Log4j
+@Log4j2
 @RequestMapping("/adptmgmt/**")
 public class AdptRestController {
 	

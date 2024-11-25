@@ -11,10 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.Unicon.domain.AdptVO;
 import com.Unicon.persistence.AdptDAO;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+
 
 @Service("AdptService")
-@Log4j
+@Log4j2
 public class AdptService {
 	
 	@Inject

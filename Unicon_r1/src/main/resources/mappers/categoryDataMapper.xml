@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Unicon.mapper.categoryDataMapper">
+<select id="petTypeAll" resultType="CategoryDataVO">
+	select distinct category_code, category_type 
+	 from _category_data 
+	  where mod(category_code,1000)=0
+</select>
+
+<select id="petTypeDetail" resultType="CategoryDataVO">
+	select category_code, category_type, category_value 
+	 from _category_data 
+	  where truncate((category_code/1000),0) = truncate((#{num}/1000),0)
+</select>
+
+
+
+
+</mapper>
