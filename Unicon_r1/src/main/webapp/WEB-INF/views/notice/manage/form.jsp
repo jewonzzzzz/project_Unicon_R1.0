@@ -110,10 +110,19 @@
     </div>
 
     <script>
-    $(document).ready(function() {
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
+    // CSRF 토큰이 존재할 때만 ajaxSetup 설정
+    if (csrfToken && csrfHeader) {
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            }
+        });
+    }
+
+    $(document).ready(function() {
         // Summernote 초기화
         $('#noContent').summernote({
             height: 300,
@@ -167,29 +176,27 @@
 
     // 이미지 업로드 함수
     function uploadSummernoteImage(file, editor) {
-        var formData = new FormData();
-        formData.append("file", file);
+    var formData = new FormData();
+    formData.append("file", file);
 
-        $.ajax({
-            url: '/notice/api/upload',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            success: function(imageUrl) {
-                console.log('이미지 업로드 성공:', imageUrl);
-                var fullUrl = window.location.origin + imageUrl;
-                $(editor).summernote('insertImage', fullUrl);
-            },
-            error: function(xhr, status, error) {
-                console.error('이미지 업로드 실패:', error);
-                alert('이미지 업로드에 실패했습니다.');
-            }
-        });
-    }
+    $.ajax({
+        url: '/notice/api/upload',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(imageUrl) {
+            console.log('이미지 업로드 성공:', imageUrl);
+            $(editor).summernote('insertImage', imageUrl);
+        },
+        error: function(xhr, status, error) {
+            console.error('이미지 업로드 실패:', error);
+            console.error('상태 코드:', xhr.status);
+            console.error('응답 텍스트:', xhr.responseText);
+            alert('이미지 업로드에 실패했습니다.');
+        }
+    });
+}
 
     function validateForm() {
         const title = $('input[name="noTitle"]').val().trim();
