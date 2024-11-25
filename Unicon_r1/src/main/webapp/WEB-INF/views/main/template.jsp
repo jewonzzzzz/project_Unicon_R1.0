@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../inc/topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
+<%@ include file="../inc/topHeader.jsp" %> <!-- topHeader -->
 
 <!-- 추가 템플릿 css/js 작성란 -->
 
 </head>
-<%@ include file="../inc/header.jsp" %> <!-- header -->
+<%@ include file="../inc/new_header.jsp" %> <!-- header -->
 
 <!--====================================작성부=====================================-->
 <!-- 아래는 예시 -->
@@ -16,4 +16,4 @@
 
 <!--====================================작성부=====================================-->
 
-<%@ include file="../inc/footer.jsp" %> <!-- footer -->
+<%@ include file="../inc/new_footer.jsp" %> <!-- footer -->
