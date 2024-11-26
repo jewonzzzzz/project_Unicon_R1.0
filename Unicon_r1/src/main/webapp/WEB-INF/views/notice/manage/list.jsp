@@ -35,7 +35,7 @@ body .container-scroller .page-body-wrapper {
        padding: 20px !important;
        width: calc(100% - 250px) !important;
        transition: all 0.3s ease !important;
-       min-width: 0 !important; /* 추가 */
+       min-width: 0 !important; 
    }
 
    .content-wrapper {

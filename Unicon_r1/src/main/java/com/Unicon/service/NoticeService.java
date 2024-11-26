@@ -11,7 +11,7 @@ public interface NoticeService {
     void registerNotice(NoticeVO noVO) throws Exception;
     
     // 공지사항 목록 조회
-    Map<String, Object> getNoticeList(int page, int size, String category, String keyword) throws Exception;
+    Map<String, Object> getNoticeList(int page, int size, String category, String keyword, String startDate, String endDate) throws Exception;
     
     // 공지사항 상세 조회
     NoticeVO getNotice(Long noId) throws Exception;
