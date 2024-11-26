@@ -31,5 +31,15 @@ public class CategoryDataDAO {
 	}
 	
 	
+	public List<CategoryDataVO> petProductsCategory() {
+		log.info("( •̀ ω •́ )✧petProductsCategory() 실행");
+		return sqlSession.selectList(NAMESPACE+"petProductsCategory");
+	}
+	
+	public List<CategoryDataVO> petProductsCategoryDetail(String value) {
+		log.info("( •̀ ω •́ )✧petProductsCategoryDetail(value) 실행"+ value);
+		return sqlSession.selectList(NAMESPACE+"petProductsCategoryDetail",value);
+	}
+	
 	
 }

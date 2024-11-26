@@ -30,6 +30,14 @@ public class CategoryDataService {
 	}
 	
 	
-	/*public List<CategoryDataVO> c*/
+	public List<CategoryDataVO> petProductsCategory() {
+		log.info("( •̀ ω •́ )✧petProductsCategory() 실행");
+		return cDAO.petProductsCategory();
+	}
+	
+	public List<CategoryDataVO> petProductsCategoryDetail(String value) {
+		log.info("( •̀ ω •́ )✧petProductsCategoryDetail() 실행");
+		return cDAO.petProductsCategoryDetail(value);
+	}
 	
 }

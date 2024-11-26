@@ -1,4 +1,6 @@
-/*package com.Unicon.controller;
+package com.Unicon.controller;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,22 +28,33 @@ public class StoreRestController {
 	@Inject 
 	private CategoryDataService cService;
 	
-	@RequestMapping(value = "/category/{value}", method = RequestMethod.GET)
-    public ResponseEntity<String> categoryDataGET(@PathVariable("value") String value) {
-		logger.info("listAllBoard() 호출 ");
+	@RequestMapping(value = "/category", method = RequestMethod.GET)
+    public ResponseEntity<List<CategoryDataVO>> categoryDataGET() {
+		logger.info("categoryDataGET() 호출 ");
 		
-		ResponseEntity<String> respEntity = null;
-		try {
-			CategoryDataVO CategoryDataist = cService.(bno);
-			respEntity = new ResponseEntity<CategoryDataVO>(CategoryDataist, HttpStatus.OK);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}	
+		List<CategoryDataVO> CategoryDataList = cService.petProductsCategory();
 		
-		return respEntity;
+		if(CategoryDataList == null) {
+			return new ResponseEntity<List<CategoryDataVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return new ResponseEntity<List<CategoryDataVO>>(CategoryDataList, HttpStatus.OK);
+		}
+		
     }
+	@RequestMapping(value = "/category/{value}", method = RequestMethod.GET)
+	public ResponseEntity<List<CategoryDataVO>> sscategoryDataGET(@PathVariable("value") String value) {
+		logger.info("categoryDataGET(value) 호출 ");
+		
+		List<CategoryDataVO> CategoryDetailDataList = cService.petProductsCategoryDetail(value);
+		
+		if(CategoryDetailDataList == null) {
+			return new ResponseEntity<List<CategoryDataVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return new ResponseEntity<List<CategoryDataVO>>(CategoryDetailDataList, HttpStatus.OK);
+		}
+		
+	}
 	
 	
 	
 }
-*/
