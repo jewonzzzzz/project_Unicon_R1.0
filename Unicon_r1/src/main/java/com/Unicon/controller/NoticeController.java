@@ -165,6 +165,7 @@ public class NoticeController {
         @RequestParam("noCategory") String noCategory,
         @RequestParam(value = "important", defaultValue = "false") boolean important,
         @RequestParam(value = "noEmail", defaultValue = "false") boolean noEmail,
+        @RequestParam(value = "status", required = false, defaultValue = "active") String status,
         @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
         HttpServletRequest request) {
         
@@ -179,6 +180,7 @@ public class NoticeController {
             noVO.setNoCategory(noCategory);
             noVO.setImportant(important);
             noVO.setNoEmail(noEmail);
+            noVO.setStatus(status);
             
             // 썸네일 처리
             if (thumbnail != null && !thumbnail.isEmpty()) {
@@ -419,6 +421,30 @@ public class NoticeController {
                 Map.of("error", "썸네일 업로드 실패: " + e.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR
             );
+        }
+    }
+    
+    // 임시저장 목록 조회
+    @GetMapping("/manage/drafts")
+    @ResponseBody
+    public ResponseEntity<List<NoticeVO>> getDrafts() {
+        try {
+            List<NoticeVO> drafts = noService.getDraftList();
+            return ResponseEntity.ok(drafts);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    // 임시저장 글 조회
+    @GetMapping("/manage/draft/{noId}")
+    @ResponseBody
+    public ResponseEntity<NoticeVO> getDraft(@PathVariable Long noId) {
+        try {
+            NoticeVO draft = noService.getDraft(noId);
+            return ResponseEntity.ok(draft);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     
