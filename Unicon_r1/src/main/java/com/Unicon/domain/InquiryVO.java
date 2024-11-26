@@ -36,6 +36,7 @@ public class InquiryVO {
 	int phone;
 	String MultipartFile;
 	
+	private String recaptcha; // reCAPTCHA 토큰
 	
 	
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../inc/topHeader.jsp"%>
+<%@ include file="../inc/new_topHeader.jsp"%>
 <!-- topHeader / jquery 추가 -->
 
 <!-- 추가 템플릿 css/js 작성란 -->
@@ -163,7 +163,7 @@ h2 {
 
 </style>
 </head>
-<%@ include file="../inc/header.jsp"%>
+<%@ include file="../inc/new_header.jsp"%>
 <!-- header -->
 
 <!--====================================작성부=====================================-->
@@ -285,5 +285,5 @@ $(document).ready(function () {
 
 <!--====================================작성부=====================================-->
 
-<%@ include file="../inc/footer.jsp"%>
+<%@ include file="../inc/new_footer.jsp"%>
 <!-- footer -->

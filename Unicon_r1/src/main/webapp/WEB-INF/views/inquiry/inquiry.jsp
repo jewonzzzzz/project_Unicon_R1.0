@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../inc/topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
+<%@ include file="../inc/new_topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
+
+  <!-- Customized Bootstrap Stylesheet -->
+    <link href="${pageContext.request.contextPath }/resources/assets_sub/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="${pageContext.request.contextPath }/resources/assets_sub/css/style.css" rel="stylesheet">
 
 <!-- 추가 템플릿 css/js 작성란 -->
 <style>
@@ -99,9 +105,28 @@
 }
 
 
+/* 부드러운 호버 애니메이션 */
+.transition-all {
+    transition: all 0.3s ease-in-out;
+}
+
+/* 기본 상태에서 투명 */
+.hover-opacity-100 {
+    opacity: 1 !important;
+}
+
+.card-img-overlay {
+    opacity: 0; /* 기본 숨김 */
+}
+
+.card:hover .card-img-overlay {
+    opacity: 1; /* 호버 시 표시 */
+}
+
+
 </style>
 </head>
-<%@ include file="../inc/header.jsp" %> <!-- header -->
+<%@ include file="../inc/new_header.jsp" %> <!-- header -->
 
 <!--====================================작성부=====================================-->
 	<div class="customer-support">
@@ -130,89 +155,106 @@
 
 
 	
-<div class="sec-banner bg0 p-t-80 p-b-50">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img src="${pageContext.request.contextPath}/resources/assets/images/yang.jpg" alt="IMG-BANNER">
 
-						<a href="adoption" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									입양
-								</span>
+<section class="project-single-two">
 
-								<span class="block1-info stext-102 trans-04">
-									유기견 입양 관련 문의
-								</span>
-							</div>
+            <div class="container">
+                <div class="section-heading">
+                    <h2>카테고리 별 문의사항</h2>
+                </div>
+            </div>
 
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									inquiry Now
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
+            <div class="container-fluid p-0">
 
-				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img src="${pageContext.request.contextPath}/resources/assets/images/yong.jpg" alt="IMG-BANNER">
+                <div class="owl-carousel owl-theme owl-loaded owl-drag">
 
-						<a href="shop" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									쇼핑몰
-								</span>
+                    
 
-								<span class="block1-info stext-102 trans-04">
-									애견 용품 쇼핑 관련 문의
-								</span>
-							</div>
+                    
 
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									inquiry Now
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
+                    
 
-				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img src="${pageContext.request.contextPath}/resources/assets/images/co.jpg" alt="IMG-BANNER">
+                    
+                <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1933px;"><div class="owl-item active" style="width: 453.25px; margin-right: 30px;"><div class="project-grid-style3">
+                        <div class="inner-box">
+                            <div class="project-image">
+                                <img src="${pageContext.request.contextPath}/resources/assets/images/yang.jpg" alt="...">
+                                <div class="overlay">
+                                    <div class="overlay-inner">
+                                        <div class="description">
+                                            <div class="text"> 입양 관련 문의 </div>
+                                            <a href="adoption" class="read-more"><span class="fa fa-angle-right"></span> Inquiry now </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-desc">
+                                <div class="category">Saving investments</div>
+                                <h3><a href="adoption">Hands working with finances saving economy</a></h3>
+                            </div>
+                        </div>
+                    </div></div><div class="owl-item active" style="width: 453.25px; margin-right: 30px;"><div class="project-grid-style3">
+                        <div class="inner-box">
+                            <div class="project-image">
+                                <img src="${pageContext.request.contextPath}/resources/assets/images/yong.jpg" alt="...">
+                                <div class="overlay">
+                                    <div class="overlay-inner">
+                                        <div class="description">
+                                            <div class="text">Lorem ipsum dolor sit amet adipisicing elit sed eiusmod tempor incididunt ut labore et dolore magna aliqua. Utna enim ad minim veniam quis nostrud exercitation ulamco laboris nisi aliquip exea comm ayodo consequat.
+                                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</div>
+                                            <a href="shop" class="read-more"><span class="fa fa-angle-right"></span> Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-desc">
+                                <div class="category">Online consulting</div>
+                                <h3><a href="shop">Communication technology with consulting</a></h3>
+                            </div>
+                        </div>
+                    </div></div><div class="owl-item active" style="width: 453.25px; margin-right: 30px;"><div class="project-grid-style3">
+                        <div class="inner-box">
+                            <div class="project-image">
+                                <img src="${pageContext.request.contextPath}/resources/assets/images/co.jpg" alt="...">
+                                <div class="overlay">
+                                    <div class="overlay-inner">
+                                        <div class="description">
+                                            <div class="text">Lorem ipsum dolor sit amet adipisicing elit sed eiusmod tempor incididunt ut labore et dolore magna aliqua. Utna enim ad minim veniam quis nostrud exercitation ulamco laboris nisi aliquip exea comm ayodo consequat.
+                                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</div>
+                                            <a href="community" class="read-more"><span class="fa fa-angle-right"></span> Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-desc">
+                                <div class="category">Investment bank</div>
+                                <h3><a href="community">Instead of cash investment banking money</a></h3>
 
-						<a href="community" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									커뮤니티
-								</span>
+                            </div>
+                        </div>
+                    </div></div><div class="owl-item active" style="width: 453.25px; margin-right: 30px;"><div class="project-grid-style3">
+                        <div class="inner-box">
+                            <div class="project-image">
+                                <img src="${pageContext.request.contextPath}/resources/assets/images/git.jpg" alt="...">
+                                <div class="overlay">
+                                    <div class="overlay-inner">
+                                        <div class="description">
+                                            <div class="text">Lorem ipsum dolor sit amet adipisicing elit sed eiusmod tempor incididunt ut labore et dolore magna aliqua. Utna enim ad minim veniam quis nostrud exercitation ulamco laboris nisi aliquip exea comm ayodo consequat.
+                                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</div>
+                                            <a href="project-detail.html" class="read-more"><span class="fa fa-angle-right"></span> Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-								<span class="block1-info stext-102 trans-04">
-									 커뮤니티 관련 문의
-								</span>
-							</div>
-
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									inquiry Now
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
+                            <div class="project-desc">
+                                <div class="category">Finance analysis</div>
+                                <h3><a href="project-detail.html">Making presentation for finance research analysis</a></h3>
+                            </div>
+                        </div>
+                    </div></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div><div class="owl-thumbs"></div></div>
+            </div>
+        </section>
 <script>
 
 
@@ -225,5 +267,22 @@
 	
 
 <!--====================================작성부=====================================-->
+<!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/wow/wow.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/easing/easing.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/waypoints/waypoints.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/counterup/counterup.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/parallax/parallax.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/lib/lightbox/js/lightbox.min.js"></script>
 
-<%@ include file="../inc/footer.jsp" %> <!-- footer -->
+    <!-- Template Javascript -->
+    <script src="${pageContext.request.contextPath }/resources/assets_sub/js/main.js"></script>
+
+
+
+
+<%@ include file="../inc/new_footer.jsp" %> <!-- footer -->

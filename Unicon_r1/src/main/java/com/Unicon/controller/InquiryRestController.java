@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Unicon.domain.InquiryVO;
 import com.Unicon.service.InquiryService;
+import com.Unicon.service.RecaptchaService;
 
 import io.swagger.annotations.Api;
 
@@ -33,6 +34,8 @@ public class InquiryRestController {
 	@Autowired
 	private InquiryService inquiryService;
 	
+	@Autowired
+	private RecaptchaService recaptchaService;
 	
 
 	// 게시글 목록 조회
@@ -50,19 +53,24 @@ public class InquiryRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 	// JSON 데이터를 처리하는 POST 요청
-	@PostMapping("/submit")
-	public ResponseEntity<String> submitInquiry(@RequestBody InquiryVO inquiry) {
-	    try {
-	        // Inquiry 객체 처리
-	    	  // Inquiry 객체의 필드 출력 (디버깅용)
-	        System.out.println("Received Inquiry: " + inquiry);
-	        inquiryService.insertInquiry(inquiry);
-	        return new ResponseEntity<>("문의가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
-	    } catch (Exception e) {
-	        logger.error("Error processing inquiry submission", e);
-	        return new ResponseEntity<>("문의 등록 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	}
+	// JSON 데이터를 처리하는 POST 요청
+    @PostMapping("/submit")
+    public ResponseEntity<String> submitInquiry(@RequestBody InquiryVO inquiry) {
+        try {
+            // reCAPTCHA 검증 로직
+            boolean isRecaptchaValid = recaptchaService.verify(inquiry.getRecaptcha());
+            if (!isRecaptchaValid) {
+                return ResponseEntity.badRequest().body("reCAPTCHA 인증에 실패했습니다.");
+            }
+
+            // 문의 데이터 처리
+            inquiryService.insertInquiry(inquiry);
+            return new ResponseEntity<>("문의가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
+        } catch (Exception e) {
+            logger.error("문의 등록 중 오류 발생", e);
+            return new ResponseEntity<>("문의 등록 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 	// 파일을 처리하는 POST 요청
 	@PostMapping("/submitFile")
