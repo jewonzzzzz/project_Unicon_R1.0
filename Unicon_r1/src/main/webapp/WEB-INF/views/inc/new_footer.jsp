@@ -332,6 +332,9 @@
 
     <!-- quform scripts js -->
     <script src="${pageContext.request.contextPath }/resources/new_assets/quform/js/scripts.js"></script>
+    
+    <!-- sweetalert2 js -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!-- all js include end -->
 

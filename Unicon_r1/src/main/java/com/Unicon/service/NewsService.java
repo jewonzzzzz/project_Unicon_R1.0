@@ -39,4 +39,11 @@ public class NewsService {
 		ndao.updateNews(vo);
 	}
 	
+	// 소식정보 삭제
+	public void deleteNews(int news_id) {
+		ndao.deleteNews(news_id);
+	}
+	
+	
+	
 }

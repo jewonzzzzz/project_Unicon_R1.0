@@ -32,6 +32,12 @@
 		where news_id = #{news_id} 
 	</select>
 	
+	<!-- 소식 삭제하기 -->
+	<select id="deleteNews">
+		delete from _news 
+		where news_id = #{news_id} 
+	</select>
+	
 	
 	
 	

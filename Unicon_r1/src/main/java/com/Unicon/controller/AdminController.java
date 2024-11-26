@@ -13,10 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Unicon.domain.newsVO;
@@ -139,13 +141,11 @@ public class AdminController {
 	}
 	
 	//소식 삭제
-	@PostMapping("/news_delete/{num}")
-	public void deleteNews() {
-		
-		
-		
-		
-		
+	@DeleteMapping("/news_delete/{num}")
+	@ResponseBody
+	public void deleteNews(@PathVariable("num") int news_id) {
+		logger.debug("news_id : "+news_id);
+		nService.deleteNews(news_id);
 	}
 	
 	
