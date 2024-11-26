@@ -48,9 +48,11 @@ public class NoticeController {
             @RequestParam(value = "size", defaultValue = "12") int size,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
             Model model) throws Exception {
         
-        Map<String, Object> result = noService.getNoticeList(page, size, category, keyword);
+        Map<String, Object> result = noService.getNoticeList(page, size, category, keyword, startDate, endDate);
         
         model.addAttribute("notices", result.get("boards"));
         model.addAttribute("totalCount", result.get("totalCount"));
@@ -99,10 +101,12 @@ public class NoticeController {
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate, 
             Model model) throws Exception {
             
         // 1부터 시작하는 페이지 번호를 0부터 시작하는 인덱스로 변환
-        Map<String, Object> result = noService.getNoticeList(page, size, category, keyword);
+    	Map<String, Object> result = noService.getNoticeList(page, size, category, keyword, startDate, endDate);
         
         List<NoticeVO> notices = (List<NoticeVO>) result.get("boards");
         int totalCount = (Integer) result.get("totalCount");
@@ -481,12 +485,14 @@ public class NoticeController {
     public ResponseEntity<Map<String, Object>> getMoreNotices(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String keyword) {
-        
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+    	
+    	
         try {
             int size = 16; // 한 페이지당 16개의 게시글
-            Map<String, Object> result = noService.getNoticeList(page, size, category, keyword);
-            
+            Map<String, Object> result = noService.getNoticeList(page, size, category, keyword, startDate, endDate);
             List<NoticeVO> notices = (List<NoticeVO>) result.get("boards");
             int totalCount = (Integer) result.get("totalCount");
             
