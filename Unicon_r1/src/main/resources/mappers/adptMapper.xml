@@ -4,33 +4,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.Unicon.mapper.AdptMapper">
-
-<resultMap id="AdptResultMap" type="com.Unicon.domain.AdptVO">
-	<id property="adpt_id" column="adpt_id"/>
-	<result property="pet_code" column="pet_code"/>
-	<result property="pet_etc_breed" column="pet_etc_breed"/>
-	<result property="adpt_name" column="adpt_name"/>
-	<result property="adpt_color" column="adpt_color"/>
-	<result property="adpt_gender" column="adpt_gender"/>
-	<result property="adpt_neuter" column="adpt_neuter"/>
-	<result property="adpt_age" column="adpt_age"/>
-	<result property="adpt_weight" column="adpt_weight"/>
-	<result property="adpt_regdate" column="adpt_regdate"/>
-	<result property="adpt_upddate" column="adpt_upddate"/>
-	<result property="adpt_regnum" column="adpt_regnum"/>
-	<result property="adpt_act" column="adpt_act"/>
-	<result property="adpt_social" column="adpt_social"/>
-	<result property="adpt_intro" column="adpt_intro"/>
-	<result property="adpt_etc" column="adpt_etc"/>
-	<result property="adpt_status" column="adpt_status"/>
+<!-- 
+<resultMap id="AnimalResultMap" type="com.Unicon.domain.AnimalVO">
+	<id property="adpt_id" column="animal_id"/>
+	<result property="category_code" column="category_code"/>
+	<result property="category_etc_value" column="category_etc_value"/>
+	<result property="animal_name" column="animal_name"/>
+	<result property="animal_color" column="animal_color"/>
+	<result property="animal_gender" column="animal_gender"/>
+	<result property="animal_neuter" column="animal_neuter"/>
+	<result property="animal_age" column="animal_age"/>
+	<result property="animal_weight" column="animal_weight"/>
+	<result property="animal_regdate" column="animal_regdate"/>
+	<result property="animal_upddate" column="animal_upddate"/>
+	<result property="animal_regnum" column="animal_regnum"/>
+	<result property="animal_act" column="animal_act"/>
+	<result property="animal_etc" column="animal_etc"/>
+	<result property="animal_status" column="animal_status"/>
 	
 	<association property="adptCounsel" resultMap="CounselResultMap"/>
 	<association property="adptMember" resultMap="MemberResultMap"/>
-	<association property="adptInterest" resultMap="InterestResultMap"/>
+	<association property="animalInterest" resultMap="InterestResultMap"/>
+	<association property="adpt" resultMap="AdptResultMap"/>
 	
-	<collection property="adpt_images" ofType="com.Unicon.domain.ImageVO" resultMap="ImageResultMap"/>
-	<collection property="adpt_healths" ofType="com.Unicon.domain.AdptHealthVO" resultMap="HealthResultMap"/>
-	<collection property="adpt_vaccines" ofType="com.Unicon.domain.AdptVaccineVO" resultMap="VaccineResultMap"/>
+	<collection property="animal_images" ofType="com.Unicon.domain.ImageVO" resultMap="ImageResultMap"/>
+	<collection property="animal_healths" ofType="com.Unicon.domain.AnimalHealthVO" resultMap="HealthResultMap"/>
+	<collection property="animal_vaccines" ofType="com.Unicon.domain.AnimalVaccineVO" resultMap="VaccineResultMap"/>
 </resultMap>
 
 
@@ -42,22 +41,22 @@
 </resultMap>
 
 
-<resultMap id="HealthResultMap" type="com.Unicon.domain.AdptHealthVO">
-	<result property="adpt_id" column="adpt_id"/>
+<resultMap id="HealthResultMap" type="com.Unicon.domain.AnimalHealthVO">
+	<result property="animal_id" column="animal_id"/>
 	<result property="health" column="health"/>
 	<result property="health_check" column="health_check"/>
 </resultMap>
 
 
-<resultMap id="VaccineResultMap" type="com.Unicon.domain.AdptVaccineVO">
-	<result property="adpt_id" column="adpt_id"/>
+<resultMap id="VaccineResultMap" type="com.Unicon.domain.AnimalVaccineVO">
+	<result property="adpt_id" column="animal_id"/>
 	<result property="vaccine" column="vaccine"/>
 	<result property="vaccine_check" column="vaccine_check"/>
 </resultMap>
 
 
 <resultMap id="CounselResultMap" type="com.Unicon.domain.AdptCounselVO">
-	<result property="adpt_id" column="adpt_id"/>
+	<result property="animal_id" column="animal_id"/>
 	<result property="counsel_id" column="counsel_id"/>
 	<result property="counsel_subdate" column="counsel_subdate"/>
 	<result property="counsel_procdate" column="counsel_procdate"/>
@@ -106,7 +105,7 @@
 </insert>
 
 
-
+ -->
 
 </mapper>
 

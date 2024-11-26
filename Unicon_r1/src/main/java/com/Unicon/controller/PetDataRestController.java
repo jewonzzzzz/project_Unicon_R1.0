@@ -38,8 +38,8 @@ public class PetDataRestController {
 	}
 	
 	@GetMapping("/petType/{num}")
-	public ResponseEntity<List<CategoryDataVO>> dogType(@PathVariable("num") int num) {
-		log.info("( •̀ ω •́ )✧ dogType() 실행");
+	public ResponseEntity<List<CategoryDataVO>> petTypeDetail(@PathVariable("num") int num) {
+		log.info("( •̀ ω •́ )✧ petTypeDetail() 실행");
 		log.info("( •̀ ω •́ )✧ num : " + num);
 		List<CategoryDataVO> petTypeDetailList = cService.petTypeDetail(num);
 		if(petTypeDetailList != null) {

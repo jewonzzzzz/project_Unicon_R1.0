@@ -67,34 +67,41 @@
 	.custom-select {
 		font-size: 1.1rem;
 	}
+
+	.custom-text {
+		font-size: 1.2rem;
+	}
 	
-.dropdown {
-position: relative; /* 드롭다운 위치 설정 */
-}
-
-.dropdown-menu {
-display: none; /* 기본적으로 숨김 */
-position: absolute; /* 드롭다운 목록을 절대 위치로 설정 */
-z-index: 1000; /* 다른 요소 위에 표시 */
-background-color: white; /* 배경색 */
-border: 1px solid #ccc; /* 테두리 */
-width: 100%; /* 입력 필드와 같은 너비 */
-height: 50vh;
-overflow-y: auto; /* 세로 스크롤 가능 */
-}
-
-.dropdown-menu.show {
-display: block; /* show 클래스가 있을 때 표시 */
-}
-
-.dropdown-item {
-padding: 8px; /* 항목 패딩 */
-cursor: pointer; /* 포인터 커서 */
-}
-
-.dropdown-item:hover {
-background-color: #f0f0f0; /* 호버 효과 */
-}
+	.dropdown .dropdown-menu {
+		margin-top: 0;
+	}
+	
+	.dropdown-menu {
+		display: none;
+		position: absolute;
+		z-index: 1000;
+		background-color: white;
+		border: 1px solid #ccc;
+		width: 100%;
+		height: 50vh;
+		overflow-y: auto;
+	}
+	
+	.dropdown-menu.show {
+		display: block;
+	}
+	
+	.dropdown-item {
+		font-size: 1.2rem !important;
+		padding: 8px;
+		cursor: pointer;
+	}
+	
+	.dropdown-item:hover {
+		background-color: #f0f0f0;
+	}
+	
+	
 	
 </style>
 </head>
@@ -125,7 +132,8 @@ background-color: #f0f0f0; /* 호버 효과 */
 												</div>
 												<div class="dropdown col-12 col-md-3 mb-2">
 													<label class="text-dark custom-label">종류</label>
-													<input type="text" id="searchInput" class="form-control"/>
+													<input type="text" id="searchInputPre" class="form-control custom-text" readonly/>
+													<input type="text" id="searchInput" class="form-control custom-text"/>
 													<div id="dropdownList" class="dropdown-menu"></div>
 												</div>
 												<div class="col-12 col-md-3 mb-2">
@@ -216,6 +224,8 @@ background-color: #f0f0f0; /* 호버 효과 */
 		<!-- Custom js for this page -->
 		<script>
 			$(function() {
+				$('#searchInput').hide();
+				
 				/*=============== 이미지 미리보기 ===============*/
 				$('.image-input').on('change', function(e) {
 					const file = e.target.files[0];
@@ -284,11 +294,10 @@ background-color: #f0f0f0; /* 호버 효과 */
 					dropdownList.empty();
 				
 					data.forEach(item => {
-						dropdownList.append("<div class='dropdown-item' data-value='" + item.pet_code + "'>" + item.pet_breed + "</div>");
+						dropdownList.append("<div class='dropdown-item' data-value='"+item.category_code+"'>" + item.category_value + "</div>");
 					});
 				
-					if (data.length > 0) {
-					} else {
+					if (data.length == 0) {
 						dropdownList.removeClass('show');
 					}
 				}
@@ -297,14 +306,20 @@ background-color: #f0f0f0; /* 호버 효과 */
 					const selectedType = $(this).val();
 					if (selectedType) {
 						petTypeDetailList(selectedType);
+						$('#searchInputPre').val('');
 					} else {
 						$('#dropdownList').empty().removeClass('show');
+						$('#searchInputPre').val('');
 					}
 				});
 				
-				$('#searchInput').on('focus', function() {
+				$('#searchInputPre').on('focus', function() {
 					const dropdownList = $('#dropdownList');
-					dropdownList.addClass('show');
+					if($('#petType').val() !== '') {
+						dropdownList.addClass('show');
+						$('#searchInputPre').hide();
+						$('#searchInput').show();
+					}
 				});
 				
 				$('#searchInput').on('input', function() {
@@ -324,13 +339,17 @@ background-color: #f0f0f0; /* 호버 효과 */
 				});
 				
 				$(document).on('click', '.dropdown-item', function() {
-					$('#searchInput').val($(this).text());
+					$('#searchInput').hide();
+					$('#searchInputPre').show();
+					$('#searchInputPre').val($(this).text());
 					$('#dropdownList').removeClass('show');
 				});
 				
 				$(document).click(function(event) {
 					if (!$(event.target).closest('.dropdown').length) {
 						$('#dropdownList').removeClass('show');
+						$('#searchInput').hide();
+						$('#searchInputPre').show();
 					}
 				});
 
