@@ -32,7 +32,10 @@ public class NewsDAO {
 		return sqlSession.selectOne(NAMESPACE+".getNews", news_id);
 	}
 	
-	
+	// 소식정보 수정
+	public void updateNews(newsVO vo) {
+		sqlSession.update(NAMESPACE+".updateNews", vo);
+	}
 	
 	
 	

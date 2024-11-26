@@ -22,6 +22,19 @@
 	<select id="getNews" resultType="newsVO">
 		select * from _news where news_id = #{news_id} 
 	</select>
+	
+	<!-- 소식정보 수정하기 -->
+	<select id="updateNews">
+		update _news 
+		set news_subject=#{news_subject}, news_content=#{news_content}, news_place=#{news_place}, 
+		news_date=#{news_date}, news_time=#{news_time}, news_resion=#{news_resion}, news_src=#{news_src}, 
+		news_ins=#{news_ins}, news_att=#{news_att} 
+		where news_id = #{news_id} 
+	</select>
+	
+	
+	
+	
 
 </mapper>
 
