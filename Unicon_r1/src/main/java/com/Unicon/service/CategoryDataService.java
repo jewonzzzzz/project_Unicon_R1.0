@@ -30,6 +30,6 @@ public class CategoryDataService {
 	}
 	
 	
-	public List<CategoryDataVO> c
+	/*public List<CategoryDataVO> c*/
 	
 }
