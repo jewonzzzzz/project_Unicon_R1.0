@@ -8,18 +8,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Unicorn</title>
 <!-- plugins:css -->
-<link rel="stylesheet" href="/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="/resources/admin/vendors/flag-icon-css/css/flag-icon.min.css">
-<link rel="stylesheet" href="/resources/admin/vendors/css/vendor.bundle.base.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/vendors/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/vendors/flag-icon-css/css/flag-icon.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/vendors/css/vendor.bundle.base.css">
 <!-- endinject -->
 <!-- Plugin css for this page -->
 <!-- End plugin css for this page -->
 <!-- inject:css -->
 <!-- endinject -->
 <!-- Layout styles -->
-<link rel="stylesheet" href="/resources/admin/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/css/style.css">
 <!-- End layout styles -->
-<link rel="shortcut icon" href="/resources/admin/images/favicon.png" />
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/admin/images/favicon.png" />
 <style type="text/css">
 	.upload-container {
 		position: relative;
@@ -204,14 +204,14 @@ background-color: #f0f0f0; /* 호버 효과 */
 		</div>
 		<!-- container-scroller -->
 		<!-- plugins:js -->
-		<script src="/resources/admin/vendors/js/vendor.bundle.base.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/admin/vendors/js/vendor.bundle.base.js"></script>
 		<!-- endinject -->
 		<!-- Plugin js for this page -->
 		<!-- End plugin js for this page -->
 		<!-- inject:js -->
-		<script src="/resources/admin/js/off-canvas.js"></script>
-		<script src="/resources/admin/js/hoverable-collapse.js"></script>
-		<script src="/resources/admin/js/misc.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/admin/js/off-canvas.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/admin/js/hoverable-collapse.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/admin/js/misc.js"></script>
 		<!-- endinject -->
 		<!-- Custom js for this page -->
 		<script>
@@ -253,7 +253,7 @@ background-color: #f0f0f0; /* 호버 효과 */
 								$select.append('<option value="">동물 종류 선택</option>');
 				
 								data.forEach(function(item) {
-									$select.append("<option value='" + item.pet_code + "'>" + item.pet_type + "</option>");
+									$select.append("<option value='" + item.category_code + "'>" + item.category_type + "</option>");
 								});
 							},
 							error: function(jqXHR, textStatus, errorThrown) {
