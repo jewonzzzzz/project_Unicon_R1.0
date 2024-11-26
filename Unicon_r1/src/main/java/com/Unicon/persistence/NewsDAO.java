@@ -37,6 +37,10 @@ public class NewsDAO {
 		sqlSession.update(NAMESPACE+".updateNews", vo);
 	}
 	
+	// 소식정보 삭제
+	public void deleteNews(int news_id) {
+		sqlSession.delete(NAMESPACE+".deleteNews", news_id);
+	}
 	
 	
 	

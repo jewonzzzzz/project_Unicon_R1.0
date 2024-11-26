@@ -3,10 +3,7 @@
 <%@ include file="../inc/new_topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
 
 <!-- 추가 템플릿 css/js 작성란 -->
-<style>
-.custom-swal-popup {
-    top: -120px !important; /* 기본 위치보다 위로 이동 */
-</style>
+
 </head>
 <%@ include file="../inc/new_header.jsp" %> <!-- header -->
 
@@ -397,6 +394,5 @@ $(document).ready(function () {
 }); //jquery
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <%@ include file="../inc/new_footer.jsp" %> <!-- footer -->

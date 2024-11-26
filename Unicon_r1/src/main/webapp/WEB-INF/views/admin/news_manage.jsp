@@ -181,7 +181,8 @@
 	                                        <div class="product-cart">
 	                                            <a href="/admin/news_view/${list.news_id }" style="width: 50px; height: 50px;">
 	                                            <i class="fa-regular fa-pen-to-square"></i></a>
-	                                            <a id="deleteNews" href="#" style="width: 50px; height: 50px;"><i class="fa-solid fa-trash-can"></i></a>
+	                                            <a class="deleteNews" data-id=${list.news_id } style="width: 50px; height: 50px;">
+	                                            <i class="fa-solid fa-trash-can"></i></a>
 	                                        </div>
 	                                    </div>
 	                                    <div class="product-info" style="padding: 0;">
@@ -190,27 +191,82 @@
 	                                </div>
 	                            </div>
 							</c:forEach>
+							<div class="row mt-1-9 mt-lg-6">
+	                     <div class="col-12">
+	                         <div class="pagination text-small text-uppercase text-extra-dark-gray">
+	                             <ul>
+	                                 <li><a href="#!"><i class="fas fa-long-arrow-alt-left me-1 d-none d-sm-inline-block"></i> Prev</a></li>
+	                                 <li class="active"><a href="#!">1</a></li>
+	                                 <li><a href="#!">2</a></li>
+	                                 <li><a href="#!">3</a></li>
+	                                 <li><a href="#!">Next <i class="fas fa-long-arrow-alt-right ms-1 d-none d-sm-inline-block"></i></a></li>
+	                             </ul>
+	                         </div>
+	                     </div>
+                 		</div>
                    		</div>
                     <!-- end right panel section -->
 
                 </div>
             </div>
             </div>
+            
         </section>
-        
-        
-        <!-- 버튼 -->
-		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-		    Launch modal
-		</button>
-
-
         
 
 <!--====================================작성부=====================================-->
 
 <script>
 $(document).ready(function () {
+	
+	$('.deleteNews').on('click', function(){
+		Swal.fire({
+			  title: '소식을 삭제하시겠습니까?',
+			  text: "삭제 후에는 소식정보를 복구할 수 없습니다.",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '수정',
+			  cancelButtonText: '취소',
+			  customClass: {
+			        popup: 'custom-swal-popup' // 사용자 정의 클래스 추가
+			  }
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: '/admin/news_delete/'+$(this).data('id'),
+						type: 'DELETE',
+						success: function(){
+							Swal.fire({
+				  	  			  title: '삭제가 완료되었습니다!',
+				  	  			  text: "신규등록을 통해 재등록이 가능합니다.",
+				  	  			  icon: 'success',
+				  	  			  customClass: {
+				  			        popup: 'custom-swal-popup' // 사용자 정의 클래스 추가
+				 			 	  }
+				  				}).then(function() {
+		                            window.location.href = "/admin/news_manage";  // 페이지 이동
+		                        });
+						},
+						error: function(){
+							Swal.fire({
+			  	  			  title: '에러!',
+			  	  			  icon: 'error',
+			  	  			  customClass: {
+			  			        popup: 'custom-swal-popup' // 사용자 정의 클래스 추가
+			 			 	  }
+			  				});
+						}
+					});
+				}
+			});
+		console.log($(this).data('id'));
+		
+		
+		
+		
+	});
 	
 	
 });//readay

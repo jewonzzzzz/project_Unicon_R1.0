@@ -44,3 +44,12 @@
     
     <!-- jquery -->
     <script src="${pageContext.request.contextPath }/resources/new_assets/js/jquery.min.js"></script>
+    
+    <style>
+	.custom-swal-popup {
+	    top: -120px !important; /* 기본 위치보다 위로 이동 */
+	</style>
+    
+    
+    
+    
