@@ -28,19 +28,7 @@ public class StoreRestController {
 	@Inject 
 	private CategoryDataService cService;
 	
-	@RequestMapping(value = "/category", method = RequestMethod.GET)
-    public ResponseEntity<List<CategoryDataVO>> categoryDataGET() {
-		logger.info("categoryDataGET() 호출 ");
-		
-		List<CategoryDataVO> CategoryDataList = cService.petProductsCategory();
-		
-		if(CategoryDataList == null) {
-			return new ResponseEntity<List<CategoryDataVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		} else {
-			return new ResponseEntity<List<CategoryDataVO>>(CategoryDataList, HttpStatus.OK);
-		}
-		
-    }
+	
 	@RequestMapping(value = "/category/{value}", method = RequestMethod.GET)
 	public ResponseEntity<List<CategoryDataVO>> sscategoryDataGET(@PathVariable("value") String value) {
 		logger.info("categoryDataGET(value) 호출 ");

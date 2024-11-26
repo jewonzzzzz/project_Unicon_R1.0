@@ -13,26 +13,26 @@ pageEncoding="UTF-8"%>
     <title>판매자</title>
     <link
       rel="stylesheet"
-      href="/resources/admin/vendors/mdi/css/materialdesignicons.min.css"
+      href="${pageContext.request.contextPath}/resources/admin/vendors/mdi/css/materialdesignicons.min.css"
     />
     <link
       rel="stylesheet"
-      href="/resources/admin/vendors/flag-icon-css/css/flag-icon.min.css"
+      href="${pageContext.request.contextPath}/resources/admin/vendors/flag-icon-css/css/flag-icon.min.css"
     />
     <link
       rel="stylesheet"
-      href="/resources/admin/vendors/css/vendor.bundle.base.css"
+      href="${pageContext.request.contextPath}/resources/admin/vendors/css/vendor.bundle.base.css"
     />
     <link
       rel="stylesheet"
-      href="/resources/admin/vendors/font-awesome/css/font-awesome.min.css"
+      href="${pageContext.request.contextPath}/resources/admin/vendors/font-awesome/css/font-awesome.min.css"
     />
     <link
       rel="stylesheet"
-      href="/resources/admin/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css"
+      href="${pageContext.request.contextPath}/resources/admin/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css"
     />
-    <link rel="stylesheet" href="/resources/admin/css/style.css" />
-    <link rel="shortcut icon" href="/resources/admin/images/favicon.png" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/css/style.css" />
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/admin/images/favicon.png" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style type="text/css">
       .btns-flex {
@@ -452,19 +452,19 @@ pageEncoding="UTF-8"%>
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <!-- <script src="/resources/admin/vendors/js/vendor.bundle.base.js"></script> -->
+    <script src="/resources/admin/vendors/js/vendor.bundle.base.js"></script> 
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="/resources/admin/vendors/chart.js/Chart.min.js"></script>
-    <script src="/resources/admin/vendors/jquery-circle-progress/js/circle-progress.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/vendors/chart.js/Chart.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/vendors/jquery-circle-progress/js/circle-progress.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="/resources/admin/js/off-canvas.js"></script>
-    <script src="/resources/admin/js/hoverable-collapse.js"></script>
-    <script src="/resources/admin/js/misc.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/off-canvas.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/hoverable-collapse.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/misc.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="/resources/admin/js/dashboard.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/dashboard.js"></script>
     <!-- End custom js for this page -->
   </body>
 </html>
