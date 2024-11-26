@@ -345,6 +345,16 @@
                                                 <li><a href="blog-post.html">Blog Post</a></li>
                                             </ul>
                                         </li>
+                                        
+                                        
+                                           <li><a href="/inquiry/inquiry">고객센터</a>
+                                            <ul>
+                                                <li><a href="/inquiry/inquiry">고객센터</a></li>                                               
+                                            </ul>
+                                           </li>
+                                        
+                                        
+                                        
                                         <li><a href="#!">관리자페이지</a>
                                             <ul>
                                                 <li><a href="shop-product-grid.html">슬라이드관리</a></li>
