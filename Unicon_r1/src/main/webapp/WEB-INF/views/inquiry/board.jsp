@@ -167,36 +167,64 @@ h2 {
 <!-- header -->
 
 <!--====================================작성부=====================================-->
-<h1 class="main-title"> unicon 고객센터</h1>
+<section class="page-title-section bg-primary">
+    <div class="container">
+		
+        <div class="row">
+            <div class="col-md-12">
+                <h1>unicon 고객센터</h1>
+            </div>
+            <div class="col-md-12">
+                <ul class="ps-0">
+                    <li><a href="inquiry"><i class="ti-home"></i></a></li>
+                    <li class="active"><a href="board">문의게시판</a></li>
+                </ul>
+            </div>
+        </div>
+	
+    </div>
+</section>
+<br>
 <br>
 
-<h2> 종합 문의 게시판</h2>
-
-
-<!-- 테이블 -->
-<table id="inquiryTable">
-	<thead>
-		<tr>
-			<th class="no">No</th>
-			<th class="title">제목</th>
-			<th class="member">작성자</th>
-			<th class="date">작성일</th>
-			<th class="status">상태</th>
-		</tr>
-	</thead>
-	<tbody>
-		<!-- 데이터를 Ajax로 채움 -->
-	</tbody>
-</table>
+<div class="container">
+	<div class="section-heading">
+		<h3>문의 게시판</h3>
+	</div>
+	<div class="row position-relative">
+		<div class="col-12">
+			<div class="table-responsive">
+				<table class="table" id="inquiryTable">
+					<thead>
+						<tr>
+							<th class="no">No</th>
+							<th class="title">제목</th>
+							<th class="member">작성자</th>
+							<th class="date">작성일</th>
+							<th class="status">상태</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- 데이터를 Ajax로 채움 -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- 글쓰기 버튼 -->
 <div class="write-btn-container">
     <button class="write-btn" onclick="location.href='/inquiry/write'">문의하기</button>
 </div>
-
-
 <!-- 페이지네이션 -->
-<ul class="pagination" id="pagination"></ul>
+<div class="pagination text-small text-uppercase text-extra-dark-gray">
+	<ul class="ps-0 mb-0" id="pagination"></ul>
+</div>
+
+
+<br>
+<br>
 
 <script>
 $(document).ready(function () {
