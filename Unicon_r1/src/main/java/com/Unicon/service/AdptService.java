@@ -20,12 +20,11 @@ import lombok.extern.log4j.Log4j2;
 public class AdptService {
 	
 	@Inject
-	private AdptDAO adptDAO;
+	private AdptDAO aDAO;
 	
 	@Transactional(rollbackFor = {SQLException.class, Exception.class}, propagation = Propagation.REQUIRES_NEW)
 	public void animalInsert(AnimalVO animalVO) {
 		log.info("( •̀ ω •́ )✧ adptInsert() 실행");
-		adptDAO.animalInsert(animalVO);
 	}
 
 }

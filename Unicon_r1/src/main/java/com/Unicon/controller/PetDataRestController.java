@@ -26,6 +26,7 @@ public class PetDataRestController {
 	@Inject
 	CategoryDataService cService;
 	
+	
 	@GetMapping("/petType")
 	public ResponseEntity<List<CategoryDataVO>> petType() throws Exception {
 		log.info("( •̀ ω •́ )✧ petType() 실행");
@@ -37,11 +38,12 @@ public class PetDataRestController {
 		}
 	}
 	
-	@GetMapping("/petType/{num}")
-	public ResponseEntity<List<CategoryDataVO>> petTypeDetail(@PathVariable("num") int num) {
+	@GetMapping("/petType/{category_code}")
+	public ResponseEntity<List<CategoryDataVO>> petTypeDetail(@PathVariable("category_code") int category_code, CategoryDataVO cDataVO) {
 		log.info("( •̀ ω •́ )✧ petTypeDetail() 실행");
-		log.info("( •̀ ω •́ )✧ num : " + num);
-		List<CategoryDataVO> petTypeDetailList = cService.petTypeDetail(num);
+		log.info("( •̀ ω •́ )✧ category_code : " + category_code);
+		cDataVO.setCategory_code(category_code);
+		List<CategoryDataVO> petTypeDetailList = cService.petTypeDetail(cDataVO);
 		if(petTypeDetailList != null) {
 			return new ResponseEntity<List<CategoryDataVO>>(petTypeDetailList, HttpStatus.OK);
 		} else {

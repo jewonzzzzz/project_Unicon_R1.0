@@ -8,8 +8,8 @@ import lombok.extern.log4j.Log4j2;
 
 
 @Controller
-@RequestMapping(value = "/adptmgmt/*")
 @Log4j2
+@RequestMapping(value = "/adptmgmt/*")
 public class AdptMgmtController {
 	
 	@GetMapping(value = "/main")

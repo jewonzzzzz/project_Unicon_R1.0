@@ -20,8 +20,10 @@
 <select id="petTypeDetail" resultMap="CategoryDataMap">
 	select category_code, category_type, category_value 
 	 from _category_data 
-	  where truncate((category_code/1000),0) = truncate((#{num}/1000),0) 
-	   and category_code != #{num}
+	  where truncate((category_code/1000),0) = truncate((#{category_code}/1000),0) 
+	   <if test="category_code != 3000">
+	  	and category_code != #{category_code}
+	   </if>
 </select>
 
 <select id="petProductsCategory" resultMap="CategoryDataMap">
