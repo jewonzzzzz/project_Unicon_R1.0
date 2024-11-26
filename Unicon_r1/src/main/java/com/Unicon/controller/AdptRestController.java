@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Unicon.domain.AdptHealthVO;
+import com.Unicon.domain.AnimalHealthVO;
 import com.Unicon.domain.AdptVO;
-import com.Unicon.domain.AdptVaccineVO;
+import com.Unicon.domain.AnimalVaccineVO;
 import com.Unicon.domain.ImageVO;
 import com.Unicon.service.AdptService;
 

@@ -3,9 +3,9 @@ package com.Unicon.domain;
 import lombok.Data;
 
 @Data
-public class AdptHealthVO {
+public class AnimalHealthVO {
 	
-	private String adpt_id;
+	private String animal_id;
 	private String health;
 	private String health_check;
 	

@@ -17,10 +17,10 @@ public class AdptMgmtController {
 		log.info("( •̀ ω •́ )✧ adptmgmtMain() 실행");
 	}
 	
-	@GetMapping(value = "/writings")
-	public String adptmgmtInsert() throws Exception {
-		log.info("( •̀ ω •́ )✧ adptmgmtInsert() 실행");
-		return "/adptmgmt/writings/insert";
+	@GetMapping(value = "/animals")
+	public String animalAdd() throws Exception {
+		log.info("( •̀ ω •́ )✧ animalAdd() 실행");
+		return "/adptmgmt/animals/insert";
 	}
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.Unicon.domain.AdptVO;
+import com.Unicon.domain.AnimalVO;
 import com.Unicon.persistence.AdptDAO;
 
 import lombok.extern.log4j.Log4j2;
@@ -19,12 +20,12 @@ import lombok.extern.log4j.Log4j2;
 public class AdptService {
 	
 	@Inject
-	AdptDAO adptDAO;
+	private AdptDAO adptDAO;
 	
 	@Transactional(rollbackFor = {SQLException.class, Exception.class}, propagation = Propagation.REQUIRES_NEW)
-	public void adptInsert(AdptVO adptVO) {
+	public void animalInsert(AnimalVO animalVO) {
 		log.info("( •̀ ω •́ )✧ adptInsert() 실행");
-		adptDAO.adptInsert(adptVO);
+		adptDAO.animalInsert(animalVO);
 	}
 
 }

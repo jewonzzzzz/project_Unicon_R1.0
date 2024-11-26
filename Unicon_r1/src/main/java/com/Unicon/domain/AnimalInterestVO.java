@@ -5,9 +5,9 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class AdptInterestVO {
+public class AnimalInterestVO {
 	
-	private String adpt_id;
+	private String animal_id;
 	private String member_id;
 	private Timestamp interest_regdate;
 	private int adpt_interest_sum;

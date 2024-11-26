@@ -1,17 +1,14 @@
 package com.Unicon.persistence;
 
-import java.sql.SQLException;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.Unicon.domain.AdptHealthVO;
-import com.Unicon.domain.AdptVO;
-import com.Unicon.domain.AdptVaccineVO;
+import com.Unicon.domain.AnimalHealthVO;
+import com.Unicon.domain.AnimalVO;
+import com.Unicon.domain.AnimalVaccineVO;
 import com.Unicon.domain.ImageVO;
 
 import lombok.extern.log4j.Log4j2;
@@ -27,18 +24,17 @@ public class AdptDAO {
 	private static final String NAMESPACE = "com.Unicon.mapper.AdptMapper.";
 	
 	
-	public void adptInsert(AdptVO adptVO) {
+	public void animalInsert(AnimalVO animalVO) {
+		log.info("( •̀ ω •́ )✧ animalInsert() 실행");
 		
-		log.info("( •̀ ω •́ )✧ adptInsert() 실행");
-		
-		sqlSession.insert(NAMESPACE+"adptInsert", adptVO);
-		for(ImageVO imageVO : adptVO.getAdpt_images()) {
+		sqlSession.insert(NAMESPACE+"adptInsert", animalVO);
+		for(ImageVO imageVO : animalVO.getAnimal_images()) {
 			sqlSession.insert(NAMESPACE+"adptImageInsert", imageVO);
 		}
-		for(AdptHealthVO healthVO : adptVO.getAdpt_healths()) {
+		for(AnimalHealthVO healthVO : animalVO.getAnimal_healths()) {
 			sqlSession.insert(NAMESPACE+"adptHealthInsert", healthVO);
 		}
-		for(AdptVaccineVO vaccineVO : adptVO.getAdpt_vaccines()) {
+		for(AnimalVaccineVO vaccineVO : animalVO.getAnimal_vaccines()) {
 			sqlSession.insert(NAMESPACE+"adptVaccineInsert", vaccineVO);
 		}
 		
