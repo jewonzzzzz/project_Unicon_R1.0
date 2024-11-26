@@ -24,9 +24,9 @@ public class CategoryDataService {
 		return cDAO.petTypeAll();
 	}
 	
-	public List<CategoryDataVO> petTypeDetail(int num) {
+	public List<CategoryDataVO> petTypeDetail(CategoryDataVO cDataVO) {
 		log.info("( •̀ ω •́ )✧ petTypeDetail(int num) 실행");
-		return cDAO.petTypeDetail(num);
+		return cDAO.petTypeDetail(cDataVO);
 	}
 	
 	

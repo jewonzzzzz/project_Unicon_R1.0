@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -25,9 +26,9 @@ public class CategoryDataDAO {
 		return sqlSession.selectList(NAMESPACE+"petTypeAll");
 	}
 	
-	public List<CategoryDataVO> petTypeDetail(int num) {
+	public List<CategoryDataVO> petTypeDetail(CategoryDataVO cDataVO) {
 		log.info("( •̀ ω •́ )✧ petTypeDetail() 실행");
-		return sqlSession.selectList(NAMESPACE+"petTypeDetail", num);
+		return sqlSession.selectList(NAMESPACE+"petTypeDetail", cDataVO);
 	}
 	
 	

@@ -27,17 +27,6 @@ public class AdptDAO {
 	public void animalInsert(AnimalVO animalVO) {
 		log.info("( •̀ ω •́ )✧ animalInsert() 실행");
 		
-		sqlSession.insert(NAMESPACE+"adptInsert", animalVO);
-		for(ImageVO imageVO : animalVO.getAnimal_images()) {
-			sqlSession.insert(NAMESPACE+"adptImageInsert", imageVO);
-		}
-		for(AnimalHealthVO healthVO : animalVO.getAnimal_healths()) {
-			sqlSession.insert(NAMESPACE+"adptHealthInsert", healthVO);
-		}
-		for(AnimalVaccineVO vaccineVO : animalVO.getAnimal_vaccines()) {
-			sqlSession.insert(NAMESPACE+"adptVaccineInsert", vaccineVO);
-		}
-		
 	}
 	
 	
