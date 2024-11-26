@@ -53,25 +53,27 @@ public class InquiryRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 	// JSON 데이터를 처리하는 POST 요청
-	// JSON 데이터를 처리하는 POST 요청
-    @PostMapping("/submit")
-    public ResponseEntity<String> submitInquiry(@RequestBody InquiryVO inquiry) {
-        try {
-            // reCAPTCHA 검증 로직
-            boolean isRecaptchaValid = recaptchaService.verify(inquiry.getRecaptcha());
-            if (!isRecaptchaValid) {
-                return ResponseEntity.badRequest().body("reCAPTCHA 인증에 실패했습니다.");
-            }
+	@PostMapping("/submit")
+	public ResponseEntity<String> submitInquiry(@RequestBody InquiryVO inquiry) {
+	    try {
+	        // 요청 데이터 로그 추가
+	        logger.debug("전달된 문의 데이터: {}", inquiry);
 
-            // 문의 데이터 처리
-            inquiryService.insertInquiry(inquiry);
-            return new ResponseEntity<>("문의가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
-        } catch (Exception e) {
-            logger.error("문의 등록 중 오류 발생", e);
-            return new ResponseEntity<>("문의 등록 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+	        // reCAPTCHA 검증
+	        boolean isRecaptchaValid = recaptchaService.verify(inquiry.getRecaptcha());
+	        if (!isRecaptchaValid) {
+	            return ResponseEntity.badRequest().body("reCAPTCHA 인증에 실패했습니다.");
+	        }
 
+	        // 문의 데이터 처리
+	        inquiryService.insertInquiry(inquiry);
+	        return new ResponseEntity<>("문의가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
+	    } catch (Exception e) {
+	        // 예외 로그 추가
+	        logger.error("문의 등록 중 오류 발생", e);
+	        return new ResponseEntity<>("문의 등록 중 오류가 발생했습니다: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 	// 파일을 처리하는 POST 요청
 	@PostMapping("/submitFile")
 	public ResponseEntity<String> submitFile(@RequestParam("file") MultipartFile file) {

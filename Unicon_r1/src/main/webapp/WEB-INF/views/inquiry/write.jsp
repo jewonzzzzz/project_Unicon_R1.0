@@ -17,6 +17,25 @@
 <!-- header -->
 
 <!--====================================작성부=====================================-->
+<section class="page-title-section bg-primary">
+    <div class="container">
+		
+        <div class="row">
+            <div class="col-md-12">
+                <h1>unicon 고객센터</h1>
+            </div>
+            <div class="col-md-12">
+                <ul class="ps-0">
+                    <li><a href="inquiry"><i class="ti-home"></i></a></li>
+                    <li class="active"><a href="write">문의하기</a></li>
+                </ul>
+            </div>
+        </div>
+	
+    </div>
+</section>
+
+
 
 <section>
             <div class="container">
@@ -96,7 +115,7 @@
                 <div class="form-group">
                     <div class="quform-captcha">
                         <div class="g-recaptcha" data-sitekey="6LeEYooqAAAAAH2ogyEfXXzUkqvS0VH0VTwQkGjh"></div>
-                    </div>
+                    </div>														
                 </div>
             </div>
 
@@ -179,7 +198,12 @@
 <script>
 document.getElementById("quform").addEventListener("submit", function (event) {
     event.preventDefault(); // 폼 제출 방지
-
+	
+    // reCAPTCHA 응답 토큰 가져오기
+    const recaptchaResponse = grecaptcha.getResponse();
+    
+    
+    
     // 폼 데이터 가져오기
     const data = {
         member_name: document.getElementById("member_name").value.trim(),
@@ -188,7 +212,7 @@ document.getElementById("quform").addEventListener("submit", function (event) {
         phone: document.getElementById("phone").value.trim(),
         content: document.getElementById("content").value.trim(),
         istatus: document.getElementById("istatus").value.trim(),
-        recaptcha: grecaptcha.getResponse(), // reCAPTCHA 응답 토큰
+        recaptcha: recaptchaResponse, // reCAPTCHA 응답 토큰 추가
     };
 
     // 유효성 검사
@@ -200,7 +224,11 @@ document.getElementById("quform").addEventListener("submit", function (event) {
         return alert("휴대폰 번호는 10-11자리 숫자로 입력해주세요.");
     if (!data.content) return alert("문의 내용을 입력해주세요.");
     if (data.istatus === "default") return alert("카테고리를 선택해주세요.");
-    if (!data.recaptcha) return alert("reCAPTCHA 인증을 완료해주세요.");
+    // reCAPTCHA 응답 확인
+    if (!recaptchaResponse) {
+        alert("reCAPTCHA 인증을 완료해주세요."); // 사용자에게 알림
+        return; // 폼 제출 중단
+    }
 
     // JSON 데이터 전송
     fetch("/api/submit", {
@@ -215,9 +243,17 @@ document.getElementById("quform").addEventListener("submit", function (event) {
             return response.text();
         })
         .then((result) => {
-            alert(result);
-            document.getElementById("quform").reset(); // 폼 초기화
-            grecaptcha.reset(); // reCAPTCHA 초기화
+        	
+        	// SweetAlert2 사용 예시
+        	Swal.fire({
+        	  title: '문의하기',
+        	  text: '작성이 완료되었습니다.',
+        	  icon: 'success',
+        	  confirmButtonText: '확인'
+        	});
+        	  grecaptcha.reset(); // reCAPTCHA 초기화
+        	   document.getElementById("quform").reset(); // 폼 초기화
+          
         })
         .catch((error) => {
             console.error("문의 등록 중 오류:", error);
@@ -227,6 +263,8 @@ document.getElementById("quform").addEventListener("submit", function (event) {
 </script>
 
 <!--====================================작성부=====================================-->
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

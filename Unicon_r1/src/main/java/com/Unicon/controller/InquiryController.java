@@ -63,6 +63,11 @@ public class InquiryController {
     	logger.debug("write 메인 페이지 실행");
         return "inquiry/write";  
     }
+    @GetMapping("/etc")
+    public String etc() {
+    	logger.debug("etc 메인 페이지 실행");
+        return "inquiry/etc";  
+    }
     
     
     

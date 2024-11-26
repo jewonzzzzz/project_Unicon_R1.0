@@ -5,13 +5,7 @@
 <!-- 추가 템플릿 css/js 작성란 -->
 <style>
 
-/* 메인 타이틀 스타일 */
-.main-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 60px 0 20px 200px;
-    color: black;       
-}
+
 
 </style>
 
@@ -29,7 +23,7 @@
             <div class="col-md-12">
                 <ul class="ps-0">
                     <li><a href="inquiry"><i class="ti-home"></i></a></li>
-                    <li class="active"><a href="shop">쇼핑</a></li>
+                    <li class="active"><a href="etc">기타 문의</a></li>
                 </ul>
             </div>
         </div>	

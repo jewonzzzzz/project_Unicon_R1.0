@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
-
 @Data
 public class InquiryVO {
 
@@ -31,12 +30,19 @@ public class InquiryVO {
 	int status; // 상태 (1: 진행 중, 2: 답변완료)
 	String acontent; // 답변내용
 	Timestamp answerdate; // 답변일
-	
+
 	String email;
 	int phone;
 	String MultipartFile;
-	
+
 	private String recaptcha; // reCAPTCHA 토큰
-	
+
+	public String getRecaptcha() {
+		return recaptcha;
+	}
+
+	public void setRecaptcha(String recaptcha) {
+		this.recaptcha = recaptcha;
+	}
 	
 }

@@ -22,41 +22,43 @@ public class RecaptchaServiceImpl implements RecaptchaService {
 
     private static final String RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
     
-    @Value("${recaptcha.secret.key}")
+   
+    @Value("6LeEYooqAAAAAOggttPuqtDJxI-yFaW0-eQ2RN1P")
     private String secretKey;
 
+  
     private static final Logger logger = LoggerFactory.getLogger(RecaptchaServiceImpl.class);
-    
+
     @Override
     public boolean verify(String recaptchaToken) {
+        if (recaptchaToken == null || recaptchaToken.isEmpty()) {
+            logger.error("reCAPTCHA 응답 토큰이 비어 있습니다.");
+            return false;
+        }
+        	
+        
         RestTemplate restTemplate = new RestTemplate();
         try {
-            // reCAPTCHA 검증을 위한 URL 생성 (UriComponentsBuilder 사용)
             String url = UriComponentsBuilder.fromHttpUrl(RECAPTCHA_VERIFY_URL)
-                    .queryParam("secret", secretKey)  // secret key를 URL에 추가
-                    .queryParam("response", recaptchaToken)  // 사용자로부터 받은 reCAPTCHA 토큰을 URL에 추가
-                    .toUriString();  // 최종 URL로 변환
+                    .queryParam("secret", secretKey)                    
+                    .queryParam("response", recaptchaToken)
+                    .toUriString();
+            logger.debug("secret : "+secretKey);
 
-            // reCAPTCHA API 호출
             ResponseEntity<String> response = restTemplate.postForEntity(url, null, String.class);
-
-            // 응답 본문을 JSON으로 파싱
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode responseJson = objectMapper.readTree(response.getBody());
 
-            // reCAPTCHA 인증 성공 여부 확인
             boolean success = responseJson.get("success").asBoolean();
             if (success) {
-                return true; // 인증 성공
+                return true;
             } else {
-                // 실패한 경우 error-codes를 로그로 출력
                 logger.error("reCAPTCHA 검증 실패: {}", responseJson.get("error-codes"));
             }
-
         } catch (Exception e) {
             logger.error("reCAPTCHA 검증 중 오류 발생", e);
         }
-        return false; // 인증 실패
+        return false;
     }
 }
 

@@ -21,9 +21,25 @@
 <%@ include file="../inc/new_header.jsp" %> <!-- header -->
 
 <!--====================================작성부=====================================-->
-<h1 class="main-title"> unicon 고객센터</h1>
-
-
+<!-- start page title section -->
+<section class="page-title-section bg-primary">
+    <div class="container">
+		
+        <div class="row">
+            <div class="col-md-12">
+                <h1>unicon 고객센터</h1>
+            </div>
+            <div class="col-md-12">
+                <ul class="ps-0">
+                   <li><a href="inquiry"><i class="ti-home"></i></a></li>
+                    <li class="active"><a href="adoption">입양</a></li>
+                </ul>
+            </div>
+        </div>
+	
+    </div>
+</section>
+ <!-- end page title section -->  
 
 
 
