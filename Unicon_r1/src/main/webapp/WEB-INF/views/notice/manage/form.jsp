@@ -104,6 +104,63 @@
 	.btn + .btn {
 	    margin-left: 0.5rem;
 	}
+	
+	.toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+        background-color: #2196F3;
+    }
+
+    input:checked + .toggle-slider:before {
+        transform: translateX(26px);
+    }
+
+    .toggle-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .toggle-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
 
    /* 모바일 반응형 */
    @media (max-width: 768px) {
@@ -162,6 +219,20 @@
            width: 100%;
            margin-bottom: 0.5rem;
        }
+       
+       .toggle-container {
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        #setting-label {
+        	margin-top: 3rem;
+        }
+        
+        .draft-preview {
+            margin-bottom: 1rem;
+        }
    }
 
    /* 태블릿 반응형 */
@@ -235,7 +306,7 @@
 				    </div>
 				    
 				    <!-- 임시저장 관리 영역 -->
-				    <div class="col-md-8">
+				    <div class="col-md-4">
 				        <div class="form-group h-100">
 				            <label class="form-label">임시저장 관리</label>
 				            <div class="d-flex gap-2 mb-2">
@@ -252,26 +323,29 @@
 				            </div>
 				        </div>
 				    </div>
-				</div>
-			</div>
-					
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="important" name="important" 
-                                       ${notice.important ? 'checked' : ''}>
-                                <label class="custom-control-label" for="important">중요 공지사항</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="noEmail" name="noEmail" 
-                                       ${notice.noEmail ? 'checked' : ''}>
-                                <label class="custom-control-label" for="noEmail">이메일 발송</label>
-                            </div>
-                        </div>
+                    <!-- 토글 스위치 영역 -->
+				    <div class="col-md-4">
+				        <div class="form-group h-100">
+				            <label id="setting-label" class="form-label">공지사항 설정</label>
+				            <div class="toggle-container">
+				                <div class="toggle-item">
+				                    <label class="toggle-switch">
+				                        <input type="checkbox" id="important" name="important" ${notice.important ? 'checked' : ''}>
+				                        <span class="toggle-slider"></span>
+				                    </label>
+				                    <span>중요 공지사항</span>
+				                </div>
+				                <div class="toggle-item">
+				                    <label class="toggle-switch">
+				                        <input type="checkbox" id="noEmail" name="noEmail" ${notice.noEmail ? 'checked' : ''}>
+				                        <span class="toggle-slider"></span>
+				                    </label>
+				                    <span>이메일 발송</span>
+				                </div>
+				            </div>
+				        </div>
                     </div>
-                    
+                    </div>
                     <div class="text-right">
 			            <div class="row">
 			                <div class="col-6">
