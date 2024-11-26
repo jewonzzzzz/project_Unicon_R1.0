@@ -104,13 +104,50 @@ public class AdminController {
 	}
 	
 	// 소식정보 수정
-	@PostMapping(value = "/newsUpdate/{num}")
+	@PostMapping(value = "/news_update/{num}")
 	public String updateNewsInfo(newsVO vo) {
 		
+		logger.debug("updateNewsInfo(newsVO vo) 실행");
 		logger.debug(vo.toString());
 		
-		return "";
+		if(vo.getNews_src().equals("")) {
+			
+			// 새로운 src 만들어서 저장
+			MultipartFile file = vo.getNews_file();
+			String uploadDir = servletContext.getRealPath("/uploads/");
+			try {
+	            File dir = new File(uploadDir);
+	            if (!dir.exists()) {
+	                dir.mkdirs();
+	            }
+	            String uniqueFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+	            File uploadFile = new File(uploadDir + uniqueFileName);
+	            String news_src = "/uploads/" + uniqueFileName;
+	            vo.setNews_src(news_src);
+	            // 파일 저장
+	            file.transferTo(uploadFile);
+	            // 업데이트 서비스 실행
+	            nService.updateNews(vo);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		} else {
+			// 그대로 저장
+			nService.updateNews(vo);
+		}
+		return "redirect:/admin/news_view/"+vo.getNews_id();
 	}
+	
+	//소식 삭제
+	@PostMapping("/news_delete/{num}")
+	public void deleteNews() {
+		
+		
+		
+		
+		
+	}
+	
 	
 		
 }

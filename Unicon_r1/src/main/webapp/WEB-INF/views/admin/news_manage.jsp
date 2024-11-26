@@ -52,7 +52,8 @@
                                     <div class="card">
                                         <div class="card-header" id="headingTwo">
                                             <h5 class="mb-0">
-                                                <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                <button class="btn btn-link" data-bs-toggle="collapse" 
+                                                data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                                   소식 관리
                                 </button>
                                             </h5>
@@ -91,6 +92,7 @@
                                   Clothes
                                 </button>
                                             </h5>
+                                            <!-- 버튼 -->
                                         </div>
                                         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-bs-parent="#accordion">
                                             <div class="card-body">
@@ -135,7 +137,8 @@
 						<div class="line-title" style="margin-bottom: 15px;">
 							<div style="display: flex; justify-content:space-between;">
 						        <h5 class="mb-0" style="display: inline-block;">소식 등록내역</h5>
-						        <button type="button" class="btn btn-secondary"><span class="small">등록하기</span></button>
+						        <button type="button" class="btn btn-secondary" onclick="location.href='/admin/news_create';"
+						        ><span class="small">등록하기</span></button>
 							</div>
 					    </div>
 					    
@@ -174,10 +177,11 @@
 	                            <div class="col-xl-3 col-sm-6">
 	                                <div class="product-details">
 	                                    <div class="product-img">
-	                                        <img src="${list.news_src }" alt="..." class="image rounded-3">
+	                                        <img src="${list.news_src }" alt="..." class="image rounded-3" style="height: 300px;">
 	                                        <div class="product-cart">
-	                                            <a href="/admin/news_view/${list.news_id }"><i class="fa-regular fa-pen-to-square"></i></a>
-	                                            <a href="#!"><i class="fa-solid fa-trash-can"></i></a>
+	                                            <a href="/admin/news_view/${list.news_id }" style="width: 50px; height: 50px;">
+	                                            <i class="fa-regular fa-pen-to-square"></i></a>
+	                                            <a id="deleteNews" href="#" style="width: 50px; height: 50px;"><i class="fa-solid fa-trash-can"></i></a>
 	                                        </div>
 	                                    </div>
 	                                    <div class="product-info" style="padding: 0;">
@@ -193,7 +197,26 @@
             </div>
             </div>
         </section>
+        
+        
+        <!-- 버튼 -->
+		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+		    Launch modal
+		</button>
+
+
+        
 
 <!--====================================작성부=====================================-->
+
+<script>
+$(document).ready(function () {
+	
+	
+});//readay
+
+</script>
+
+
 
 <%@ include file="../inc/new_footer.jsp" %> <!-- footer -->

@@ -3,12 +3,15 @@
 <%@ include file="../inc/new_topHeader.jsp" %> <!-- topHeader / jquery 추가 -->
 
 <!-- 추가 템플릿 css/js 작성란 -->
-
+<style>
+.custom-swal-popup {
+    top: -120px !important; /* 기본 위치보다 위로 이동 */
+</style>
 </head>
 <%@ include file="../inc/new_header.jsp" %> <!-- header -->
 
 <!--====================================작성부=====================================-->
-	
+	<%-- ${newsInfo } --%>
 	<section style="padding-top: 50px;">
             <div class="container">
 	            <div class="line-title">
@@ -123,12 +126,17 @@
 
                     <!-- start right panel section -->
                     <div class="col-lg-9 ps-lg-1-9">
-						<div class="line-title">
-					        <h5 class="mb-0">소식 등록내역</h5>
+						<div class="line-title" style="margin-bottom: 15px;">
+					        <div style="display: flex; justify-content:space-between;">
+						        <h5 class="mb-0" style="display: inline-block;">소식 등록내역</h5>
+						        <button type="button" class="btn btn-secondary" onclick="location.href='/admin/news_manage';"
+						        ><span class="small">목록으로</span></button>
+							</div>
 					    </div>
+					    
                         <div class="col-md-11 col-lg-12">
 
-                        <form class="quform" action="/admin/news_create" method="post" enctype="multipart/form-data" onclick="">
+                        <form class="quform" action="/admin/news_update/${newsInfo.news_id }" method="post" enctype="multipart/form-data" onclick="">
                                 <div class="quform-elements">
                                     <div class="row">
                                     
@@ -137,7 +145,8 @@
                                             <div class="quform-element form-group">
                                             	<label for="name">소식명<span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <input id="name" class="form-control" type="text" name="news_subject" placeholder="First Name">
+                                                    <input id="name" class="form-control" type="text" 
+                                                    name="news_subject" placeholder="First Name" value=${newsInfo.news_subject }>
                                                 </div>
                                             </div>
 
@@ -152,27 +161,23 @@
                                                     <select id="applyfor" class="form-control form-select" name="news_resion"
                                                     style="padding: 6px 12px;">
                                                         <option value="" disabled selected>지역을 선택하세요</option>
-													    <!-- 특별시 -->
-													    <option value="서울특별시">서울특별시</option>
-													    <!-- 광역시 -->
-													    <option value="부산광역시">부산광역시</option>
-													    <option value="대구광역시">대구광역시</option>
-													    <option value="인천광역시">인천광역시</option>
-													    <option value="광주광역시">광주광역시</option>
-													    <option value="대전광역시">대전광역시</option>
-													    <option value="울산광역시">울산광역시</option>
-													    <!-- 특별자치시 -->
-													    <option value="세종특별자치시">세종특별자치시</option>
-													    <!-- 도 -->
-													    <option value="경기도">경기도</option>
-													    <option value="강원도">강원도</option>
-													    <option value="충청북도">충청북도</option>
-													    <option value="충청남도">충청남도</option>
-													    <option value="전라북도">전라북도</option>
-													    <option value="전라남도">전라남도</option>
-													    <option value="경상북도">경상북도</option>
-													    <option value="경상남도">경상남도</option>
-													    <option value="제주특별자치도">제주특별자치도</option>
+													    <option value="서울특별시" ${newsInfo.news_resion == '서울특별시' ? 'selected' : ''}>서울특별시</option>
+													    <option value="부산광역시" ${newsInfo.news_resion == '부산광역시' ? 'selected' : ''}>부산광역시</option>
+													    <option value="대구광역시" ${newsInfo.news_resion == '대구광역시' ? 'selected' : ''}>대구광역시</option>
+													    <option value="인천광역시" ${newsInfo.news_resion == '인천광역시' ? 'selected' : ''}>인천광역시</option>
+													    <option value="광주광역시" ${newsInfo.news_resion == '광주광역시' ? 'selected' : ''}>광주광역시</option>
+													    <option value="대전광역시" ${newsInfo.news_resion == '대전광역시' ? 'selected' : ''}>대전광역시</option>
+													    <option value="울산광역시" ${newsInfo.news_resion == '울산광역시' ? 'selected' : ''}>울산광역시</option>
+													    <option value="세종특별자치시" ${newsInfo.news_resion == '세종특별자치시' ? 'selected' : ''}>세종특별자치시</option>
+													    <option value="경기도" ${newsInfo.news_resion == '경기도' ? 'selected' : ''}>경기도</option>
+													    <option value="강원도" ${newsInfo.news_resion == '강원도' ? 'selected' : ''}>강원도</option>
+													    <option value="충청북도" ${newsInfo.news_resion == '충청북도' ? 'selected' : ''}>충청북도</option>
+													    <option value="충청남도" ${newsInfo.news_resion == '충청남도' ? 'selected' : ''}>충청남도</option>
+													    <option value="전라북도" ${newsInfo.news_resion == '전라북도' ? 'selected' : ''}>전라북도</option>
+													    <option value="전라남도" ${newsInfo.news_resion == '전라남도' ? 'selected' : ''}>전라남도</option>
+													    <option value="경상북도" ${newsInfo.news_resion == '경상북도' ? 'selected' : ''}>경상북도</option>
+													    <option value="경상남도" ${newsInfo.news_resion == '경상남도' ? 'selected' : ''}>경상남도</option>
+													    <option value="제주특별자치도" ${newsInfo.news_resion == '제주특별자치도' ? 'selected' : ''}>제주특별자치도</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -185,7 +190,8 @@
                                             <div class="quform-element form-group">
                                                 <label for="last_name">장소 <span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <input id="last_name" class="form-control" type="text" name="news_place" placeholder="Last Name">
+                                                    <input id="last_name" class="form-control" type="text" 
+                                                    name="news_place" placeholder="장소를 입력하세요" value=${newsInfo.news_place }>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,7 +202,8 @@
                                             <div class="quform-element form-group">
                                                 <label for="last_name">주관기관 <span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <input id="last_name" class="form-control" type="text" name="news_ins" placeholder="Last Name">
+                                                    <input id="last_name" class="form-control" type="text" 
+                                                    name="news_ins" placeholder="주관기관을 입력하세요" value=${newsInfo.news_ins }>
                                                 </div>
                                             </div>
                                         </div>
@@ -206,7 +213,8 @@
                                             <div class="quform-element form-group">
                                                 <label for="last_name">참여대상 <span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <input id="last_name" class="form-control" type="text" name="news_att" placeholder="Last Name">
+                                                    <input id="last_name" class="form-control" type="text" 
+                                                    name="news_att" placeholder="참여대상을 입력하세요" value=${newsInfo.news_att }>
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +225,8 @@
                                             <div class="quform-element form-group">
                                                 <label for="email">행사일자 <span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <input id="email" class="form-control" type="date" name="news_date" placeholder="name@example.com">
+                                                    <input id="email" class="form-control" type="date" 
+                                                    name="news_date" value=${newsInfo.news_date }>
                                                 </div>
                                             </div>
                                         </div>
@@ -228,7 +237,8 @@
                                             <div class="quform-element form-group">
                                                 <label for="linkedin">행사시간</label>
                                                 <div class="quform-input">
-                                                    <input id="linkedin" class="form-control" type="time" name="news_time" placeholder="Linkedin">
+                                                    <input id="linkedin" class="form-control" type="time" 
+                                                    name="news_time" value=${newsInfo.news_time }>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,7 +249,8 @@
                                             <div class="quform-element form-group">
                                                 <label for="message">내용 <span class="quform-required">*</span></label>
                                                 <div class="quform-input">
-                                                    <textarea id="message" class="form-control" name="news_content" rows="4" placeholder="How'd you hear about Crizal?"></textarea>
+                                                    <textarea id="message" class="form-control" 
+                                                    name="news_content" rows="4" placeholder="내용을 입력하세요">${newsInfo.news_content }</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,8 +263,8 @@
                                                 <div class="quform-input">
                                                     <label for="resume">소식 이미지 <span class="quform-required">*</span></label>
                                                     <div class="custom-file">
-                                                        <input class="custom-file-input" type="file" id="resume" name="news_file" required>
-                                                        <label class="custom-file-label" data-browse="Browse">파일선택</label>
+                                                        <input class="custom-file-input" type="file" name="news_file">
+                                                        <label class="custom-file-label" data-browse="Browse">이미지선택</label>
                                                     </div>
                                                     <p class="quform-description">이미지파일만 업로드 가능. 최대크기 10MB.</p>
                                                 </div>
@@ -264,14 +275,18 @@
                                         
                                         <div class="col-md-3">
                                             <div class="quform-element form-group">
-                                                <div id="news_preview"></div>
+                                                <div id="news_preview">
+                                               		<img src="${newsInfo.news_src }" style="max-width: 100%; max-height: 100%; object-fit: cover;" />
+                                                </div>
+                                                <input name="news_src" type="hidden">
+                                                <input name="news_id" type="hidden" value=${newsInfo.news_id }>
                                             </div>
                                         </div>
 
                                         <!-- Begin Submit button -->
                                         <div class="col-md-12">
                                             <div class="text-center">
-                                                <button class="butn w-100" type="submit"><span>등록하기</span></button>
+                                                <button class="butn w-100" type="submit"><span>수정하기</span></button>
                                             </div>
                                             <div class="quform-loading-wrap"><span class="quform-loading"></span></div>
                                         </div>
@@ -293,12 +308,13 @@
 
 <script>
 $(document).ready(function () {
-    // 파일 선택 이벤트 처리
+    
+	// 파일 선택 이벤트 처리
     $('.custom-file-input').on('change', function (event) {
         // 선택된 파일 이름 가져오기
         var fileName = $(this).val().split('\\').pop(); // 파일 경로에서 이름만 분리
         // 파일 이름을 라벨에 적용
-        $(this).next('.custom-file-label').text(fileName || 'Choose file');
+        $(this).next('.custom-file-label').text(fileName || '파일선택');
         
         const file = event.target.files[0]; // 업로드한 파일 가져오기
 	    const $preview = $('#news_preview'); // 미리보기 영역 선택
@@ -314,12 +330,65 @@ $(document).ready(function () {
 	    } else {
 	    	$preview.empty();
 	    }
-        
-        
-        
-        
     });
     
+	
+  //수정하기 버튼 클릭 시 submit하기(썸네일 없을 시 swal)
+    $('.quform').on('submit', function(event){
+    	event.preventDefault();
+    	// 기존사진x, 신규사진x
+    	if (!$('#news_preview img').attr('src')) {
+    		//swal("Error!", "교육 썸네일을 등록해주세요!", "error");
+    		Swal.fire({
+    			  title: '정보없음!!',
+    			  text: "이미지파일을 확인하시기 바랍니다.",
+    			  icon: 'warning',
+    			  customClass: {
+    			        popup: 'custom-swal-popup' // 사용자 정의 클래스 추가
+    			  }
+   			});
+    		
+    	} else {
+    		// 기존사진o
+    	   if($('.custom-file-input').val()==''){
+    		   $('input[name="news_src"]').val($('#news_preview img').attr('src'));
+    		   console.log($('input[name="news_src"]').val());
+    		   updateSubmit();
+    	   } else{
+    		   // 신규사진o
+    		   updateSubmit();
+    	   }
+    	}
+    	
+    	function updateSubmit(){
+    		Swal.fire({
+  			  title: '정보를 수정하시겠습니까?',
+  			  text: "수정 전 정보를 다시 한번 확인하시기 바랍니다.",
+  			  icon: 'warning',
+  			  showCancelButton: true,
+  			  confirmButtonColor: '#3085d6',
+  			  cancelButtonColor: '#d33',
+  			  confirmButtonText: '수정',
+  			  cancelButtonText: '취소',
+  			  customClass: {
+  			        popup: 'custom-swal-popup' // 사용자 정의 클래스 추가
+ 			  }
+  			}).then((result) => {
+  				if (result.isConfirmed) {
+	  				Swal.fire({
+	  	  			  title: '수정이 완료되었습니다!',
+	  	  			  text: "수정하기를 통하여 재수정 가능합니다.",
+	  	  			  icon: 'success',
+	  	  			  customClass: {
+	  			        popup: 'custom-swal-popup' // 사용자 정의 클래스 추가
+	 			 	  }
+	  				}).then(function(){
+	  					$('.quform').off('submit').submit();
+	  				});
+  				}
+  			});
+    	}
+	}); //$('.quform')
     
     
     
@@ -328,6 +397,6 @@ $(document).ready(function () {
 }); //jquery
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <%@ include file="../inc/new_footer.jsp" %> <!-- footer -->

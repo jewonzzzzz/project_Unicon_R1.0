@@ -34,5 +34,9 @@ public class NewsService {
 		return ndao.getNews(news_id);
 	}
 	
+	// 소식정보 수정
+	public void updateNews(newsVO vo) {
+		ndao.updateNews(vo);
+	}
 	
 }
