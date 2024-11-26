@@ -77,13 +77,33 @@
        border-radius: 4px;
    }
 
-   /* 이미지 스타일 */
-   .preview-image { 
-       max-width: 200px; 
-       max-height: 200px; 
-       object-fit: contain;
-       border-radius: 4px;
-   }
+	.draft-preview {
+	    background: #f8f9fa;
+	    border-radius: 4px;
+	    padding: 1rem;
+	    height: calc(100% - 80px); /* 버튼과 라벨 높이를 고려한 조정 */
+	    margin-top: 10px;
+	}
+	
+	.preview-image {
+	    max-width: 100%;
+	    max-height: 200px;
+	    object-fit: contain;
+	    border-radius: 4px;
+	}
+	
+	.gap-2 {
+	    gap: 0.5rem !important;
+	}
+	
+	.form-group {
+	    height: 100%;
+	}
+	
+	/* 버튼 여백 조정 */
+	.btn + .btn {
+	    margin-left: 0.5rem;
+	}
 
    /* 모바일 반응형 */
    @media (max-width: 768px) {
@@ -202,14 +222,39 @@
                         <textarea id="noContent" name="noContent">${notice.noContent}</textarea>
                     </div>
                     
-                    <div class="mb-3">
-					    <label class="form-label">썸네일</label>
-					    <input type="file" class="form-control" name="thumbnail" accept="image/*" onchange="previewImage(this, 'thumbnailPreview')">
-					    <div class="mt-2">
-					        <img id="thumbnailPreview" src="${notice.noThumb}" class="preview-image" onerror="this.src='/resources/assets_sub/img/default-thumb.jpg'">
-					    </div>
-					</div>
-                    
+                    <div class="row mb-3">
+				    <!-- 썸네일 영역 -->
+				    <div class="col-md-4">
+				        <div class="form-group">
+				            <label class="form-label">썸네일</label>
+				            <input type="file" class="form-control mb-2" name="thumbnail" accept="image/*" onchange="previewImage(this, 'thumbnailPreview')">
+				            <div class="mt-2 text-center">
+				                <img id="thumbnailPreview" src="${notice.noThumb}" class="preview-image" onerror="this.src='/resources/assets_sub/img/default-thumb.jpg'">
+				            </div>
+				        </div>
+				    </div>
+				    
+				    <!-- 임시저장 관리 영역 -->
+				    <div class="col-md-8">
+				        <div class="form-group h-100">
+				            <label class="form-label">임시저장 관리</label>
+				            <div class="d-flex gap-2 mb-2">
+				                <button type="button" class="btn btn-info" onclick="saveDraft()">
+				                    <i class="fas fa-save"></i> 임시저장
+				                </button>
+				                <button type="button" class="btn btn-outline-info" onclick="loadDraftList()">
+				                    <i class="fas fa-folder-open"></i> 임시저장 불러오기
+				                </button>
+				            </div>
+				            <div class="draft-preview">
+				                <small class="text-muted">최근 임시저장 항목</small>
+				                <div id="recentDrafts" class="small"></div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+			</div>
+					
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="custom-control custom-checkbox">
@@ -238,6 +283,20 @@
 			            </div>
 			        </div>
 			    </form>
+			<!-- </div> -->
+			<!-- 임시저장 목록 모달 -->
+			<div class="modal fade" id="draftListModal" tabindex="-1">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h5 class="modal-title">임시저장 목록</h5>
+			                <button type="button" class="close" data-dismiss="modal">&times;</button>
+			            </div>
+			            <div class="modal-body">
+			                <div id="draftList"></div>
+			            </div>
+			        </div>
+			    </div>
 			</div>
 
     <script>
@@ -276,6 +335,9 @@
             }
         });
 
+     	// 페이지 로드 시 임시저장 목록 로드
+        loadRecentDrafts();
+        
         // 폼 제출
         $('#noticeForm').on('submit', function(e) {
             e.preventDefault();
@@ -286,6 +348,7 @@
 
             // FormData 객체 생성
             var formData = new FormData(this);
+            formData.set('status', 'active');
             
             // 폼 제출
             $.ajax({
@@ -328,6 +391,106 @@
         }
     });
 }
+    
+ 	// 임시저장 관련 함수
+    function saveDraft() {
+        var formData = new FormData($('#noticeForm')[0]);
+        formData.set('status', 'draft');
+
+        $.ajax({
+            url: '/notice/manage/submit',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert('임시저장되었습니다.');
+                loadRecentDrafts();
+            },
+            error: function(xhr, status, error) {
+            	console.error('임시저장 실패:', error);
+                alert('임시저장에 실패했습니다.');
+            }
+        });
+    }
+
+    function loadDraftList() {
+        $.ajax({
+            url: '/notice/manage/drafts',
+            type: 'GET',
+            success: function(drafts) {
+                if (drafts && drafts.length > 0) {
+                    var html = '<div class="list-group">';
+                    drafts.forEach(function(draft) {
+                        html += '<a href="#" class="list-group-item list-group-item-action" ' +
+                               'onclick="loadDraft(' + draft.noId + ')">' +
+                               '<div class="d-flex w-100 justify-content-between">' +
+                               '<h6 class="mb-1">' + draft.noTitle + '</h6>' +
+                               '<small>' + formatDate(draft.noRegdate) + '</small>' +
+                               '</div>' +
+                               '<small>' + draft.noCategory + '</small>' +
+                               '</a>';
+                    });
+                    html += '</div>';
+                    $('#draftList').html(html);
+                    $('#draftListModal').modal('show');
+                } else {
+                    $('#draftList').html('<p class="text-center p-3">임시저장된 글이 없습니다.</p>');
+                    $('#draftListModal').modal('show');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading draft list:', error);
+                alert('임시저장 목록을 불러오는데 실패했습니다.');
+            }
+        });
+    }
+
+    function loadDraft(noId) {
+    	if (!noId) {
+            console.error('Draft ID is missing');
+            return;
+        }
+    	
+    	$.ajax({
+    		url: '/notice/manage/draft/' + noId,
+            type: 'GET',
+            success: function(draft) {
+                if (draft) {
+                    // form 필드 업데이트
+                    $('input[name="noId"]').val(draft.noId);
+                    $('input[name="noTitle"]').val(draft.noTitle);
+                    $('select[name="noCategory"]').val(draft.noCategory);
+                    $('input[name="noWriter"]').val(draft.noWriter);
+                    $('#noContent').summernote('code', draft.noContent || '');
+                    
+                    // 썸네일 미리보기 업데이트
+                    if (draft.noThumb) {
+                        $('#thumbnailPreview').attr('src', draft.noThumb);
+                    } else {
+                        $('#thumbnailPreview').attr('src', '/resources/assets_sub/img/default-thumb.jpg');
+                    }
+                    
+                    // 체크박스 상태 업데이트
+                    $('#important').prop('checked', draft.important);
+                    $('#noEmail').prop('checked', draft.noEmail);
+                    
+                    $('#draftListModal').modal('hide');
+                    
+                    console.log('Draft loaded successfully:', draft);
+                } else {
+                    console.error('Draft data is empty');
+                    alert('임시저장 글을 불러오는데 실패했습니다.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading draft:', error);
+                console.error('Status:', status);
+                console.error('Response:', xhr.responseText);
+                alert('임시저장 글을 불러오는데 실패했습니다.');
+            }
+        });
+    }
 
     function validateForm() {
         const title = $('input[name="noTitle"]').val().trim();
@@ -357,6 +520,40 @@
             };
             reader.readAsDataURL(input.files[0]);
         }
+    }
+    
+    function formatDate(dateString) {
+        if (!dateString) return '';
+        var date = new Date(dateString);
+        return date.getFullYear() + '-' + 
+               padZero(date.getMonth() + 1) + '-' + 
+               padZero(date.getDate()) + ' ' + 
+               padZero(date.getHours()) + ':' + 
+               padZero(date.getMinutes());
+    }
+
+    function padZero(num) {
+        return String(num).padStart(2, '0');
+    }
+
+    function loadRecentDrafts() {
+        $.ajax({
+            url: '/notice/manage/drafts',
+            type: 'GET',
+            success: function(drafts) {
+                var html = '<ul class="list-unstyled mb-0">';
+                drafts.slice(0, 3).forEach(function(draft) {
+                    html += '<li class="mb-2">' +
+                           '<a href="#" onclick="loadDraft(' + draft.noId + ')" class="text-decoration-none">' +
+                           '<div class="text-truncate">' + draft.noTitle + '</div>' +
+                           '<small class="text-muted">' + formatDate(draft.noRegdate) + '</small>' +
+                           '</a>' +
+                           '</li>';
+                });
+                html += '</ul>';
+                $('#recentDrafts').html(html);
+            }
+        });
     }
     </script>
 </body>

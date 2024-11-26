@@ -53,6 +53,16 @@ public class NoticeServiceImpl implements NoticeService {
         }
     }
     
+    public List<NoticeVO> getDraftList() throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("status", "draft");
+        return noDAO.selectDraftList(params);
+    }
+
+    public NoticeVO getDraft(Long noId) throws Exception {
+        return noDAO.selectDraft(noId);
+    }
+    
     @Override
     public Map<String, Object> getNoticeList(int page, int size, String category, String keyword, String startDate, String endDate) throws Exception {
         // 1부터 시작하는 페이지 번호를 0부터 시작하는 인덱스로 변환
