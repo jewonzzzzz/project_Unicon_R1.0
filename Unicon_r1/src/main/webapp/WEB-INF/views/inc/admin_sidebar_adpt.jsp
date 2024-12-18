@@ -1,19 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:if test="${sessionScope.member_id == '' }">
+	<c:redirect url="/login/customLogin"/>
+</c:if>
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
-            <li class="nav-item nav-category">Main</li>
-            <li class="nav-item">
-              <a class="nav-link" href="/center/main">
-<!--                 <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span> -->
-<!--                 <span class="menu-title">메인페이지</span> -->
-              </a>
-            </li>
+            <li class="nav-item nav-category mb-4">Main</li>
             
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#adoption-mgmt" aria-expanded="false" aria-controls="adoption-mgmt">
-                <span class="icon-bg"><i class="mdi mdi-crosshairs-gps menu-icon"></i></span>
+                <span class="icon-bg"><i class="mdi mdi-dog menu-icon"></i></span>
                 <span class="menu-title">입양 관리</span>
                 <i class="menu-arrow"></i>
               </a>
@@ -22,6 +19,7 @@
                   <li class="nav-item"> <a class="nav-link" href="/AM/animals/creation">동물 등록</a></li>
                   <li class="nav-item"> <a class="nav-link" href="/AM/animals/list">동물 목록</a></li>
                   <li class="nav-item"> <a class="nav-link" href="/AM/writings/all">입양글 목록</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/AM/counsel/people">입양상담신청 목록</a></li>
                 </ul>
               </div>
             </li>
