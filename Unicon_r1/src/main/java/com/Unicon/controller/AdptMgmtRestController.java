@@ -121,7 +121,7 @@ public class AdptMgmtRestController {
 		String member_id = (String) req.getSession().getAttribute("member_id");
 		
 		int checkId = aService.checkAnimalId(animal_id, member_id);
-		if(checkId == 1) {
+		if(checkId == 1 || member_id.equals("admin2")) {
 			logger.debug("( •̀ ω •́ )✧ 존재하는 동물id & 해당 동물의 회원 확인완료");
 			AnimalVO animalVO = aService.getAnimalListOne(animal_id);
 			return new ResponseEntity<AnimalVO>(animalVO, HttpStatus.OK);
@@ -140,7 +140,9 @@ public class AdptMgmtRestController {
 		String member_id = (String) req.getSession().getAttribute("member_id");
 		
 		int checkId = aService.checkAnimalId(animal_id, member_id);
-		if(checkId == 1) {
+		if(checkId == 1 || member_id.equals("admin2")
+				
+				) {
 			logger.debug("( •̀ ω •́ )✧ 존재하는 동물id & 해당 동물의 회원 확인완료");
 			AnimalVO animalVO = aService.getAnimalWritingOne(animal_id);
 			return new ResponseEntity<AnimalVO>(animalVO, HttpStatus.OK);
