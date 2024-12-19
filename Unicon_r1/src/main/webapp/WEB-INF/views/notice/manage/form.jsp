@@ -480,7 +480,12 @@
 	    </div>
 	</div>
 </div>
-
+<!-- inject:js -->
+	<!-- sweetalert2 -->
+	<script src="${pageContext.request.contextPath}/resources/admin/js/off-canvas.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/admin/js/hoverable-collapse.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/admin/js/misc.js"></script>
+<!-- endinject -->
 <script>
 //CSRF 설정
 var csrfToken = $("meta[name='_csrf']").attr("content");
